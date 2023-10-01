@@ -1,0 +1,36 @@
+import useLocalization from "@/Components/Localization/Localization";
+import FormWindow, {formKits} from "@/Components/fieldComponents/FormWindow";
+import Image from "next/image";
+import {ReactNode, useState} from "react";
+import {FormikTouched} from "formik";
+
+type Forms = keyof typeof formKits;
+
+type KeysForForm<Form extends Forms> = {
+    [Key in typeof formKits[Form][number]]?: string;
+}
+
+interface ErrorNotifyProps<Form extends Forms = Forms> {
+    form: Form,
+    error?: KeysForForm<Form>,
+    touched?: FormikTouched<KeysForForm<Form>>,
+    field: typeof formKits[Form][number]
+}
+
+export default function FormHelper({form, error, touched, field}: ErrorNotifyProps){
+    const [window, setWindow] = useState<boolean>(false);
+    return (
+        <div className={'relative'}>
+            <Image src={(error && error[field] && touched && touched[field]) ? "input-error.svg" : "input-info.svg"}
+                   alt={'input-info.svg'}
+                   width={20} height={20}
+                   className = {`absolute mt-[calc(-2.75rem-10px)] right-2`}
+                   onMouseOver={() => setWindow(true)}
+                   onMouseOut={() => setWindow(false)}
+            />
+            {
+                window ? <FormWindow form={form} touched={touched} error={error} field={field}/> : null
+            }
+        </div>
+    )
+}

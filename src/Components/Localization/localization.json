@@ -1,0 +1,114 @@
+{
+  "EN": {
+    "auth": {
+      "login": "Login",
+      "password": "Password"
+    },
+    "auth/inputs": {
+      "headers": {
+        "registration": "Registration",
+        "login": "Login",
+        "confirmation": "Confirmation"
+      },
+      "inputPlaceholder": {
+        "namePlaceholder": "Name",
+        "emailPlaceholder": "example@example.org",
+        "passwordPlaceholder": "Password"
+      },
+      "termsOfUse": {
+        "terms1": "By clicking the button, you accept the",
+        "terms2": "Terms of Use"
+      },
+      "inputHeader": {
+        "nameHeader": "Username",
+        "emailHeader": "Email",
+        "passwordHeader": "Password",
+        "codeHeader": "Code"
+      },
+      "inputError": {
+        "required": "Field is required!",
+        "short": "Field is too short!",
+        "long": "Field is too long!",
+        "emailIncorrect": "Invalid email!",
+        "passwordIncorrect": "Password must be at least 8 symbols, one letter and number!",
+        "codeIncorrect": "Code is invalid!"
+      },
+      "inputHelper": {
+        "nameHelper": "Name must contain at least 2 any symbols",
+        "emailHelper": "Email must be correct",
+        "passwordHelper": "TBC",
+        "codeHelper": "Must be 6 digits"
+      }
+    },
+    "registration": {
+      "header": "Registration"
+    },
+    "header": {
+      "welcome": "Welcome"
+    },
+    "navigation": {
+      "home": "Home",
+      "registration": "Registration"
+    }
+  },
+  "RU": {
+    "auth": {
+      "login": "Вход",
+      "password": "Пароль"
+    },
+    "auth/inputs": {
+      "headers": {
+        "registration": "Registration",
+        "login": "Login",
+        "confirmation": "Confirmation"
+      },
+      "inputPlaceholder": {
+        "namePlaceholder": "Имя",
+        "emailPlaceholder": "пример@пример.org",
+        "passwordPlaceholder": "Пароль"
+      },
+      "inputHeader": {
+        "nameHeader": "Имя пользователя",
+        "emailHeader": "Эл. почта",
+        "passwordHeader": "Пароль",
+        "codeHeader": "Code"
+      },
+      "termsOfUse": {
+        "terms1": "By clicking the button, you accept the",
+        "terms2": "Terms of Use"
+      },
+      "inputError": {
+        "required": "Поле обязательно!",
+        "short": "Поле слишком короткое!",
+        "long": "Поле слишком длинное!",
+        "emailIncorrect": "Неверный формат электронной почты!",
+        "passwordIncorrect": "Пароль должен содержать минимум 8 символов, одну букву и цифру!",
+        "codeIncorrect": "Code is invalid!"
+      },
+      "inputHelper": {
+        "nameHelper": "Имя должно содержать минимум 2 символа",
+        "emailHelper": "Адрес эл. почты должен быть корректным",
+        "passwordHelper": "Уточняется"
+      }
+    },
+
+    "forms": {
+      "formsHelper": {
+        "nameHelper": "Name must contain at least 2 any symbols",
+        "emailHelper": "Email must be correct",
+        "passwordHelper": "TBC",
+        "codeHelper": "Must be 6 digits"
+      }
+    },
+    "registration": {
+      "header": "Регистрация"
+    },
+    "header": {
+      "welcome": "Добро пожаловать"
+    },
+    "navigation": {
+      "home": "Главная",
+      "registration": "Регистрация"
+    }
+  }
+}
