@@ -28,7 +28,7 @@ export default function FormWindow({form, error, touched, field}: ErrorNotifyPro
     if(error && error[field] && touched && touched[field]){
         console.log(error, error[field])
         return (
-            <div className='fixed border-black bg-red-700 text-white ml-[21rem] mt-[-3.4rem] px-1'>
+            <div className='fixed border-black bg-red-700 text-white ml-[10rem] md:ml-[21rem] mt-[-3.4rem] px-1'>
                 {
                     <p>{error[field]}</p>
                 }
@@ -37,7 +37,7 @@ export default function FormWindow({form, error, touched, field}: ErrorNotifyPro
     }
 
     return (
-        <div className='fixed border-gray-500 bg-gray-500 text-white ml-[21rem] mt-[-3.4rem] px-1'>
+        <div className='fixed border-gray-500 bg-gray-500 text-white ml-[10rem] md:ml-[21rem] mt-[-3.4rem] px-1 '>
             {
                 formKits[form].map((item, _,array) => {
                     const fieldTag = item + "Helper" as keyof typeof inputHelper;

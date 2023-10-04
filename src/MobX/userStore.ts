@@ -1,13 +1,18 @@
 'use client'
 import {observable, action, makeObservable} from 'mobx';
 import axios from "axios";
-import {loginURL} from "@/URLs/authURLs";
+import {loginURL} from "@/Fetching/URLs/authURLs";
 
 export class UserStore {
     @observable count = 0;
 
     @observable token: string = '';
+
     @observable userName: string = '';
+    @observable userId: string = '';
+
+
+    @observable remember: boolean = false;
 
     @observable language: "RU" | "EN" = 'RU';
 

@@ -1,10 +1,27 @@
 {
   "EN": {
+    "topics/interface": {
+      "authorTag": "Автор",
+      "addNewPost": "Напишите статью",
+      "popularHeader": "Популярные статьи",
+      "createButtonLogged": "Write your own post!",
+      "createButtonGuest": "Login in to create posts!"
+    },
     "auth": {
       "login": "Login",
       "password": "Password"
     },
+    "auth/redirects": {
+      "restorationRedirect": "Restore password",
+      "loginRedirect": "Already have an account? Log in",
+      "confirmationRedirect": "TBC",
+      "registrationRedirect": "Create account"
+    },
     "auth/inputs": {
+      "serverErrors": {
+        "BAD_INPUT": "Incorrect data proven!",
+        "USER_EXIST": "User is already exists!"
+      },
       "headers": {
         "registration": "Registration",
         "login": "Login",
@@ -13,7 +30,8 @@
       "inputPlaceholder": {
         "namePlaceholder": "Name",
         "emailPlaceholder": "example@example.org",
-        "passwordPlaceholder": "Password"
+        "passwordPlaceholder": "Password",
+        "rememberPlaceholder": "Remember me"
       },
       "termsOfUse": {
         "terms1": "By clicking the button, you accept the",
@@ -56,7 +74,26 @@
       "login": "Вход",
       "password": "Пароль"
     },
+
+    "topics/interface": {
+      "authorTag": "Автор",
+      "popularHeader": "Популярные статьи",
+      "addNewPost": "Напишите статью",
+      "createButtonLogged": "Write your own post!",
+      "createButtonGuest": "Войдите, чтобы написать статью!"
+    },
+
+    "auth/redirects": {
+      "restorationRedirect": "Restore password",
+      "loginRedirect": "Already have an account? Log in",
+      "confirmationRedirect": "TBC",
+      "registrationRedirect": "Create account"
+    },
     "auth/inputs": {
+      "serverErrors": {
+        "BAD_INPUT": "Incorrect data proven!",
+        "USER_EXIST": "User is already exists!"
+      },
       "headers": {
         "registration": "Registration",
         "login": "Login",
@@ -65,7 +102,8 @@
       "inputPlaceholder": {
         "namePlaceholder": "Имя",
         "emailPlaceholder": "пример@пример.org",
-        "passwordPlaceholder": "Пароль"
+        "passwordPlaceholder": "Пароль",
+        "rememberPlaceholder": "Запомнить меня"
       },
       "inputHeader": {
         "nameHeader": "Имя пользователя",
@@ -91,7 +129,6 @@
         "passwordHelper": "Уточняется"
       }
     },
-
     "forms": {
       "formsHelper": {
         "nameHelper": "Name must contain at least 2 any symbols",

@@ -10,16 +10,6 @@ export default function Navigation(){
                 href={'/'}>
                 {localization.home}
             </Link>
-            <Link
-                className={'bg-sky-700'}
-                href={'/registration'}>
-                {localization.registration}
-            </Link>
-            <Link
-                className={'bg-sky-900'}
-                href={'/test1'}>
-                test1
-            </Link>
         </div>
     )
 }

@@ -92,22 +92,10 @@ export default function MyForm() {
                             />
                         ))}
                     </div>
-                    <button className={"bg-orange-300 self-center rounded-3xl h-12 w-60 drop-shadow-lg"} type="submit">Kod</button>
 
+                    <button className={"bg-orange-300 self-center rounded-3xl h-12 w-60 drop-shadow-lg"} type="submit">Kod</button>
                 </Form>
             )}
         </Formik>
     );
 };
-/*
-<Field name="code"
-                                       type="number"
-                                       pattern="\d*"
-                                       className={`
-                                       transition duration-300 ease-in-out
-                                       focus:border-transparent focus:bg-gray-300 focus:bg-transparent focus:outline-0 focus:border-gray-300
-                                       hover:border-gray-300 hover:bg-gray-300 hover:bg-transparent
-                                       text-white placeholder-gray-500 bg-opacity-10 bg-white pl-5 pr-10 border rounded-3xl h-12  mb-5 w-80 shadow-sm
-                                       ${ errors.code && touched.code ? 'border-red-700' : "border-transparent"}`}
-                                />
- */

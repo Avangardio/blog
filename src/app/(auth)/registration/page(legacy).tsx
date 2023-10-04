@@ -4,7 +4,7 @@ import {Formik, Field, Form, ErrorMessage} from "formik";
 import * as Yup from "yup";
 import React, {useState} from "react";
 import Image from "next/image";
-import {loginURL, registrationURL} from "@/URLs/authURLs";
+import {loginURL, registrationURL} from "@/Fetching/URLs/authURLs";
 import {useRouter} from "next/navigation";
 import axios from "axios";
 import {observer} from "mobx-react";

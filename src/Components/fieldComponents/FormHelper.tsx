@@ -15,16 +15,17 @@ interface ErrorNotifyProps<Form extends Forms = Forms> {
     error?: KeysForForm<Form>,
     touched?: FormikTouched<KeysForForm<Form>>,
     field: typeof formKits[Form][number]
+    className?: string
 }
 
-export default function FormHelper({form, error, touched, field}: ErrorNotifyProps){
+export default function FormHelper({form, error, touched, field, className}: ErrorNotifyProps){
     const [window, setWindow] = useState<boolean>(false);
     return (
-        <div className={'relative'}>
+        <div className={'relative  flex-shrink-0'}>
             <Image src={(error && error[field] && touched && touched[field]) ? "input-error.svg" : "input-info.svg"}
                    alt={'input-info.svg'}
                    width={20} height={20}
-                   className = {`absolute mt-[calc(-2.75rem-10px)] right-2`}
+                   className = {className ?? `absolute mt-[calc(-2.75rem-10px)] right-2`}
                    onMouseOver={() => setWindow(true)}
                    onMouseOut={() => setWindow(false)}
             />
