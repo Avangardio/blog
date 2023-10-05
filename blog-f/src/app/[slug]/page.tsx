@@ -28,10 +28,10 @@ export default async function Home({params, searchParams}: HomePageProps ) {
             getPopularPosts().catch(_ => undefined)
         ]);
 
+
     if(!getPostsReply) {
         return (<div>404 lmao</div>)
     }
-
     const currentPage = sanitizePageQuery(params.slug, getPostsReply.totalPosts);
 
       return (

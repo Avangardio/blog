@@ -23,7 +23,7 @@ export default function TopicList({topics, page, pageSize = 5}: TopicListProps){
                 .map(topicItem => {
                     const {topic, author, postId} = topicItem;
                     return (
-                        <div
+                        <div key={postId}
                             className={`
                                 w-full mb-5 bg-white transition-shadow box-border p-4
                                 hover:outline hover:outline-1 hover:outline-cyan-600

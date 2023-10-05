@@ -8,7 +8,7 @@ interface HomePageProps {
 }
 
 export default async function getPosts({params, searchParams}: HomePageProps): Promise<FetchTopicResult>{
-    if(!params.slug || (params.slug && isNaN(parseInt(params.slug)))) throw new Error('Invalid query');
+    if(!params.slug || (params.slug && isNaN(parseInt(params.slug.replace(/[^\d.-]+/g, ''))))) throw new Error('Invalid query');
 
     const res = await axios.get<FetchTopicResult>("http://localhost:3000/getTopics" + `/${params.slug}`, {
         withCredentials: true,

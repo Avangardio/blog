@@ -15,7 +15,7 @@ export default function PopularPosts({popularPosts}: PopularPostsProps) {
             {
                 popularPosts.map(post => {
                     return (
-                        <div className={''}>
+                        <div className={''} key={post.postId}>
                             <a className={'text-xl font-bold'}
                                 href={'/article/' + post.postId}
                                 onClick={(event) => event.preventDefault()}

@@ -19,6 +19,7 @@ type FormValues = {
 export default function MyForm() {
     const localization = useLocalization('auth/inputs')
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const inputRefs = Array(6).fill(null).map(() => useRef<HTMLInputElement>(null));
     const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
