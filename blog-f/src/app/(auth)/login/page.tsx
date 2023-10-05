@@ -38,8 +38,8 @@ export default function LoginPage() {
 
     const [replyError, setReplyError] = useState('');
     return (
-        <>
-            <div className={'font-medium text-2xl text-white z-50 mb-5'}>{headers.login}</div>
+        <div className={'bg-white p-2 rounded-s'}>
+            <div className={'font-medium text-2xl text-cyan-800 z-50 mb-5 border-b-2 border-cyan-600 text-center'}>{headers.login}</div>
             <Formik
                 initialValues={{
                     password: '',
@@ -59,14 +59,14 @@ export default function LoginPage() {
                 {({ errors, touched }) =>
                     (
                     <Form id='reg-form' className="relative flex-col flex justify-center z-40">
-                            <label className={'px-5 block font-medium text-sm text-white'} htmlFor={'email'}>{inputHeader.emailHeader}</label>
+                            <label className={'px-5 block font-medium text-sm text-cyan-700'} htmlFor={'email'}>{inputHeader.emailHeader}</label>
                             <Field name="email"
                                    className={`
                                        transition duration-300 ease-in-out 
                                        focus:border-transparent focus:bg-gray-300 focus:bg-transparent focus:outline-0 focus:border-gray-300
                                        hover:border-gray-300 hover:bg-gray-300 hover:bg-transparent 
-                                       text-white placeholder-gray-500 bg-opacity-10 bg-white pl-5 pr-10 border rounded-3xl h-12  mb-5 w-80 shadow-sm
-                                       ${ errors.email && touched.email ? 'border-red-700' : "border-transparent"}`
+                                       text-cyan-700 placeholder-gray-500 bg-opacity-10 bg-white pl-5 pr-10 border rounded-3xl h-12  mb-5 w-80 shadow-sm
+                                       ${ errors.email && touched.email ? 'border-red-700' : "border-cyan-600"}`
                                    }
                                    placeholder={inputPlaceholder.emailPlaceholder}
                             />
@@ -74,40 +74,44 @@ export default function LoginPage() {
 
 
 
-                            <label className={'px-5 block font-medium text-sm text-white'} htmlFor={'password'}>{inputHeader.passwordHeader}</label>
+                            <label className={'px-5 block font-medium text-sm text-cyan-700'} htmlFor={'password'}>{inputHeader.passwordHeader}</label>
                             <Field name="password"
                                    type="password"
                                    className={`
                                        transition duration-300 ease-in-out 
                                        focus:border-transparent focus:bg-gray-300 focus:bg-transparent focus:outline-0 focus:border-gray-300
                                        hover:border-gray-300 hover:bg-gray-300 hover:bg-transparent 
-                                       text-white placeholder-gray-500 bg-opacity-10 bg-white pl-5 pr-10 border rounded-3xl h-12  mb-1 w-80 shadow-sm 
-                                       ${ errors.password && touched.password ? 'border-red-700' : "border-transparent"}`}
+                                       text-cyan-700 placeholder-gray-500 bg-opacity-10 bg-white pl-5 pr-10 border rounded-3xl h-12  mb-1 w-80 shadow-sm 
+                                       ${ errors.password && touched.password ? 'border-red-700' : "border-cyan-600"}`}
                                    placeholder={inputPlaceholder.passwordPlaceholder}
                             />
                             <FormHelper form={'login'} field={'password'} error={errors} touched={touched} className={`absolute mt-[-2.35rem] right-2`} />
 
 
-                        <div className={'text-white px-1 w-full mb-3 flex-shrink-0'}>
+                        <div className={'text-cyan-700 px-1 w-full mb-3 flex-shrink-0'}>
                             <label className="">
                                 <Field name="remember"
                                        type="checkbox"
                                        className={`
-                                          align-middle mr-1
-                                      `}
+                                          align-middle mr-1`}
                                 />
                                 {inputPlaceholder.rememberPlaceholder}
                             </label>
-                            <FieldRedirect to={'restoration'} className={'absolute whitespace-nowrap text-amber-300 end-0 '}/>
+                            <FieldRedirect to={'restoration'} className={'absolute whitespace-nowrap text-cyan-600 end-0 '}/>
                         </div>
 
 
 
                         <ReplyError replyError={replyError}/>
-                        <button className={`bg-orange-300 self-center rounded-3xl h-12  w-80 drop-shadow-lg`} type="submit">{headers.login}</button>
+                        <button className={`bg-cyan-600 self-center rounded-xl h-12 w-80 drop-shadow-lg 
+                                            transform transition-transform active:scale-95 active:translate-y-1 active:shadow-sm
+                                            `} type="submit"
+                        >
+                            {headers.login}
+                        </button>
                     </Form>
                 )}
             </Formik>
-        </>
+        </div>
     )
 }

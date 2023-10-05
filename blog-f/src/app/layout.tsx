@@ -3,6 +3,7 @@ import './globals.css'
 import {Inter, Open_Sans} from 'next/font/google'
 import Header from "@/Components/header/header";
 import AdminPanel from "@/Components/adminPanel/adminPanel";
+import AuthorCard from "@/Components/MainPage/authorModule/authorCard";
 
 const inter = Open_Sans({ subsets: ['latin'] })
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -14,8 +15,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <body className={inter.className}>
         <Header/>
-
-            {children}
+        <AuthorCard />
+        {children}
       </body>
     </html>
   )

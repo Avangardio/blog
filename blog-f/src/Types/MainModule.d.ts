@@ -21,6 +21,11 @@ declare type PostForPopular = {
         title: string,
     }
 }
+declare type Author = {
+    authorName: string,
+    authorFrom: string,
+    authorId: number
+}
 declare type PostListForTopic = number
 declare type Post = {
     postId: number,

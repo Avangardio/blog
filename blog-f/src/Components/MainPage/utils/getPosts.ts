@@ -56,7 +56,7 @@ export default async function getPosts({params, searchParams}: HomePageProps): P
                     authorId: 13,
                     authorName: "Bozhe moi"
                 },
-                postId: 3,
+                postId: 2,
                 topic: {
                     tags: ["JS"],
                     title: "Как отсосать самому себе в туалете?????????",

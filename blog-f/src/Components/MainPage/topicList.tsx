@@ -3,6 +3,7 @@ import {useMemo} from "react";
 import Image from "next/image";
 import {useRouter} from "next/navigation";
 import useLocalization from "@/Components/Localization/Localization";
+import AuthorLink from "@/Components/MainPage/authorModule/authorLink";
 
 interface TopicListProps {
     topics: PostForTopic[]
@@ -16,6 +17,11 @@ export default function TopicList({topics, page, pageSize = 5}: TopicListProps){
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
 
+    /*
+    onClick={() => {
+                                router.push('/article/' + postId)
+                            }
+     */
     const pageTopics =
         useMemo(() =>
             topics
@@ -28,9 +34,6 @@ export default function TopicList({topics, page, pageSize = 5}: TopicListProps){
                                 w-full mb-5 bg-white transition-shadow box-border p-4
                                 hover:outline hover:outline-1 hover:outline-cyan-600
                                 `}
-                            onClick={() => {
-                                router.push('/article/' + postId)
-                            }}
                         >
                             <img src={topic.imageURL}
                                  alt={'/defaultTopic.png'}
@@ -44,7 +47,7 @@ export default function TopicList({topics, page, pageSize = 5}: TopicListProps){
                             </a>
                             <div className={'border-b-cyan-500 border-b-2 mb-2'}>
                                 <span>{authorTag + ": "}</span>
-                                <b className={'text-cyan-600'}>{author.authorName}</b>
+                                <AuthorLink className={'text-cyan-600'} author={author}/>
                             </div>
                             <div>{topic.description.split('\n').map((item, i) => <p key={i}>{item}</p>)}</div>
                             <p className={'text-cyan-600'}>{topic.tags.join(` `)}</p>
