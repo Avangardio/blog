@@ -9,8 +9,8 @@ import {useRouter} from "next/navigation";
 import axios from "axios";
 import {observer} from "mobx-react";
 import useLocalization from "@/Components/Localization/Localization";
-import FormHelper from "@/Components/fieldComponents/FormHelper";
-import ReplyError from "@/Components/fieldComponents/ReplyError";
+import FormHelper from "@/Components/forms/FormUtils/FormHelper";
+import ReplyError from "@/Components/forms/FormUtils/ReplyError";
 
 
 export default function LoginPage() {

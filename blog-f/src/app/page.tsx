@@ -1,12 +1,12 @@
 import getPosts from "@/Components/MainPage/utils/getPosts";
 import {useRouter} from "next/navigation";
 import sanitizePageQuery from "@/Components/MainPage/utils/sanitizePageQuery";
-import TopicList from "@/Components/MainPage/topicList";
+import TopicList from "@/Components/MainPage/topic/topicList";
 import {Metadata} from "next";
-import TopicSurfer from "@/Components/MainPage/topicSurfer";
-import PopularPosts from "@/Components/MainPage/popularPosts";
+import TopicSurfer from "@/Components/MainPage/topic/topicSurfer/topicSurfer";
+import PopularPosts from "@/Components/MainPage/post/popularPosts";
 import getPopularPosts from "@/Components/MainPage/utils/getPopularPosts";
-import CreatePost from "@/Components/MainPage/createPost";
+import CreatePost from "@/Components/MainPage/post/createPost";
 export const metadata: Metadata = {
     title: '...',
     description: '...',
@@ -17,6 +17,8 @@ interface HomePageProps {
     params: {slug: string | undefined}
     searchParams?: {
         ["search"]: string | string[] | undefined
+        ["author"]: string | string[] | undefined
+        ["tags"]  : string | string[] | undefined
     }
 }
 

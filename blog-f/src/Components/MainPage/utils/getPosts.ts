@@ -3,7 +3,9 @@ import axios from "axios";
 interface HomePageProps {
     params: {slug: string | undefined}
     searchParams?: {
-        ["search"]: string | string[] | undefined;
+        ["search"]: string | string[] | undefined
+        ["author"]: string | string[] | undefined
+        ["tags"]  : string | string[] | undefined
     }
 }
 
@@ -28,7 +30,9 @@ export default async function getPosts({params, searchParams}: HomePageProps): P
             {
                 author: {
                     authorId: 32,
-                    authorName: "Maria Soskina"
+                    authorName: "Maria Soskina",
+                    authorFrom: "10.01.2003"
+
                 },
                 postId: 1,
                 topic: {
@@ -41,7 +45,8 @@ export default async function getPosts({params, searchParams}: HomePageProps): P
             {
                 author: {
                     authorId: 12,
-                    authorName: "Anal Eremichevoi"
+                    authorName: "Anal Eremichevoi",
+                    authorFrom: "10.01.2003"
                 },
                 postId: 3,
                 topic: {
@@ -54,7 +59,8 @@ export default async function getPosts({params, searchParams}: HomePageProps): P
             {
                 author: {
                     authorId: 13,
-                    authorName: "Bozhe moi"
+                    authorName: "Bozhe moi",
+                    authorFrom: "10.01.2003"
                 },
                 postId: 2,
                 topic: {

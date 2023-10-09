@@ -18,7 +18,8 @@ export default async function getPopularPosts(time = 7): Promise<PostForPopular[
             },
             author: {
                 authorId: 31,
-                authorName: "Angelina Boyko"
+                authorName: "Angelina Boyko",
+                authorFrom: "01.01.2022"
             }
         },
         {
@@ -28,7 +29,8 @@ export default async function getPopularPosts(time = 7): Promise<PostForPopular[
             },
             author: {
                 authorId: 31,
-                authorName: "Angelina Boyko"
+                authorName: "Angelina Boyko",
+                authorFrom: "13.01.2023"
             }
         }
     ]

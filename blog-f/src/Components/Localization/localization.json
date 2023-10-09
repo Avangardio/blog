@@ -5,7 +5,10 @@
       "addNewPost": "Напишите статью",
       "popularHeader": "Популярные статьи",
       "createButtonLogged": "Write your own post!",
-      "createButtonGuest": "Login in to create posts!"
+      "createButtonGuest": "Login in to create posts!",
+      "authorFrom": "On portal from: ",
+      "authorHelp": "Chose posts"
+
     },
     "auth": {
       "login": "Login",
@@ -80,7 +83,10 @@
       "popularHeader": "Популярные статьи",
       "addNewPost": "Напишите статью",
       "createButtonLogged": "Write your own post!",
-      "createButtonGuest": "Войдите, чтобы написать статью!"
+      "createButtonGuest": "Войдите, чтобы написать статью!",
+      "authorFrom": "На портале с: ",
+      "authorHelp": "Выберите посты"
+
     },
 
     "auth/redirects": {

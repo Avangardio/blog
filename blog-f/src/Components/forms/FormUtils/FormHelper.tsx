@@ -1,5 +1,5 @@
 import useLocalization from "@/Components/Localization/Localization";
-import FormWindow, {formKits} from "@/Components/fieldComponents/FormWindow";
+import FormWindow, {formKits} from "@/Components/forms/FormUtils/FormWindow";
 import Image from "next/image";
 import {ReactNode, useState} from "react";
 import {FormikTouched} from "formik";

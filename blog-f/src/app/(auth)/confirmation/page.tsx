@@ -4,8 +4,8 @@ import useLocalization from "@/Components/Localization/Localization";
 import * as Yup from "yup";
 import React, {useRef, useState} from "react";
 import {Field, Form, Formik, FormikHelpers} from "formik";
-import FormHelper from "@/Components/fieldComponents/FormHelper";
-import {formKits} from "@/Components/fieldComponents/FormWindow";
+import FormHelper from "@/Components/forms/FormUtils/FormHelper";
+import {formKits} from "@/Components/forms/FormUtils/FormWindow";
 
 type FormValues = {
     input1: string;

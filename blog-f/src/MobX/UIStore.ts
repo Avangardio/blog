@@ -4,15 +4,21 @@ import {enableStaticRendering} from "mobx-react";
 
 export class UIStore {
     @observable
-    selectedAuthor: number | undefined;
+    selectedAuthorId: number | undefined;
+    @observable
+    selectedAuthorName: string | undefined;
+    @observable
+    selectedAuthorFrom: string | undefined;
 
     @action
-    setSelectedAuthor = (authorId: number) => {
-        this.selectedAuthor = authorId;
+    setSelectedAuthor = (authorId: number, authorName: string, authorFrom: string) => {
+        this.selectedAuthorId = authorId;
+        this.selectedAuthorName = authorName;
+        this.selectedAuthorFrom = authorFrom;
     }
     @action
     unsetSelectedAuthor = () => {
-        this.selectedAuthor = undefined;
+        this.selectedAuthorId = undefined;
     }
 
     public constructor() {

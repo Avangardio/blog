@@ -3,21 +3,22 @@ import {observer} from "mobx-react";
 import {useStore} from "@/MobX/RootStore";
 interface AuthorLinkProps {
     className?: string,
-    author: Omit<Author, "authorFrom">
+    author: Author
 }
 function AuthorLink({className, author}: AuthorLinkProps){
+    const {authorId, authorName, authorFrom} = author;
     const UI = useStore('UIStore');
     return (
-        <div className={className}
+        <span className={className}
              onMouseEnter={() => {
-                 UI.setSelectedAuthor(author.authorId);
+                 UI.setSelectedAuthor(authorId, authorName, authorFrom);
              }}
              onMouseLeave={() => {
-                 UI.setSelectedAuthor(author.authorId);
+                 UI.unsetSelectedAuthor();
              }}
         >
             {author.authorName}
-        </div>
+        </span>
     )
 }
 export default observer(AuthorLink)

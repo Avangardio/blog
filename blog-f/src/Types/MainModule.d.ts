@@ -1,9 +1,6 @@
 declare type PostForTopic = {
     postId: number,
-    author: {
-        authorName: string,
-        authorId: number
-    }
+    author: Author,
     topic: {
         tags: string[]
         title: string,
@@ -13,10 +10,7 @@ declare type PostForTopic = {
 }
 declare type PostForPopular = {
     postId: number,
-    author: {
-        authorName: string,
-        authorId: number
-    }
+    author: Author,
     topic: {
         title: string,
     }
@@ -29,10 +23,7 @@ declare type Author = {
 declare type PostListForTopic = number
 declare type Post = {
     postId: number,
-    author: {
-        authorName: string,
-        authorId: number
-    }
+    author: Author,
     topic: {
         tags: string[]
         title: string,
