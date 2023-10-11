@@ -12,9 +12,9 @@ import * as path from 'path';
         port: 465,
         secure: true,
         auth: {
-          user: "avangardiotestblog",
-          pass: "yYErzQzVawuBDfFvjfnH",
-        }
+          user: 'avangardiotestblog',
+          pass: 'yYErzQzVawuBDfFvjfnH',
+        },
       },
       defaults: {
         from: '"avangardiotestblog" <avangardiotestblog@mail.ru>',

@@ -13,17 +13,19 @@ import { JoiValidationPipe } from '@/Pipes/JoiValidationPipe';
 import { RegistrationSchema } from '@/Pipes/Jois/Registration/RegistrationSchema';
 import { MailService } from '@/Modules/mail/mail.service';
 import * as path from 'path';
+import RedisDBService from '@/Modules/redis/redisdb.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly appService: AuthService,
     private readonly mailService: MailService,
+    private readonly redisdbService: RedisDBService,
   ) {}
 
   @Get('z')
-  z1() {
-    return path.join(__dirname, '..', '..', 'Emails');
+  async z1() {
+    return await this.redisdbService.regBlock.setBlock('ZZ');
   }
 
   @Post('registration')

@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@liaoliaots/nestjs-redis": "^9.0.5",
     "@nestjs-modules/mailer": "^1.9.1",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^3.1.1",
@@ -28,12 +29,15 @@
     "@nestjs/passport": "^10.0.2",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/platform-fastify": "^9.4.2",
+    "@nestjs/typeorm": "^10.0.0",
     "copyfiles": "^2.4.1",
     "fastify": "^4.23.2",
     "joi": "^17.11.0",
     "nodemailer": "^6.9.6",
+    "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "typeorm": "^0.3.17"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

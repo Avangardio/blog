@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+        .header { background-color: lightcyan; width: 100%; height: 5em; font-size: 2em; color: black; }
+        .flex { display: flex; justify-content: center }
+    </style>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>Подтверждение регистрации.</title>
 </head>
 <body>
-<span>Ваш код подтверждения регистрации: </span><b>{{emailCode}}</b>
+<div class="header flex">Подтвердите ваш аккаунт</div>
+<span>Ваш код подтверждения аккаунта: </span><b>{{emailCode}}</b>
 </body>
 </html>
