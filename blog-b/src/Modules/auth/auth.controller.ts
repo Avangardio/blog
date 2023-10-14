@@ -26,16 +26,6 @@ export class AuthController {
     private readonly configService: ConfigService,
   ) {}
 
-  @Get('getSwaggerKey')
-  getSwaggerKey(
-    @Res({ passthrough: true }) response: FastifyReply,
-    @Query() key: string,
-  ) {
-    const swaggerKeyRef = this.configService.get('swaggerKey');
-    if (key !== swaggerKeyRef)
-      return response.status(403).send('Invalid code!');
-    response.setCookie('swaggerKey', swaggerKeyRef);
-  }
   @Post('registration')
   @UsePipes(new JoiValidationPipe(RegistrationSchema))
   @SwaggerDecorator(RegistrationMetadata)
@@ -52,5 +42,24 @@ export class AuthController {
       .then((_) => 'OKAYY MAN Z');
       
      */
+  }
+  @Get('swagger')
+  getSwaggerKey(
+    @Res({ passthrough: false }) response: FastifyReply,
+    @Query() query: { key: string },
+  ) {
+    const swaggerKeyRef = this.configService.get('swaggerKey');
+    const swaggerURL = this.configService.get('swaggerURL');
+
+    if (query.key !== swaggerKeyRef)
+      return response.status(403).send('Invalid code!');
+
+    //const signedKey = response.signCookie(query.key);
+    response.setCookie('swaggerKey', query.key, {
+      httpOnly: true,
+      path: '/',
+      maxAge: 360000,
+    });
+    response.status(302).redirect('/' + swaggerURL);
   }
 }
