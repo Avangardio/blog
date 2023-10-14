@@ -13,20 +13,16 @@ import { JoiValidationPipe } from '@/Pipes/JoiValidationPipe';
 import { RegistrationSchema } from '@/Pipes/Jois/Registration/RegistrationSchema';
 import { MailService } from '@/Modules/mail/mail.service';
 import * as path from 'path';
-import RedisDBService from '@/Modules/redis/redisdb.service';
+import RedisService from '@/Modules/redis/redis.service';
+import PostgresService from '@/Modules/postgres/postgres.service';
+import ErrorHandler from '@/Errors/errors';
 
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly appService: AuthService,
+    private readonly authService: AuthService,
     private readonly mailService: MailService,
-    private readonly redisdbService: RedisDBService,
   ) {}
-
-  @Get('z')
-  async z1() {
-    return await this.redisdbService.regBlock.setBlock('ZZ');
-  }
 
   @Post('registration')
   @UsePipes(new JoiValidationPipe(RegistrationSchema))
@@ -34,8 +30,13 @@ export class AuthController {
     @Body() body: IRegistrationBody,
     @Req() request: FastifyRequest,
   ) {
-    return await this.mailService
+    return this.authService
+      .registrationStart(body)
+      .catch((error) => ErrorHandler(error));
+    /*return await this.mailService
       .sendTest('avangardiotestblog@gmail.com')
       .then((_) => 'OKAYY MAN Z');
+      
+     */
   }
 }

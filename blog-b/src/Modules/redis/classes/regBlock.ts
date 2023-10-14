@@ -1,12 +1,25 @@
-import RedisDBService from '@/Modules/redis/redisdb.service';
+import RedisService from '@/Modules/redis/redis.service';
 import Redis from 'ioredis';
+import { InjectRedis } from '@liaoliaots/nestjs-redis';
+import {
+  ActiveBlockError,
+  DatabaseError,
+} from '@/Errors/redisErrors/redisErrors';
 
 export default class RegBlock {
-  constructor(private readonly redis: Redis) {}
+  constructor(@InjectRedis() private readonly redis: Redis) {}
   setBlock(email: string) {
-    return this.redis.setex(email, 15 * 6 * 10e4, 'true');
+    return this.redis.setex(email, 15 * 60, 'true');
   }
-  getBlock(email: string) {
-    return this.redis.get(email);
+  getBlock(email: string): Promise<string | null> {
+    return this.redis.get(email).catch(() => {
+      throw new DatabaseError('REDIS_ERROR');
+    });
+  }
+
+  async checkIfNotBlockExists(email: string) {
+    const activeBlock = await this.getBlock(email);
+    if (activeBlock) throw new ActiveBlockError('ACTIVE_BLOCK');
+    return true;
   }
 }

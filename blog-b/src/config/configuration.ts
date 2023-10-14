@@ -1,5 +1,4 @@
 import * as process from 'process';
-import * as events from 'events';
 
 export default () => {
   const env = process.env;
@@ -15,16 +14,16 @@ export default () => {
     redis: {
       name: env.REDIS_NAME || 'default',
       port: parseInt(env.REDIS_PORT, 10) || 6379,
-      host: env['REDIS_HOST' + tag],
-      password: env['REDIS_PASSWORD' + tag],
-      db: process.env.REDIS_DB || 0,
+      host: env['REDIS_HOST'] || 'localhost',
+      password: env['REDIS_PASSWORD'],
+      db: env.REDIS_DB || 0,
     },
     postgres: {
       type: 'postgres',
-      port: parseInt(process.env.POSTGRES_PORT, 10) || 5432,
-      host: env['POSTGRES_HOST' + tag],
-      username: env['POSTGRES_USERNAME' + tag],
-      password: env['POSTGRES_PASSWORD' + tag],
+      port: parseInt(env.POSTGRES_PORT, 10) || 5432,
+      host: env['POSTGRES_HOST'] || 'localhost',
+      username: env['POSTGRES_USERNAME'],
+      password: env['POSTGRES_PASSWORD'],
       database: env['POSTGRES_DATABASE'],
       synchronize: false,
     },

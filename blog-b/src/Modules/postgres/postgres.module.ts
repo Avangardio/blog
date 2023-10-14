@@ -1,9 +1,11 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis';
-import RedisDBService from '@/Modules/redis/redisdb.service';
-import PostgresDBService from '@/Modules/postgres/postgresDB.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import PostgresService from '@/Modules/postgres/postgres.service';
+import { View } from '@/Modules/postgres/Entities/view.entity';
+import { User } from '@/Modules/postgres/Entities/user.entity';
+import { Post } from '@/Modules/postgres/Entities/post.entity';
+import UserRepo from '@/Modules/postgres/repositories/userRepo';
 
 @Global()
 @Module({
@@ -18,14 +20,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
           username: postgresConfig.username,
           password: postgresConfig.password,
           database: postgresConfig.database,
-          entities: [],
+          entities: [User, Post, View],
           synchronize: false,
         };
       },
       inject: [ConfigService],
     }),
+    TypeOrmModule.forFeature([User, Post, View]),
   ],
-  providers: [PostgresDBService],
-  exports: [PostgresDBService],
+  providers: [PostgresService, UserRepo],
+  exports: [PostgresService],
 })
-export class PostgresDBModule {}
+export class PostgresModule {}

@@ -1,7 +1,8 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis';
-import RedisDBService from '@/Modules/redis/redisdb.service';
+import RedisService from '@/Modules/redis/redis.service';
+import RegBlock from '@/Modules/redis/classes/regBlock';
 
 @Global()
 @Module({
@@ -17,7 +18,7 @@ import RedisDBService from '@/Modules/redis/redisdb.service';
       inject: [ConfigService],
     }),
   ],
-  providers: [RedisDBService],
-  exports: [RedisDBService],
+  providers: [RedisService, RegBlock],
+  exports: [RedisService],
 })
 export class RedisDBModule {}
