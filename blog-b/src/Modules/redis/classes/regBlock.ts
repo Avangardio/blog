@@ -3,7 +3,7 @@ import Redis from 'ioredis';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import {
   ActiveBlockError,
-  DatabaseError,
+  DatabaseRedisError,
 } from '@/Errors/redisErrors/redisErrors';
 
 export default class RegBlock {
@@ -13,7 +13,7 @@ export default class RegBlock {
   }
   getBlock(email: string): Promise<string | null> {
     return this.redis.get(email).catch(() => {
-      throw new DatabaseError('REDIS_ERROR');
+      throw new DatabaseRedisError('REDIS_ERROR');
     });
   }
 

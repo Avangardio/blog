@@ -2,7 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '@/Modules/postgres/Entities/user.entity';
 import {
-  DatabaseError,
+  DatabasePGError,
   UserExistsError,
 } from '@/Errors/postgresErrors/postgresErrors';
 
@@ -18,7 +18,7 @@ export default class UserRepo {
         where: { email: email },
       })
       .catch(() => {
-        throw new DatabaseError('POSTGRES_ERROR');
+        throw new DatabasePGError('POSTGRES_ERROR');
       });
   }
 

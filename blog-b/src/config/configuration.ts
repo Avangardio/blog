@@ -11,6 +11,7 @@ export default () => {
       port: parseInt(env.PORT, 10),
       host: env['URL' + tag],
     },
+    swaggerKey: env.SWAGGER_KEY || 'defaultswagger',
     redis: {
       name: env.REDIS_NAME || 'default',
       port: parseInt(env.REDIS_PORT, 10) || 6379,

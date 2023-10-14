@@ -1,8 +1,18 @@
 import { ExtendedError } from '@/Errors/errors';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class DatabaseError extends ExtendedError {
+export class DatabasePGError extends ExtendedError {
+  @ApiProperty({ description: 'Error code', default: 500 })
+  code: number;
+
+  @ApiProperty({ description: 'Error name', default: 'DatabasePGError' })
+  name: string;
+
+  @ApiProperty({ description: 'Error message', default: 'POSTGRES_ERROR' })
+  message: string;
+
   constructor(message: string) {
-    super('DatabaseError', message, 500);
+    super('DatabasePGError', message, 500);
   }
 }
 export class UserExistsError extends ExtendedError {
