@@ -6,9 +6,11 @@ import configuration from './config/configuration';
 import { AuthModule } from './Modules/auth/auth.module';
 import { RedisDBModule } from '@/Modules/redis/redis.module';
 import { PostgresModule } from '@/Modules/postgres/postgres.module';
+import {GuardsModule} from "@/Guards/guards.module";
 
 @Module({
   imports: [
+      GuardsModule,
     PostgresModule,
     RedisDBModule,
     AuthModule,

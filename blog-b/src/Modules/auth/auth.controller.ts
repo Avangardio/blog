@@ -5,7 +5,7 @@ import {
   Post,
   Query,
   Req,
-  Res,
+  Res, UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -17,6 +17,7 @@ import ErrorHandler from '@/Errors/errors';
 import { SwaggerDecorator } from '@/Swagger/swagger.decorator';
 import RegistrationMetadata from '@/Modules/auth/metadata/auth.metadata';
 import { ConfigService } from '@nestjs/config';
+import {CookieAuthGuard} from "@/Guards/cookie.guard";
 
 @Controller('auth')
 export class AuthController {
@@ -26,6 +27,11 @@ export class AuthController {
     private readonly configService: ConfigService,
   ) {}
 
+  @Get('z')
+  @UseGuards(CookieAuthGuard)
+  z1(){
+    return 'zzzz!'
+  }
   @Post('registration')
   @UsePipes(new JoiValidationPipe(RegistrationSchema))
   @SwaggerDecorator(RegistrationMetadata)
