@@ -9,7 +9,9 @@ import {
 export default class RegBlock {
   constructor(@InjectRedis() private readonly redis: Redis) {}
   setBlock(email: string) {
-    return this.redis.setex(email, 15 * 60, 'true');
+    return this.redis.setex(email, 15 * 60, 'true').catch(() => {
+      throw new DatabaseRedisError('REDIS_ERROR');
+    });
   }
   getBlock(email: string): Promise<string | null> {
     return this.redis.get(email).catch(() => {

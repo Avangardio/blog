@@ -4,25 +4,35 @@ services:
   nextjs:
    # env_file: ${ENV_FILE:-.env.example}
     build:
-      context: ./blog-b
-      dockerfile: Dockerfile
+      context: ./blog-b/
+      dockerfile: ./blog-b/Dockerfile
     ports:
       - "3000:3000"
     networks:
       - app-network
+    environment:
+      REDIS_PORT: 6379
 
   nestjs:
   #  env_file: ${ENV_FILE:-.env.example}
     build:
-      context: ./nestjs
+      context: ./blog-b
       dockerfile: Dockerfile
     depends_on:
       - postgres
       - redis
     ports:
-      - "4000:4000"
+      - "4000:3000"
     networks:
       - app-network
+    environment:
+      REDIS_PORT: 6379
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: dbname
 
   postgres:
     #env_file: ${ENV_FILE:-.env.example}

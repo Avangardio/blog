@@ -10,9 +10,11 @@ declare type PasswordField = {
 declare type EmailField = {
   email: string;
 };
-
-declare interface IRegistrationBody
-  extends NameField,
-    EmailField,
-    PasswordField,
-    LanguageField {}
+export class RegistrationBodyDto
+  implements NameField, EmailField, PasswordField, LanguageField
+{
+  name: string;
+  language: string;
+  password: string;
+  email: string;
+}

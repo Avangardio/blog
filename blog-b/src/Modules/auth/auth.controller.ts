@@ -5,7 +5,8 @@ import {
   Post,
   Query,
   Req,
-  Res, UseGuards,
+  Res,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -17,7 +18,8 @@ import ErrorHandler from '@/Errors/errors';
 import { SwaggerDecorator } from '@/Swagger/swagger.decorator';
 import RegistrationMetadata from '@/Modules/auth/metadata/auth.metadata';
 import { ConfigService } from '@nestjs/config';
-import {CookieAuthGuard} from "@/Guards/cookie.guard";
+import { CookieAuthGuard } from '@/Guards/cookie.guard';
+import {RegistrationBodyDto} from "@/Modules/auth/Types/auth";
 
 @Controller('auth')
 export class AuthController {
@@ -29,25 +31,25 @@ export class AuthController {
 
   @Get('z')
   @UseGuards(CookieAuthGuard)
-  z1(){
-    return 'zzzz!'
+  z1() {
+    return 'zzzz!';
   }
   @Post('registration')
   @UsePipes(new JoiValidationPipe(RegistrationSchema))
   @SwaggerDecorator(RegistrationMetadata)
   async registration(
-    @Body() body: IRegistrationBody,
+    @Body() body: RegistrationBodyDto,
     @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
   ) {
-    console.log(request.cookies); // or "request.cookies['cookieKey']"
-    return this.authService
+    const result = await this.authService
       .registrationStart(body)
       .catch((error) => ErrorHandler(error));
-    /*return await this.mailService
-      .sendTest('avangardiotestblog@gmail.com')
-      .then((_) => 'OKAYY MAN Z');
-      
-     */
+
+    if(!result.isSucceed) {
+      result.payload
+      response.status(result)
+    }
   }
   @Get('swagger')
   getSwaggerKey(
