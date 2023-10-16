@@ -5,7 +5,6 @@ import RedisService from '@/Modules/redis/redis.service';
 import RegBlock from '@/Modules/redis/classes/regBlock';
 import RegRequestData from '@/Modules/redis/classes/regRequestData';
 
-@Global()
 @Module({
   imports: [
     RedisModule.forRootAsync({

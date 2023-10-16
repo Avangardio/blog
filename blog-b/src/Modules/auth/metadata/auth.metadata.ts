@@ -4,17 +4,7 @@ import {
 } from '@/Errors/redisErrors/redisErrors';
 import { DatabasePGError } from '@/Errors/postgresErrors/postgresErrors';
 import { ApiProperty } from '@nestjs/swagger';
-
-class RegistrationBodyDto implements IRegistrationBody {
-  @ApiProperty()
-  name: string;
-  @ApiProperty()
-  email: string;
-  @ApiProperty()
-  language: string;
-  @ApiProperty()
-  password: string;
-}
+import { RegistrationBodyDto } from '@/DTO/auth/registration';
 
 const RegistrationMetadata = {
   description: 'Create a new user',

@@ -1,12 +1,13 @@
 
 -- Создание таблицы "users"
 CREATE TABLE users (
-    userId SERIAL PRIMARY KEY,
+    userid SERIAL PRIMARY KEY,
     email TEXT UNIQUE NOT NULL,
     username TEXT NOT NULL,
     hash TEXT NOT NULL,
-    salt TEXT NOT NULL,
-    myPosts INT[] DEFAULT ARRAY[]::INT[]
+    my_posts INT[] DEFAULT ARRAY[]::INT[],
+    language VARCHAR(20) DEFAULT 'EN',
+    creation_time TIMESTAMPTZ DEFAULT CURRENT_DATE
 );
 -- Создание таблицы "posts"
 CREATE TABLE posts (

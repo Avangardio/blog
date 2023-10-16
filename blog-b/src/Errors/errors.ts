@@ -1,6 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export default function ErrorHandler(error: Error) {
+class ErrorHandlerOutput {
+  isSucceed: false;
+  name: string;
+  code: number;
+  message: string;
+};
+export default function ErrorHandler(error: Error): ErrorHandlerOutput {
   if (error instanceof ExtendedError) {
     return {
       isSucceed: false,
@@ -9,10 +15,12 @@ export default function ErrorHandler(error: Error) {
       message: error.message,
     };
   }
+  console.log(error);
   return {
     isSucceed: false,
+    code: 500,
     name: error.name,
-    message: error.message,
+    message: 'SERVER_ERROR',
   };
 }
 

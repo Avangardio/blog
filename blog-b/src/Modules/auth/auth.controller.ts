@@ -19,7 +19,9 @@ import { SwaggerDecorator } from '@/Swagger/swagger.decorator';
 import RegistrationMetadata from '@/Modules/auth/metadata/auth.metadata';
 import { ConfigService } from '@nestjs/config';
 import { CookieAuthGuard } from '@/Guards/cookie.guard';
-import {RegistrationBodyDto} from "@/Modules/auth/Types/auth";
+import { RegistrationBodyDto } from '@/DTO/auth/registration';
+import { ConfirmationSchema } from '@/Pipes/Jois/Registration/ConfirmationSchema';
+import {ConfirmationBodyDto} from "@/DTO/auth/confirmation";
 
 @Controller('auth')
 export class AuthController {
@@ -31,8 +33,13 @@ export class AuthController {
 
   @Get('z')
   @UseGuards(CookieAuthGuard)
-  z1() {
-    return 'zzzz!';
+  async z1() {
+    console.log(
+      await this.authService.postgresService.auth.userRepo.userNotExistsByEmail(
+        'z',
+      ),
+    );
+    return 'zx';
   }
   @Post('registration')
   @UsePipes(new JoiValidationPipe(RegistrationSchema))
@@ -42,14 +49,30 @@ export class AuthController {
     @Req() request: FastifyRequest,
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
+    //Выполняем метод регистрации
     const result = await this.authService
-      .registrationStart(body)
+      .registration(body)
       .catch((error) => ErrorHandler(error));
-
-    if(!result.isSucceed) {
-      result.payload
-      response.status(result)
-    }
+    //Отдаем код результата
+    response.status(result.code);
+    //Возвращаем результат
+    return result;
+  }
+  @Post('confirmation')
+  @UsePipes(new JoiValidationPipe(ConfirmationSchema))
+  async confirmation(
+    @Body() body: ConfirmationBodyDto,
+    @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ) {
+    //Выполняем метод подтверждения
+    const result = await this.authService
+      .confirmation(body)
+      .catch((error) => ErrorHandler(error));
+    //Отдаем код результата
+    response.status(result.code);
+    //Возвращаем результат
+    return result;
   }
   @Get('swagger')
   getSwaggerKey(

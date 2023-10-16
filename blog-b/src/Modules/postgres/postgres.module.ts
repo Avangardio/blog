@@ -5,11 +5,11 @@ import PostgresService from '@/Modules/postgres/postgres.service';
 import { View } from '@/Modules/postgres/Entities/view.entity';
 import { User } from '@/Modules/postgres/Entities/user.entity';
 import { Post } from '@/Modules/postgres/Entities/post.entity';
-import UserRepo from '@/Modules/postgres/repositories/userRepo';
+import { PostgresAuthModule } from '@postgresModules/auth/postgres.auth.module';
 
-@Global()
 @Module({
   imports: [
+    PostgresAuthModule,
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => {
         const postgresConfig = configService.get('postgres');
@@ -26,9 +26,8 @@ import UserRepo from '@/Modules/postgres/repositories/userRepo';
       },
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([User, Post, View]),
   ],
-  providers: [PostgresService, UserRepo],
+  providers: [PostgresService],
   exports: [PostgresService],
 })
 export class PostgresModule {}

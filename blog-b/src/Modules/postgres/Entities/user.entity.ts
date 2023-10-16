@@ -17,11 +17,11 @@ export class User {
   @Column()
   hash: string;
 
-  @Column()
-  salt: string;
-
   @Column('int', { array: true, default: '{}' })
-  myposts: number[];
+  my_posts: number[];
+
+  @Column({ default: 'EN' })
+  language: string;
 
   @OneToMany(() => Post, (post) => post.author)
   posts: Post[];

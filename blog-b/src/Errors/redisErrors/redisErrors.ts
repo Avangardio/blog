@@ -19,3 +19,13 @@ export class ActiveBlockError extends ExtendedError {
     super('BlockActiveError', message, 400);
   }
 }
+export class InvalidRequestError extends ExtendedError {
+  constructor(message: string) {
+    super('InvalidRequestError', message, 404);
+  }
+}
+export class NotMatchingError extends ExtendedError {
+  constructor(message: string) {
+    super('NotMatchingError', message, 400);
+  }
+}

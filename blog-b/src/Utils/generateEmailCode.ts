@@ -7,7 +7,5 @@ export default function generateEmailCode(length: number): string {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
     counter += 1;
   }
-  const now = new Date();
-  const seconds = now.getSeconds();
-  return result + seconds.toString();
+  return result;
 }
