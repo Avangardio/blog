@@ -1,7 +1,9 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
+  InternalServerErrorException,
   Post,
   Query,
   Req,
@@ -13,8 +15,6 @@ import { AuthService } from './auth.service';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { JoiValidationPipe } from '@/Pipes/JoiValidationPipe';
 import { RegistrationSchema } from '@/Pipes/Jois/Registration/RegistrationSchema';
-import { MailService } from '@/Modules/mail/mail.service';
-import ErrorHandler from '@/Errors/errors';
 import { SwaggerDecorator } from '@/Swagger/swagger.decorator';
 import RegistrationMetadata from '@/Modules/auth/metadata/auth.metadata';
 import { ConfigService } from '@nestjs/config';
@@ -22,23 +22,21 @@ import { CookieAuthGuard } from '@/Guards/cookie.guard';
 import { RegistrationBodyDto } from '@/DTO/auth/registration';
 import { ConfirmationSchema } from '@/Pipes/Jois/Registration/ConfirmationSchema';
 import { ConfirmationBodyDto } from '@/DTO/auth/confirmation';
+import { LoginINTSchema } from '@/Pipes/Jois/Login/LoginINTSchema';
+import { LoginBodyDto } from '@/DTO/auth/login';
+import { JwtServiceRoot } from '@/Modules/jwt/jwt.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly mailService: MailService,
     private readonly configService: ConfigService,
+    private readonly jwtService: JwtServiceRoot,
   ) {}
 
   @Get('z')
   @UseGuards(CookieAuthGuard)
   async z1() {
-    console.log(
-      await this.authService.postgresService.auth.userRepo.userNotExistsByEmail(
-        'z',
-      ),
-    );
     return 'zx';
   }
   @Post('registration')
@@ -50,9 +48,10 @@ export class AuthController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //Выполняем метод регистрации
-    const result = await this.authService
-      .registration(body)
-      .catch((error) => ErrorHandler(error));
+    const result = await this.authService.registration(body).catch(() => {
+      //Все ошибки обрабатываются внутри микросервиса, здесь глобальные ловим и выбрасываем для неста исключение
+      throw new InternalServerErrorException();
+    });
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат
@@ -66,9 +65,41 @@ export class AuthController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //Выполняем метод подтверждения
-    const result = await this.authService
-      .confirmation(body)
-      .catch((error) => ErrorHandler(error));
+    const result = await this.authService.confirmation(body).catch(() => {
+      //Все ошибки обрабатываются внутри микросервиса, здесь глобальные ловим и выбрасываем для неста исключение
+      throw new InternalServerErrorException();
+    });
+    //Отдаем код результата
+    response.status(result.code);
+    //Возвращаем результат
+    return result;
+  }
+  @Post('login')
+  @UsePipes(new JoiValidationPipe(LoginINTSchema))
+  async loginInternal(
+    @Body() body: LoginBodyDto,
+    @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ) {
+    //Выполняем метод логина
+    const result = await this.authService.login(body).catch(() => {
+      //Все ошибки обрабатываются внутри микросервиса, здесь глобальные ловим и выбрасываем для неста исключение
+      throw new InternalServerErrorException();
+    });
+    //Проверяем, успешно ли прошел проверку пользователь
+    if (result.code === 200) {
+      const { code, message, isSucceed, payload } = result;
+      //подписываем куки
+      const userCookie = await this.jwtService.signUser(payload);
+      //отправляем куки
+      response.setCookie('userdata', userCookie);
+      //возвращаем часть ответа
+      return {
+        code,
+        message,
+        isSucceed,
+      };
+    }
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат

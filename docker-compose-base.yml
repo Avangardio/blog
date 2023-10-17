@@ -33,6 +33,18 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_DB: dbname
+      RMQ_HOST: rabbitmq
+
+  rabbitmq:
+    image: "rabbitmq:management"
+    ports:
+      - "15672:15672" # Web интерфейс
+      - "5672:5672"   # AMQP порт
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - app-network
 
   postgres:
     #env_file: ${ENV_FILE:-.env.example}
