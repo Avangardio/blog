@@ -11,6 +11,7 @@ export default () => {
       port: parseInt(env.PORT, 10),
       host: env['URL' + tag],
     },
+    JWT: 'secreet',
     RMQ: {
       rmqHost: env.RMQ_HOST || 'localhost',
       rmqPort: env.RMQ_PORT || 5672,

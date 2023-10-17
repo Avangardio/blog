@@ -92,8 +92,10 @@ export class AppService {
     const { email, password } = body;
     //Шаг 1: пытаемся получить пользователя по имейлу
     const user = await this.postgresService.userRepo.getUserHash(email);
+
     //Шаг 2: Проверяем пароль с хешем и выкидываем ошибку, либо true
     await validatePassword(password, user.hash);
+
     //Возвращаем объект успешной проверки
     return {
       code: 200,

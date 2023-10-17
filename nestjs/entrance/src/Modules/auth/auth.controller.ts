@@ -31,7 +31,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly configService: ConfigService,
-    private readonly jwtService: JwtServiceRoot,
+    private readonly jwtServiceRoot: JwtServiceRoot,
   ) {}
 
   @Get('z')
@@ -90,7 +90,7 @@ export class AuthController {
     if (result.code === 200) {
       const { code, message, isSucceed, payload } = result;
       //подписываем куки
-      const userCookie = await this.jwtService.signUser(payload);
+      const userCookie = await this.jwtServiceRoot.signUser(payload);
       //отправляем куки
       response.setCookie('userdata', userCookie);
       //возвращаем часть ответа
