@@ -6,4 +6,12 @@ export class ConfirmationEntityDto {
   email: string;
   emailCode: string;
 }
-export type ConfirmationEntityType = InstanceType<typeof ConfirmationEntityDto>
+export class RestorationEntityDto {
+  requestType: 'restoration';
+  name: string;
+  language: string;
+  password: string;
+  email: string;
+  emailCode: string;
+}
+export type RequestEntity = ConfirmationEntityDto | RestorationEntityDto;

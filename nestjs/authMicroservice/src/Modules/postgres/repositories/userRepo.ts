@@ -27,10 +27,11 @@ export default class UserRepo {
       });
   }
 
-  async userNotExistsByEmail(email: string) {
+  async checkUserByEmail(email: string, should: boolean) {
     const user = await this.findUserByEmail(email);
     //Если есть пользователь - выбрасываем ошибку
-    if (user) throw new UserExistsError('USER_EXISTS');
+    if (!!user && should)
+      throw new UserExistsError(should ? 'USER_NOT_EXISTS' : 'USER_EXISTS');
     return true;
   }
 

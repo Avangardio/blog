@@ -92,7 +92,11 @@ export class AuthController {
       //подписываем куки
       const userCookie = await this.jwtServiceRoot.signUser(payload);
       //отправляем куки
-      response.setCookie('userdata', userCookie);
+      response.setCookie('userdata', userCookie, {
+        httpOnly: true,
+        path: '/',
+        maxAge: 360000,
+      });
       //возвращаем часть ответа
       return {
         code,
@@ -104,6 +108,14 @@ export class AuthController {
     response.status(result.code);
     //Возвращаем результат
     return result;
+  }
+  @Get('logout')
+  logoutUser(@Res({ passthrough: true }) response: FastifyReply) {
+    //удаляем куки
+    response.clearCookie('userdata');
+    //возвращаем ответ
+    response.status(200);
+    return 'OK';
   }
   @Get('swagger')
   getSwaggerKey(

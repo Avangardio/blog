@@ -7,25 +7,29 @@ import {
 } from '@/Errors/redisErrors/redisErrors';
 import { Injectable } from '@nestjs/common';
 import { SetRegistrationDto } from '@/DTO/auth/registration';
+import { RestorationBodyDto } from '@/DTO/auth/restoration';
 import {
-  ConfirmationEntityDto,
-  ConfirmationEntityType,
-} from '@/DTO/redisEntities/redisEntities';
+  ConfirmationEntityDto, OnlyOne,
+  RequestEntity
+} from "@/DTO/redisEntities/redisEntities";
 
 @Injectable()
 export default class RegRequestData {
   constructor(@InjectRedis() private readonly redis: Redis) {}
 
-  async setRegRequestData(requestId: string, body: SetRegistrationDto) {
+  async setRequestData<T extends SetRegistrationDto | RestorationBodyDto>(
+    requestId: string,
+    requestType: RequestEntity['requestType'],
+    body: T,
+  ) {
     //Определяем тип реквеста
-    const requestType = 'confirmation';
     //создаем транзакцию
     const pipeline = this.redis.pipeline();
     //создаем хэш
     pipeline.hset(requestId, {
       ...body,
       requestType,
-    } satisfies ConfirmationEntityType);
+    } satisfies T);
     //и даем ему время жизни в сутки
     pipeline.expire(requestId, 3600 * 24);
     //отправляем трназакцию
@@ -34,15 +38,15 @@ export default class RegRequestData {
     });
   }
 
-  async checkRequestData<T extends ConfirmationEntityType>(
+  async checkRequestData<T extends RequestEntity>(
     requestId: string,
     requestType: T['requestType'],
     requestEmailCode: string,
-  ) {
+  ): Promise<OnlyOne<RequestEntity>> {
     //пытаемся получить данные по айди токена
     const redisData = (await this.redis.hgetall(requestId).catch(() => {
       throw new DatabaseRedisError('REDIS_ERROR');
-    })) as unknown as ConfirmationEntityDto;
+    })) as unknown as T;
     //Если нет данных - ошибку выкидываем
     if (!Object.keys(redisData).length || redisData.requestType !== requestType)
       throw new InvalidRequestError('INV_REQUEST');

@@ -29,7 +29,7 @@ export class AppService {
 
     //ШАГ 1: Проверка на уже наличие пользователя в постгресе ИЛИ блока на регистрацию в редисе, если есть - внутри функций выбросится ошибка
     await Promise.all([
-      this.postgresService.userRepo.userNotExistsByEmail(email),
+      this.postgresService.userRepo.checkUserByEmail(email, false),
       this.redisService.regBlock.checkIfNotBlockExists(email),
     ]);
 
@@ -38,13 +38,17 @@ export class AppService {
     //Шаг 3: генерируем код доступа для пользователя для дальнейшей регистрации и код для отправки на имейл
     const [token, emailCode] = [generateToken(10), generateEmailCode(6)];
     //Шаг 4: записываем временные данные в редис на сутки
-    await this.redisService.regRequestData.setRegRequestData(token, {
-      email,
-      name,
-      password: hashedPassword,
-      language,
-      emailCode,
-    });
+    await this.redisService.regRequestData.setRequestData(
+      token,
+      'confirmation',
+      {
+        email,
+        name,
+        password: hashedPassword,
+        language,
+        emailCode,
+      },
+    );
 
     //Шаг 5: Устанавливаем блок на 15 минут посредством ячейки в редисе с ttl
     await this.redisService.regBlock.setBlock(email);
@@ -106,5 +110,15 @@ export class AppService {
         userid: user.userid,
       },
     };
+  }
+
+  async sendRestorationRequest(email: string) {
+    //Шаг 1: пытаемся получить пользователя по имейлу, нет - ошибку выбрасываем
+    const user = await this.postgresService.userRepo.checkUserByEmail(
+      email,
+      true,
+    );
+    //Шаг 2: записываем новый реквест в редис на сутки
+    await this.redisService.regRequestData.setRegRequestData();
   }
 }
