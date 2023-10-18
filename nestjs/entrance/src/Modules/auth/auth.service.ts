@@ -17,6 +17,10 @@ import {
 import { LoginBodyDto, LoginOutputDto } from '@/DTO/auth/login';
 import { JwtService } from '@nestjs/jwt';
 import { JwtServiceRoot } from '@/Modules/jwt/jwt.service';
+import {
+  RestorationBodyDto,
+  RestorationOutputDto,
+} from '@/DTO/auth/restoration';
 
 @Injectable()
 export class AuthService {
@@ -25,25 +29,38 @@ export class AuthService {
     private readonly jwtService: JwtServiceRoot,
   ) {}
 
-  registration(body: RegistrationBodyDto): Promise<RegistrationOutputDto> {
+  sendCmd<T, R>(
+    pattern: any,
+    body: T,
+    timeoutSec: number = 15 * 1000,
+  ): Promise<R> {
     return lastValueFrom(
-      this.rmqService
-        .send<RegistrationOutputDto>('registration', body)
-        .pipe(take(1), timeout(15 * 1000)),
+      this.rmqService.send<R>(pattern, body).pipe(take(1), timeout(timeoutSec)),
+    ).catch(() => {
+      //Все ошибки обрабатываются внутри микросервиса, здесь глобальные ловим и выбрасываем для неста исключение
+      throw new InternalServerErrorException();
+    });
+  }
+
+  registration(body: RegistrationBodyDto): Promise<RegistrationOutputDto> {
+    return this.sendCmd<RegistrationBodyDto, RegistrationOutputDto>(
+      'registration',
+      body,
     );
   }
   confirmation(body: ConfirmationBodyDto): Promise<ConfirmationOutputDto> {
-    return lastValueFrom(
-      this.rmqService
-        .send<ConfirmationOutputDto>('confirmation', body)
-        .pipe(take(1), timeout(15 * 1000)),
+    return this.sendCmd<ConfirmationBodyDto, ConfirmationOutputDto>(
+      'confirmation',
+      body,
     );
   }
   login(body: LoginBodyDto): Promise<LoginOutputDto> {
-    return lastValueFrom(
-      this.rmqService
-        .send<LoginOutputDto>('login', body)
-        .pipe(take(1), timeout(15 * 1000)),
+    return this.sendCmd<LoginBodyDto, LoginOutputDto>('login', body);
+  }
+  restoration(body: RestorationBodyDto): Promise<RestorationOutputDto> {
+    return this.sendCmd<RestorationBodyDto, RestorationOutputDto>(
+      'restoration',
+      body,
     );
   }
 }

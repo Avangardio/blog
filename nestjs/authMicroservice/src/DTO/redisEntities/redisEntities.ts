@@ -8,9 +8,6 @@ export class ConfirmationEntityDto {
 }
 export class RestorationEntityDto {
   requestType: 'restoration';
-  name: string;
-  language: string;
-  password: string;
   email: string;
   emailCode: string;
 }

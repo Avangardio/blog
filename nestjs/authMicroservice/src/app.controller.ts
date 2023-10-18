@@ -9,6 +9,7 @@ import { RegistrationSchema } from '@/Pipes/Jois/Registration/RegistrationSchema
 import { ConfirmationSchema } from '@/Pipes/Jois/Registration/ConfirmationSchema';
 import { LoginINTSchema } from '@/Pipes/Jois/Login/LoginINTSchema';
 import { LoginBodyDto } from '@/DTO/auth/login';
+import { RestorationBodyDto } from '@/DTO/auth/restoration';
 
 @Controller('auth')
 export class AppController {
@@ -40,6 +41,16 @@ export class AppController {
     //Выполняем метод подтверждения
     const result = await this.appService
       .login(payload)
+      .catch((error) => ErrorHandler(error));
+    // Возвращаем результат
+    return result;
+  }
+  @MessagePattern('restoration')
+  @UsePipes(new JoiValidationPipe(RegistrationSchema))
+  async restorationRequest(@Payload() payload: RestorationBodyDto) {
+    //Выполняем метод подтверждения
+    const result = await this.appService
+      .sendRestorationRequest(payload)
       .catch((error) => ErrorHandler(error));
     // Возвращаем результат
     return result;

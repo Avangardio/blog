@@ -8,7 +8,6 @@ import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import createSwaggerMiddleware from '@/Swagger/swagger.guard';
 import fastifyCookie from '@fastify/cookie';
-
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,

@@ -9,27 +9,21 @@ import { Injectable } from '@nestjs/common';
 import { SetRegistrationDto } from '@/DTO/auth/registration';
 import { RestorationBodyDto } from '@/DTO/auth/restoration';
 import {
-  ConfirmationEntityDto, OnlyOne,
-  RequestEntity
-} from "@/DTO/redisEntities/redisEntities";
+  ConfirmationEntityDto,
+  RequestEntity,
+  RestorationEntityDto,
+} from '@/DTO/redisEntities/redisEntities';
 
 @Injectable()
 export default class RegRequestData {
   constructor(@InjectRedis() private readonly redis: Redis) {}
 
-  async setRequestData<T extends SetRegistrationDto | RestorationBodyDto>(
-    requestId: string,
-    requestType: RequestEntity['requestType'],
-    body: T,
-  ) {
+  async setRequestData<T extends RequestEntity>(requestId: string, body: T) {
     //Определяем тип реквеста
     //создаем транзакцию
     const pipeline = this.redis.pipeline();
     //создаем хэш
-    pipeline.hset(requestId, {
-      ...body,
-      requestType,
-    } satisfies T);
+    pipeline.hset(requestId, body);
     //и даем ему время жизни в сутки
     pipeline.expire(requestId, 3600 * 24);
     //отправляем трназакцию
@@ -42,7 +36,7 @@ export default class RegRequestData {
     requestId: string,
     requestType: T['requestType'],
     requestEmailCode: string,
-  ): Promise<OnlyOne<RequestEntity>> {
+  ) {
     //пытаемся получить данные по айди токена
     const redisData = (await this.redis.hgetall(requestId).catch(() => {
       throw new DatabaseRedisError('REDIS_ERROR');

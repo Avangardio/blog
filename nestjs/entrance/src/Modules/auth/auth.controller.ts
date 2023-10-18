@@ -19,12 +19,20 @@ import { SwaggerDecorator } from '@/Swagger/swagger.decorator';
 import RegistrationMetadata from '@/Modules/auth/metadata/auth.metadata';
 import { ConfigService } from '@nestjs/config';
 import { CookieAuthGuard } from '@/Guards/cookie.guard';
-import { RegistrationBodyDto } from '@/DTO/auth/registration';
+import {
+  RegistrationBodyDto,
+  RegistrationOutputDto,
+} from '@/DTO/auth/registration';
 import { ConfirmationSchema } from '@/Pipes/Jois/Registration/ConfirmationSchema';
-import { ConfirmationBodyDto } from '@/DTO/auth/confirmation';
+import {
+  ConfirmationBodyDto,
+  ConfirmationOutputDto,
+} from '@/DTO/auth/confirmation';
 import { LoginINTSchema } from '@/Pipes/Jois/Login/LoginINTSchema';
-import { LoginBodyDto } from '@/DTO/auth/login';
+import { LoginBodyDto, LoginOutputDto } from '@/DTO/auth/login';
 import { JwtServiceRoot } from '@/Modules/jwt/jwt.service';
+import { RestorationSchema } from '@/Pipes/Jois/Restoration/RestorationSchema';
+import { RestorationBodyDto } from '@/DTO/auth/restoration';
 
 @Controller('auth')
 export class AuthController {
@@ -48,10 +56,10 @@ export class AuthController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //Выполняем метод регистрации
-    const result = await this.authService.registration(body).catch(() => {
-      //Все ошибки обрабатываются внутри микросервиса, здесь глобальные ловим и выбрасываем для неста исключение
-      throw new InternalServerErrorException();
-    });
+    const result = await this.authService.sendCmd<
+      RegistrationBodyDto,
+      RegistrationOutputDto
+    >('registration', body);
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат
@@ -65,10 +73,10 @@ export class AuthController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //Выполняем метод подтверждения
-    const result = await this.authService.confirmation(body).catch(() => {
-      //Все ошибки обрабатываются внутри микросервиса, здесь глобальные ловим и выбрасываем для неста исключение
-      throw new InternalServerErrorException();
-    });
+    const result = await this.authService.sendCmd<
+      ConfirmationBodyDto,
+      ConfirmationOutputDto
+    >('confirmation', body);
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат
@@ -82,10 +90,10 @@ export class AuthController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //Выполняем метод логина
-    const result = await this.authService.login(body).catch(() => {
-      //Все ошибки обрабатываются внутри микросервиса, здесь глобальные ловим и выбрасываем для неста исключение
-      throw new InternalServerErrorException();
-    });
+    const result = await this.authService.sendCmd<LoginBodyDto, LoginOutputDto>(
+      'login',
+      body,
+    );
     //Проверяем, успешно ли прошел проверку пользователь
     if (result.code === 200) {
       const { code, message, isSucceed, payload } = result;
@@ -117,6 +125,15 @@ export class AuthController {
     response.status(200);
     return 'OK';
   }
+
+  @Post('restoration')
+  @UsePipes(new JoiValidationPipe(RestorationSchema))
+  async restorationRequest(
+    @Body() body: RestorationBodyDto,
+    @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ) {}
+
   @Get('swagger')
   getSwaggerKey(
     @Res({ passthrough: false }) response: FastifyReply,

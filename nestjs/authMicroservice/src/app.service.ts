@@ -14,6 +14,14 @@ import {
 } from '@/DTO/auth/confirmation';
 import { LoginBodyDto, LoginOutputDto } from '@/DTO/auth/login';
 import validatePassword from '@/Utils/password/validatePassword';
+import {
+  ConfirmationEntityDto,
+  RestorationEntityDto,
+} from '@/DTO/redisEntities/redisEntities';
+import {
+  RestorationBodyDto,
+  RestorationOutputDto,
+} from '@/DTO/auth/restoration';
 
 @Injectable()
 export class AppService {
@@ -38,10 +46,10 @@ export class AppService {
     //Шаг 3: генерируем код доступа для пользователя для дальнейшей регистрации и код для отправки на имейл
     const [token, emailCode] = [generateToken(10), generateEmailCode(6)];
     //Шаг 4: записываем временные данные в редис на сутки
-    await this.redisService.regRequestData.setRequestData(
+    await this.redisService.regRequestData.setRequestData<ConfirmationEntityDto>(
       token,
-      'confirmation',
       {
+        requestType: 'confirmation',
         email,
         name,
         password: hashedPassword,
@@ -68,11 +76,11 @@ export class AppService {
   ): Promise<ConfirmationOutputDto> {
     const { emailCode, confirmationToken } = body;
     //Шаг 1: проверяем, есть ли такой токен, правильный ли у нас тип запроса, и правильно ли прислали нам код
-    const redisData = await this.redisService.regRequestData.checkRequestData(
+    const redisData = (await this.redisService.regRequestData.checkRequestData(
       confirmationToken,
       'confirmation',
       emailCode,
-    );
+    )) as ConfirmationEntityDto;
     //Шаг 2: Всё прошло без ошибок, нужно внести данные в базу данных users, ошибки обработаются если будут проблемы
     const registeredUser = await this.postgresService.userRepo.setNewUser(
       redisData,
@@ -112,13 +120,33 @@ export class AppService {
     };
   }
 
-  async sendRestorationRequest(email: string) {
+  async sendRestorationRequest(
+    body: RestorationBodyDto,
+  ): Promise<RestorationOutputDto> {
+    const { email } = body;
     //Шаг 1: пытаемся получить пользователя по имейлу, нет - ошибку выбрасываем
     const user = await this.postgresService.userRepo.checkUserByEmail(
       email,
       true,
     );
+    //Шаг 2: генерируем код доступа для пользователя для подтверждения хозяина почты и код для отправки на имейл
+    const [token, emailCode] = [generateToken(10), generateEmailCode(6)];
     //Шаг 2: записываем новый реквест в редис на сутки
-    await this.redisService.regRequestData.setRegRequestData();
+    await this.redisService.regRequestData.setRequestData<RestorationEntityDto>(
+      token,
+      {
+        requestType: 'restoration',
+        email,
+        emailCode,
+      },
+    );
+    return {
+      code: 201,
+      message: 'REQ_SUCCESS',
+      isSucceed: true,
+      payload: {
+        confirmationToken: token,
+      },
+    };
   }
 }
