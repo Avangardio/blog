@@ -21,6 +21,7 @@ import UserRepo from '@/Modules/postgres/repositories/userRepo';
           database: postgresConfig.database,
           entities: [User, Post, View],
           synchronize: false,
+          cache: true,
         };
       },
       inject: [ConfigService],

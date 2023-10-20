@@ -5,6 +5,7 @@ export default () => {
   const isProduction = process.env.NODE_ENV === 'production';
   const tag = isProduction ? '_PROD' : '_DEV';
   return {
+    isProduction,
     mode: env.NODE_ENV,
     port: parseInt(env.PORT, 10) || 3000,
     server: {

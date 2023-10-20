@@ -7,28 +7,32 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import createSwaggerMiddleware from '@/Swagger/swagger.guard';
-import fastifyCookie from '@fastify/cookie';
+import * as fastifyCookie from '@fastify/cookie';
+import { ClusterManager } from '@/clusterManager';
+import fastifyCsrf from '@fastify/csrf-protection';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
   );
   const configService = app.get(ConfigService);
-  const {} = configService.get('RMQ');
+  const secret = configService.get('JWT');
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   await app.register(fastifyCookie, {
-    secret: 'my-secret', // for cookies signature
+    secret: secret, // for cookies signature
   });
 
   const { port, host } = configService.get('server');
   const swagger_url = configService.get('swaggerURL');
 
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('Blog entrance')
+    .setDescription('Документация для бекенда блога')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('auth', 'Роуты авторизации/аутентификации')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   // Применяем Guard к Swagger эндпоинту
@@ -42,4 +46,4 @@ async function bootstrap() {
   await app.listen(port, '0.0.0.0');
   console.log('Server started on: ' + host);
 }
-bootstrap();
+ClusterManager.clusterize(bootstrap);

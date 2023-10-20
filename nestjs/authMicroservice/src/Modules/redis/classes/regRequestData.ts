@@ -34,15 +34,18 @@ export default class RegRequestData {
 
   async checkRequestData<T extends RequestEntity>(
     requestId: string,
-    requestType: T['requestType'],
     requestEmailCode: string,
+    requestType?: T['requestType'],
   ) {
     //пытаемся получить данные по айди токена
     const redisData = (await this.redis.hgetall(requestId).catch(() => {
       throw new DatabaseRedisError('REDIS_ERROR');
     })) as unknown as T;
-    //Если нет данных - ошибку выкидываем
-    if (!Object.keys(redisData).length || redisData.requestType !== requestType)
+    //Если нет данных - ошибку выкидываем, если нет типа реквеста - не проверяем на соответствие
+    if (
+      !Object.keys(redisData).length ||
+      (requestType && redisData.requestType !== requestType)
+    )
       throw new InvalidRequestError('INV_REQUEST');
     //Если все же есть - проверяем с базой
     if (requestEmailCode !== redisData.emailCode)
@@ -51,11 +54,10 @@ export default class RegRequestData {
     return redisData;
   }
 
-  async deleteRequestAndBlock(requestId: string, email: string) {
-    return Promise.all([
-      this.redis.del(requestId),
-      this.redis.del(email),
-    ]).catch(() => {
+  async deleteRequest(requestId: string[]) {
+    return Promise.all(
+      requestId.map((request) => this.redis.del(request)),
+    ).catch(() => {
       throw new DatabaseRedisError('REDIS_ERROR');
     });
   }

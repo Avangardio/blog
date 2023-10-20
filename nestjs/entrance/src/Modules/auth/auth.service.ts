@@ -16,18 +16,22 @@ import {
 } from '@/DTO/auth/confirmation';
 import { LoginBodyDto, LoginOutputDto } from '@/DTO/auth/login';
 import { JwtService } from '@nestjs/jwt';
-import { JwtServiceRoot } from '@/Modules/jwt/jwt.service';
 import {
   RestorationBodyDto,
   RestorationOutputDto,
 } from '@/DTO/auth/restoration';
+import {
+  RequestValidationBodyDto,
+  RequestValidationOutputDto,
+} from '@/DTO/auth/validateRequest';
+import {
+  SetNewPasswordBodyDto,
+  SetNewPasswordOutputDto,
+} from '@/DTO/auth/setNewPassword';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @Inject('AUTH_SERVICE') private rmqService: ClientProxy,
-    private readonly jwtService: JwtServiceRoot,
-  ) {}
+  constructor(@Inject('AUTH_SERVICE') private rmqService: ClientProxy) {}
 
   sendCmd<T, R>(
     pattern: any,
@@ -60,6 +64,22 @@ export class AuthService {
   restoration(body: RestorationBodyDto): Promise<RestorationOutputDto> {
     return this.sendCmd<RestorationBodyDto, RestorationOutputDto>(
       'restoration',
+      body,
+    );
+  }
+  validateRequest(
+    body: RequestValidationBodyDto,
+  ): Promise<RequestValidationOutputDto> {
+    return this.sendCmd<RequestValidationBodyDto, RequestValidationOutputDto>(
+      'validateRequest',
+      body,
+    );
+  }
+  setNewPassword(
+    body: SetNewPasswordBodyDto,
+  ): Promise<SetNewPasswordOutputDto> {
+    return this.sendCmd<SetNewPasswordBodyDto, SetNewPasswordOutputDto>(
+      'setNewPassword',
       body,
     );
   }

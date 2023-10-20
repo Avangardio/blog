@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const [rmqHost, rmqPort, rmqAuth] = [
@@ -11,7 +10,6 @@ async function bootstrap() {
       ? `${process.env.RMQ_USERNAME}:${process.env.RMQ_PASSWORD}@`
       : '',
   ];
-  console.log(`amqp://${rmqAuth}${rmqHost}:${rmqPort}/`)
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {

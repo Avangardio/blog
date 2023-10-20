@@ -5,10 +5,9 @@ import { MailModule } from '@/Modules/mail/mail.module';
 import { GuardsModule } from '@/Guards/guards.module';
 import { ClientsModule } from '@nestjs/microservices';
 import { RmqModule } from '@/rmq.module';
-import { JwtRootModule } from '@/Modules/jwt/jwt.module';
 
 @Module({
-  imports: [MailModule, GuardsModule, RmqModule, JwtRootModule],
+  imports: [MailModule, GuardsModule, RmqModule],
   controllers: [AuthController],
   providers: [AuthService],
 })

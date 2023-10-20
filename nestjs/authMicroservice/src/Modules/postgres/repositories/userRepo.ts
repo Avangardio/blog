@@ -16,6 +16,20 @@ export default class UserRepo {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  //метод проверки для гварда
+  async checkUserByUserId(userid: number): Promise<boolean> {
+    //Пытаемся получить данные по имейлу
+    const user = await this.userRepository
+      .findOne({
+        where: { userid: userid },
+        cache: {
+          id: `user_${userid}`,
+          milliseconds: 120_000,
+        },
+      })
+      .catch(() => true);
+    return !!user;
+  }
   findUserByEmail(email: string): Promise<User | null> {
     //Пытаемся получить данные по имейлу
     return this.userRepository
@@ -32,7 +46,7 @@ export default class UserRepo {
     //Если есть пользователь - выбрасываем ошибку
     if (!!user !== should)
       throw new UserExistsError(should ? 'USER_NOT_EXISTS' : 'USER_EXISTS');
-    return true;
+    return user;
   }
 
   async setNewUser(data: ConfirmationEntityDto) {
@@ -47,6 +61,14 @@ export default class UserRepo {
     return await this.userRepository.save(newUser).catch(() => {
       throw new DatabasePGError('POSTGRES_ERROR');
     });
+  }
+  async updateUserPassword(userid: string, password: string) {
+    //Обновляем пользователя
+    const newUser = this.userRepository
+      .update({ userid: +userid }, { hash: password })
+      .catch(() => {
+        throw new DatabasePGError('POSTGRES_ERROR');
+      });
   }
 
   async getUserHash(email: string) {

@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
 
-export const ConfirmationSchema = Joi.object({
+export const RequestValidationSchema = Joi.object({
   confirmationToken: Joi.string()
     .required()
     .regex(/^[a-zA-Z0-9]+$/)

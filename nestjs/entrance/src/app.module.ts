@@ -7,7 +7,7 @@ import { AuthModule } from './Modules/auth/auth.module';
 import { GuardsModule } from '@/Guards/guards.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { RmqModule } from '@/rmq.module';
-import { JwtModule } from "@nestjs/jwt";
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [

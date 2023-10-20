@@ -7,8 +7,9 @@ export class ConfirmationEntityDto {
   emailCode: string;
 }
 export class RestorationEntityDto {
+  userid: string;
   requestType: 'restoration';
-  email: string;
   emailCode: string;
 }
 export type RequestEntity = ConfirmationEntityDto | RestorationEntityDto;
+export type RequestType = RequestEntity['requestType'];

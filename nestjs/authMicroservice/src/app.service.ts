@@ -16,12 +16,21 @@ import { LoginBodyDto, LoginOutputDto } from '@/DTO/auth/login';
 import validatePassword from '@/Utils/password/validatePassword';
 import {
   ConfirmationEntityDto,
+  RequestType,
   RestorationEntityDto,
 } from '@/DTO/redisEntities/redisEntities';
 import {
   RestorationBodyDto,
   RestorationOutputDto,
 } from '@/DTO/auth/restoration';
+import {
+  RequestValidationBodyDto,
+  RequestValidationOutputDto,
+} from '@/DTO/auth/validateRequest';
+import {
+  SetNewPasswordBodyDto,
+  SetNewPasswordOutputDto,
+} from '@/DTO/auth/setNewPassword';
 
 @Injectable()
 export class AppService {
@@ -63,7 +72,7 @@ export class AppService {
     //Возвращаем объект успешного прохождения начала регистрации
     return {
       code: 201,
-      message: 'REG_SUCCESS',
+      message: 'REQ_SUCCESS',
       isSucceed: true,
       payload: {
         confirmationToken: token,
@@ -76,20 +85,21 @@ export class AppService {
   ): Promise<ConfirmationOutputDto> {
     const { emailCode, confirmationToken } = body;
     //Шаг 1: проверяем, есть ли такой токен, правильный ли у нас тип запроса, и правильно ли прислали нам код
-    const redisData = (await this.redisService.regRequestData.checkRequestData(
-      confirmationToken,
-      'confirmation',
-      emailCode,
-    )) as ConfirmationEntityDto;
+    const redisData =
+      await this.redisService.regRequestData.checkRequestData<ConfirmationEntityDto>(
+        confirmationToken,
+        emailCode,
+        'confirmation',
+      );
     //Шаг 2: Всё прошло без ошибок, нужно внести данные в базу данных users, ошибки обработаются если будут проблемы
     const registeredUser = await this.postgresService.userRepo.setNewUser(
       redisData,
     );
     //Шаг 3: удаляем блок и реквест из редиса, не ждем завершения для оптимизации
-    this.redisService.regRequestData.deleteRequestAndBlock(
+    this.redisService.regRequestData.deleteRequest([
       confirmationToken,
       registeredUser.email,
-    );
+    ]);
     //Возвращаем объект успешного завершения и юзернейм
     return {
       code: 201,
@@ -136,7 +146,7 @@ export class AppService {
       token,
       {
         requestType: 'restoration',
-        email,
+        userid: user.userid.toString(),
         emailCode,
       },
     );
@@ -147,6 +157,57 @@ export class AppService {
       payload: {
         confirmationToken: token,
       },
+    };
+  }
+
+  async validateRequestCode(
+    body: RequestValidationBodyDto,
+  ): Promise<RequestValidationOutputDto> {
+    const { confirmationToken, emailCode } = body;
+    //Шаг 1: Проверяем, верный ли реквест отослал пользователь
+    const redisData = await this.redisService.regRequestData.checkRequestData(
+      confirmationToken,
+      emailCode,
+    );
+    //Шаг 2: Если нет ошибок и реквест правильный - возвращаем успех с данными из реквеста
+    return {
+      code: 200,
+      message: 'VALIDATION_SUCCESS',
+      isSucceed: true,
+      payload: {
+        confirmationToken,
+        emailCode,
+      },
+    };
+  }
+  async validateUserid(userid: number): Promise<boolean> {
+    return await this.postgresService.userRepo.checkUserByUserId(userid);
+  }
+
+  async setNewPassword(
+    body: SetNewPasswordBodyDto,
+  ): Promise<SetNewPasswordOutputDto> {
+    const { confirmationToken, emailCode, password } = body;
+    //Шаг 1: проверяем, есть ли такой токен, правильный ли у нас тип запроса, и правильно ли прислали нам код
+    const redisData =
+      await this.redisService.regRequestData.checkRequestData<RestorationEntityDto>(
+        confirmationToken,
+        emailCode,
+        'restoration',
+      );
+    //Шаг 2: пароли совпадают - хэшшируем пароль
+    const hashedPassword = await hashPasswordWithSalt(password);
+    //Шаг 3: обновляем пароль пользоваетеля
+    await this.postgresService.userRepo.updateUserPassword(
+      redisData.userid,
+      hashedPassword,
+    );
+    //Подчищаем реквест
+    this.redisService.regRequestData.deleteRequest([confirmationToken]);
+    return {
+      code: 201,
+      message: 'SETNEWPASSWORD_SUCCESS',
+      isSucceed: true,
     };
   }
 }

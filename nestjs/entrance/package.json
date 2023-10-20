@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "@fastify/cookie": "^9.1.0",
+    "@fastify/csrf": "^6.2.0",
+    "@fastify/csrf-protection": "^6.3.0",
     "@fastify/static": "^6.11.2",
     "@liaoliaots/nestjs-redis": "^9.0.5",
     "@nestjs-modules/mailer": "^1.9.1",
