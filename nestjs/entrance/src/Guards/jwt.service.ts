@@ -24,13 +24,13 @@ export class JwtServiceRoot {
       .catch(() => false);
     //возвращаем false
     if (!verifiedUser) return false;
-    const { userid } = verifiedUser as userdataJWT;
+    const { userid, username } = verifiedUser as userdataJWT;
     //Теперь надо проверить валидность токена из базы данных, ошибки ловятся внутри
     const checkedUser = await this.guardsService.validateUserid(userid);
     //если пользователь не найден, то возвращаем false
     if (!checkedUser) return false;
     //Иначе, подписываем обновленный куки
     const newToken = await this.signUser(verifiedUser as userdataJWT);
-    return { newToken, userid };
+    return { newToken, userid, username };
   }
 }

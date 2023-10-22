@@ -35,11 +35,13 @@ export class JwtGuard implements CanActivate {
     response.setCookie('userdata', newToken.newToken, {
       httpOnly: true,
       path: '/',
+      //1 Месяц
       maxAge: 2.592e6,
     });
 
     //добавляем в тело запроса пользователя
     request['userid'] = newToken.userid;
+    request['username'] = newToken.username;
     return true;
   }
 }

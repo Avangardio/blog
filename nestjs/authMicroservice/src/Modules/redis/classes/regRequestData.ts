@@ -6,13 +6,7 @@ import {
   NotMatchingError,
 } from '@/Errors/redisErrors/redisErrors';
 import { Injectable } from '@nestjs/common';
-import { SetRegistrationDto } from '@/DTO/auth/registration';
-import { RestorationBodyDto } from '@/DTO/auth/restoration';
-import {
-  ConfirmationEntityDto,
-  RequestEntity,
-  RestorationEntityDto,
-} from '@/DTO/redisEntities/redisEntities';
+import { RequestEntity } from '@/DTO/redisEntities/redisEntities';
 
 @Injectable()
 export default class RegRequestData {

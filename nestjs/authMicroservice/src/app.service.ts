@@ -16,7 +16,6 @@ import { LoginBodyDto, LoginOutputDto } from '@/DTO/auth/login';
 import validatePassword from '@/Utils/password/validatePassword';
 import {
   ConfirmationEntityDto,
-  RequestType,
   RestorationEntityDto,
 } from '@/DTO/redisEntities/redisEntities';
 import {
@@ -46,7 +45,7 @@ export class AppService {
 
     //ШАГ 1: Проверка на уже наличие пользователя в постгресе ИЛИ блока на регистрацию в редисе, если есть - внутри функций выбросится ошибка
     await Promise.all([
-      this.postgresService.userRepo.checkUserByEmail(email, false),
+      this.postgresService.userService.checkUserByEmail(email, false),
       this.redisService.regBlock.checkIfNotBlockExists(email),
     ]);
 
@@ -92,7 +91,7 @@ export class AppService {
         'confirmation',
       );
     //Шаг 2: Всё прошло без ошибок, нужно внести данные в базу данных users, ошибки обработаются если будут проблемы
-    const registeredUser = await this.postgresService.userRepo.setNewUser(
+    const registeredUser = await this.postgresService.userService.setNewUser(
       redisData,
     );
     //Шаг 3: удаляем блок и реквест из редиса, не ждем завершения для оптимизации
@@ -110,10 +109,11 @@ export class AppService {
       },
     };
   }
+
   async login(body: LoginBodyDto): Promise<LoginOutputDto> {
     const { email, password } = body;
     //Шаг 1: пытаемся получить пользователя по имейлу
-    const user = await this.postgresService.userRepo.getUserHash(email);
+    const user = await this.postgresService.userService.getUserHash(email);
 
     //Шаг 2: Проверяем пароль с хешем и выкидываем ошибку, либо true
     await validatePassword(password, user.hash);
@@ -135,7 +135,7 @@ export class AppService {
   ): Promise<RestorationOutputDto> {
     const { email } = body;
     //Шаг 1: пытаемся получить пользователя по имейлу, нет - ошибку выбрасываем
-    const user = await this.postgresService.userRepo.checkUserByEmail(
+    const user = await this.postgresService.userService.checkUserByEmail(
       email,
       true,
     );
@@ -180,8 +180,9 @@ export class AppService {
       },
     };
   }
+
   async validateUserid(userid: number): Promise<boolean> {
-    return await this.postgresService.userRepo.checkUserByUserId(userid);
+    return await this.postgresService.userService.checkUserById(userid);
   }
 
   async setNewPassword(
@@ -198,7 +199,7 @@ export class AppService {
     //Шаг 2: пароли совпадают - хэшшируем пароль
     const hashedPassword = await hashPasswordWithSalt(password);
     //Шаг 3: обновляем пароль пользоваетеля
-    await this.postgresService.userRepo.updateUserPassword(
+    await this.postgresService.userService.updateUserPassword(
       redisData.userid,
       hashedPassword,
     );

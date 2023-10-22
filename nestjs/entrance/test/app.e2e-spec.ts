@@ -10,12 +10,14 @@ import Redis from 'ioredis';
 import { Pool } from 'pg';
 import 'dotenv/config';
 import fastifyCookie from '@fastify/cookie';
+import generateWrongField from './generateWrongData';
 
 describe('[Entrance] Auth - (e2e)', () => {
   let app: INestApplication;
   let redis: Redis;
   let pool;
   const env = process.env;
+  let cookies;
 
   beforeAll(async () => {
     //подключаемся к редису
@@ -64,6 +66,14 @@ describe('[Entrance] Auth - (e2e)', () => {
     await pool.end();
     await app.close();
   }, 10000);
+  const wrongData = {
+    emails: [generateWrongField('email', 5)],
+    passwords: [generateWrongField('password', 5)],
+    name: [generateWrongField('name', 5)],
+    language: [generateWrongField('language', 5)],
+    confirmationToken: [generateWrongField('confirmationToken', 5)],
+    emailCode: [generateWrongField('emailCode', 5)],
+  };
 
   it('[NEST] - Регистрация пользователя', async () => {
     //Этап 1: Начальная регистрация
@@ -73,6 +83,7 @@ describe('[Entrance] Auth - (e2e)', () => {
       name: 'Test User',
       language: 'RU',
     };
+
     const registrationResponse = await request(app.getHttpServer())
       .post('/auth/registration')
       .send(registrationPayload)
@@ -158,10 +169,99 @@ describe('[Entrance] Auth - (e2e)', () => {
       email: 'test@test.com',
       password: 'MyNewPass42',
     };
-    //Кейс 1: данные пользователя некорректные
     const loginNewResponse = await request(app.getHttpServer())
       .post('/auth/login')
       .send(loginPayloadNew)
       .expect(200);
+    cookies = loginNewResponse.headers['set-cookie'];
+  });
+  it('[NEST] - Аутентификация', async () => {
+    const authenticateResponse = await request(app.getHttpServer())
+      .get('/auth/authenticate')
+      .set('Cookie', cookies)
+      .expect(200);
+    expect(authenticateResponse.body.username).toBe('Test User');
+  });
+  it('[NEST] - Штурм эндпоинтов неправильными значениями - Регистрация', async () => {
+    for (let i = 0; i < 5; i++) {
+      const [email, password, name, language, confirmationToken, emailCode] = [
+        wrongData.emails[i],
+        wrongData.passwords[i],
+        wrongData.name[i],
+        wrongData.language[i],
+        wrongData.confirmationToken[i],
+        wrongData.emailCode[i],
+      ];
+      const registrationPayload = {
+        email,
+        password,
+        name,
+        language,
+      };
+      const registrationResponse = await request(app.getHttpServer())
+        .post('/auth/registration')
+        .send(registrationPayload)
+        .expect(406);
+      const confirmationPayload = {
+        confirmationToken,
+        emailCode,
+      };
+      const confirmationResponse = await request(app.getHttpServer())
+        .post('/auth/confirmation')
+        .send(confirmationPayload)
+        .expect(406);
+    }
+  });
+  it('[NEST] - Штурм эндпоинтов неправильными значениями - Логин', async () => {
+    for (let i = 0; i < 5; i++) {
+      const [email, password, name, language, confirmationToken, emailCode] = [
+        wrongData.emails[i],
+        wrongData.passwords[i],
+        wrongData.name[i],
+        wrongData.language[i],
+        wrongData.confirmationToken[i],
+        wrongData.emailCode[i],
+      ];
+      const loginPayload = {
+        email,
+        password,
+      };
+      const loginWrongResponse = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send(loginPayload)
+        .expect(406);
+    }
+  });
+  it('[NEST] - Штурм эндпоинтов неправильными значениями - Восстановление пароля + новый пароль', async () => {
+    for (let i = 0; i < 5; i++) {
+      const [email, password, name, language, confirmationToken, emailCode] = [
+        wrongData.emails[i],
+        wrongData.passwords[i],
+        wrongData.name[i],
+        wrongData.language[i],
+        wrongData.confirmationToken[i],
+        wrongData.emailCode[i],
+      ];
+      const restorationPayload = {
+        email,
+      };
+      //отправляем запрос на получение кода
+      const restorationResponse = await request(app.getHttpServer())
+        .post('/auth/restoration')
+        .send(restorationPayload)
+        .expect(406);
+      //отправляем запрос с новым паролем и остальными данными
+      const setNewPasswordPayload = {
+        confirmationToken,
+        emailCode,
+        password,
+        re_password: password + '123',
+      };
+      //отправляем запрос на получение кода
+      const setNewPasswordResponse = await request(app.getHttpServer())
+        .post('/auth/setNewPassword')
+        .send(setNewPasswordPayload)
+        .expect(406);
+    }
   });
 });

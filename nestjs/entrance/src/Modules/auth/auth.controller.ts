@@ -49,11 +49,18 @@ export class AuthController {
     private readonly jwtServiceRoot: JwtServiceRoot,
   ) {}
 
-  @Get('z')
-  @UseGuards(CookieAuthGuard)
-  async z1(@Res({ passthrough: true }) response: FastifyReply) {
-    response.generateCsrf();
-    return 'zx';
+  @Get('authenticate')
+  @UseGuards(JwtGuard)
+  authentication(
+    @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ) {
+    const [username, userid] = [
+      request['username'] as string,
+      request['userid'] as number,
+    ];
+    response.status(200);
+    return { userid, username };
   }
   /**
    * @name registration
@@ -154,12 +161,6 @@ export class AuthController {
     //возвращаем ответ
     response.status(200);
     return 'OK';
-  }
-
-  @Get('z1')
-  @UseGuards(JwtGuard)
-  z2(@Req() request: FastifyRequest) {
-    return process.pid;
   }
   /**
    * @name restoration

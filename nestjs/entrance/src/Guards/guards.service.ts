@@ -45,7 +45,7 @@ export default class GuardsService {
     return lastValueFrom(
       this.rmqService
         .send<boolean>('validateUserid', userid)
-        .pipe(take(1), timeout(15 * 1000)),
+        .pipe(take(1), timeout(5 * 1000)),
     ).catch(() => {
       //если поймали ошибку, у сервера все плохо и нужно применять деградацию
       //Может сломаться сервис аутентификации, но другие - работать
