@@ -1,0 +1,2 @@
+insert into public.posts (postid, title, description, authorid, texts, tags, ctime, views, likes, comments)
+values  (1, 'Ученые /n что-то сделали :Z', 'А подробнее - внутри :P', 1, 'Ну короче они сделали заявление, что ничего не заявляют обынчо и это все вранье :0', '{'IRL','Science'}', '2023-10-24 12:40:47.534740 +00:00', 0, 0, 0);

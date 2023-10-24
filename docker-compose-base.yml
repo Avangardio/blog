@@ -59,8 +59,10 @@ services:
       - app-network
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./pginit/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./pginit/tables/users.sql:/docker-entrypoint-initdb.d/users.sql
+      - ./pginit/init.sql:/docker-entrypoint-initdb.d/01_init.sql
+      - ./pginit/tables/users.sql:/docker-entrypoint-initdb.d/02_users.sql
+      - ./pginit/tables/posts.sql:/docker-entrypoint-initdb.d/03_posts.sql
+
 
   redis:
    # env_file: ${ENV_FILE:-.env.example}
