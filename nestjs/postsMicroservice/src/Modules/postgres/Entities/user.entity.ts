@@ -7,8 +7,8 @@ import { Post_comment } from '@/Modules/postgres/Entities/post_comment.entity';
 
 @Entity('users')
 export class User {
-  @PrimaryGeneratedColumn()
-  userid: number;
+  @PrimaryGeneratedColumn({ name: 'userid' })
+  userId: number;
 
   @Column({ unique: true })
   email: string;

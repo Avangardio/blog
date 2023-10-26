@@ -5,9 +5,10 @@ import PostgresService from '@/Modules/postgres/postgres.service';
 import { User } from '@/Modules/postgres/Entities/user.entity';
 import { Post } from '@/Modules/postgres/Entities/post.entity';
 import UserRepo from '@/Modules/postgres/repositories/userRepo';
-import UserService from '@/Modules/postgres/user.service';
-import {Post_like} from "@/Modules/postgres/Entities/post_like.entity";
-import {Post_comment} from "@/Modules/postgres/Entities/post_comment.entity";
+import { Post_like } from '@/Modules/postgres/Entities/post_like.entity';
+import { Post_comment } from '@/Modules/postgres/Entities/post_comment.entity';
+import PostService from "@/Modules/postgres/post.service";
+import PostRepo from "@/Modules/postgres/repositories/postRepo";
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import {Post_comment} from "@/Modules/postgres/Entities/post_comment.entity";
     }),
     TypeOrmModule.forFeature([User, Post, Post_like, Post_comment]),
   ],
-  providers: [PostgresService, UserService, UserRepo],
+  providers: [PostgresService, PostService, UserRepo, PostRepo],
   exports: [PostgresService],
 })
 export class PostgresModule {}

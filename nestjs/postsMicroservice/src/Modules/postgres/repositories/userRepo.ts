@@ -12,64 +12,16 @@ export default class UserRepo {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  findUserByUserId(userid: number) {
-    //Пытаемся получить данные по имейлу
-    return (
-      this.userRepository
-        .findOne({
-          where: { userid: userid },
-          cache: {
-            id: `user_${userid}`,
-            milliseconds: 120_000,
-          },
-        })
-        //для случая деградации возвращаем true
-        .catch(() => true)
-    );
-  }
-
-  findUserByEmail(email: string): Promise<User | null> {
+  findUserByUserId(userId: number, selectFields?: (keyof User)[]) {
     //Пытаемся получить данные по имейлу
     return this.userRepository
       .findOne({
-        where: { email: email },
+        where: { userId: userId },
+        ...(selectFields &&
+          selectFields.length > 0 && { select: selectFields }),
       })
-      .catch(() => {
-        throw new DatabasePGError('POSTGRES_ERROR');
-      });
-  }
-
-  async setNewUser(data: ConfirmationEntityDto) {
-    //Создаем данные для вставки в базу
-    const newUser = this.userRepository.create({
-      email: data.email,
-      username: data.name,
-      hash: data.password,
-      language: data.language,
-    });
-    //Пытаемся создать пользователя
-    return await this.userRepository.save(newUser).catch(() => {
-      throw new DatabasePGError('POSTGRES_ERROR');
-    });
-  }
-
-  async updateUserPassword(userid: string, password: string) {
-    //Обновляем пользователя
-    this.userRepository
-      .update({ userid: +userid }, { hash: password })
-      .catch(() => {
-        throw new DatabasePGError('POSTGRES_ERROR');
-      });
-  }
-
-  getUserPassword(email: string) {
-    return this.userRepository
-      .findOne({
-        where: { email },
-        select: ['hash', 'userid', 'username'],
-      })
-      .catch(() => {
-        throw new DatabasePGError('POSTGRES_ERROR');
+      .catch((error) => {
+        throw new DatabasePGError('NO_USER');
       });
   }
 }

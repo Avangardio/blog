@@ -1,7 +1,7 @@
 
 -- Создание таблицы "users"
 CREATE TABLE users (
-    userid SERIAL PRIMARY KEY,
+    userId SERIAL PRIMARY KEY,
     email TEXT UNIQUE NOT NULL,
     username TEXT NOT NULL,
     hash TEXT NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE posts (
     postId SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
-    authorId INT NOT NULL REFERENCES users(userid),
+    authorId INT NOT NULL REFERENCES users(userId),
     texts TEXT NOT NULL,
     tags TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[],
     cTime TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
@@ -24,29 +24,29 @@ CREATE TABLE posts (
 );
 ---лайки постов---
 CREATE TABLE post_likes (
-                            like_id SERIAL PRIMARY KEY,
-                            post_id INT REFERENCES posts(postid),
-                            user_id INT REFERENCES users(userid),
+                            likeId SERIAL PRIMARY KEY,
+                            postId INT REFERENCES posts(postId),
+                            userId INT REFERENCES users(userId),
                             liked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE INDEX idx_post_likes_post_id ON post_likes(post_id);
-CREATE UNIQUE INDEX idx_post_likes_post_id_user_id ON post_likes(post_id, user_id);
+CREATE INDEX idx_post_likes_post_id ON post_likes(postId);
+CREATE UNIQUE INDEX idx_post_likes_post_id_user_id ON post_likes(postId, userId);
 
 
 ---комментарии постов---
 CREATE TABLE post_comments (
-                            like_id SERIAL PRIMARY KEY,
-                            post_id INT REFERENCES posts(postid),
-                            user_id INT REFERENCES users(userid),
+                            commentId SERIAL PRIMARY KEY,
+                            postId INT REFERENCES posts(postId),
+                            userId INT REFERENCES users(userId),
                             commented_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE INDEX idx_post_comments_post_id ON post_comments(post_id);
-CREATE INDEX idx_post_comments_user_id ON post_comments(user_id);
-CREATE UNIQUE INDEX idx_post_comments_post_id_user_id ON post_comments(post_id, user_id);
+CREATE INDEX idx_post_comments_post_id ON post_comments(postId);
+CREATE INDEX idx_post_comments_user_id ON post_comments(userId);
+CREATE UNIQUE INDEX idx_post_comments_post_id_user_id ON post_comments(postId, userId);
 ---триггер на + счетчик лайков---
 CREATE OR REPLACE FUNCTION increment_likes() RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE posts SET likes = likes + 1 WHERE post_id = NEW.post_id;
+    UPDATE posts SET likes = likes + 1 WHERE postId = NEW.postId;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -58,7 +58,7 @@ EXECUTE FUNCTION increment_likes();
 ---триггер на - счетчик лайков---
 CREATE OR REPLACE FUNCTION decrement_likes() RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE posts SET likes = likes - 1 WHERE post_id = OLD.post_id;
+    UPDATE posts SET likes = likes - 1 WHERE postId = OLD.postId;
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
@@ -70,7 +70,7 @@ EXECUTE FUNCTION decrement_likes();
 ---триггер на + счетчик комментариев---
 CREATE OR REPLACE FUNCTION increment_comments() RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE posts SET comments = posts.comments + 1 WHERE post_id = NEW.post_id;
+    UPDATE posts SET comments = posts.comments + 1 WHERE postId = NEW.postId;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -82,7 +82,7 @@ EXECUTE FUNCTION increment_comments();
 ---триггер на - счетчик комментариев---
 CREATE OR REPLACE FUNCTION decrement_comments() RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE posts SET comments = posts.comments - 1 WHERE post_id = OLD.post_id;
+    UPDATE posts SET comments = posts.comments - 1 WHERE postId = OLD.postId;
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;

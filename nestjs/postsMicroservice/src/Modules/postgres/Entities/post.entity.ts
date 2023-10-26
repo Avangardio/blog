@@ -3,6 +3,7 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -14,7 +15,7 @@ import { Post_comment } from '@/Modules/postgres/Entities/post_comment.entity';
 
 @Entity('posts')
 export class Post {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'postid' })
   postId: number;
 
   @Column()
@@ -24,6 +25,7 @@ export class Post {
   description: string;
 
   @ManyToOne(() => User, (user) => user.posts)
+  @JoinColumn({ name: 'authorid' })
   author: User;
 
   @Column()
@@ -33,7 +35,7 @@ export class Post {
   tags: string[];
 
   @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  cTime: Date;
+  ctime: Date;
 
   @Column({ default: 0 })
   views: number;

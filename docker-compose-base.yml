@@ -4,8 +4,8 @@ services:
   nextjs:
    # env_file: ${ENV_FILE:-.env.example}
     build:
-      context: ./blog-b/
-      dockerfile: ./blog-b/Dockerfile
+      context: ./blog-f
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     networks:
@@ -34,6 +34,28 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_DB: dbname
       RMQ_HOST: rabbitmq
+
+  auth_microservice:
+    #  env_file: ${ENV_FILE:-.env.example}
+    build:
+      context: ./nestjs/authMicroservice
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+      - postgres
+      - redis
+    networks:
+      - app-network
+    environment:
+      REDIS_PORT: 6379
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: dbname
+      RMQ_HOST: rabbitmq
+
 
   rabbitmq:
     image: "rabbitmq:management"
