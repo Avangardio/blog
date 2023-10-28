@@ -5,8 +5,7 @@ interface TopicEntityProps {
 }
 export default function TopicEntity({topicProp}: TopicEntityProps){
     const {authorTag, addNewPost} = useLocalization('topics/interface');
-    const {postId, topic, author} = topicProp;
-
+    const {postId, authorId, picture, tags, title, description} = topicProp;
     return (
         <div key={postId}
              className={`
@@ -14,7 +13,7 @@ export default function TopicEntity({topicProp}: TopicEntityProps){
                                 hover:outline hover:outline-1 hover:outline-cyan-600
                                 `}
         >
-            <img src={topic.imageURL}
+            <img src={picture}
                  alt={'/defaultTopic.png'}
                  className={'justify-center'}
             />
@@ -23,16 +22,17 @@ export default function TopicEntity({topicProp}: TopicEntityProps){
                href={'/article/' + postId}
                onClick={(event) => event.preventDefault()}
             >
-                {topic.title.split('\n').map((item, i) => <p key={i}>{item}</p>)}
+                {title.split('\\n').map((item, i) => <p key={i}>{item.trim()}</p>)}
             </a>
 
+            {/*
             <div className={'border-b-cyan-500 border-b-2 mb-2'}>
                 <span>{authorTag + ": "}</span>
                 <AuthorLink className={'text-cyan-600 z-50 cursor-pointer'} author={author}/>
             </div>
-
-            <div>{topic.description.split('\n').map((item, i) => <p key={i}>{item}</p>)}</div>
-            <p className={'text-cyan-600'}>{topic.tags.join(` `)}</p>
+            */}
+            <div>{description.split('\\n').map((item, i) => <p key={i}>{item}</p>)}</div>
+            <p className={'text-cyan-600'}>{tags.join(` `)}</p>
         </div>
     )
 }

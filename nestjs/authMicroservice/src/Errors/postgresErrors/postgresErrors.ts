@@ -1,19 +1,19 @@
 import { ExtendedError } from "@/Errors/errors";
 
 export class DatabasePGError extends ExtendedError {
-  constructor(message: string) {
-    super("DatabasePGError", message, 500);
+  constructor(message: string,  originMessage?: any) {
+    super("DatabasePGError", message, 500, originMessage);
   }
 }
 
 export class UserExistsError extends ExtendedError {
-  constructor(message: string) {
-    super("UserExistsError", message, 400);
+  constructor(message: string,  originMessage?: any) {
+    super("UserExistsError", message, 400, originMessage);
   }
 }
 
 export class NoUserError extends ExtendedError {
-  constructor(message: string) {
-    super("NoUserError", message, 400);
+  constructor(message: string,  originMessage?: any) {
+    super("NoUserError", message, 400, originMessage);
   }
 }

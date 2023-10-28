@@ -7,6 +7,7 @@ import TopicSurfer from "@/Components/MainPage/topic/topicSurfer/topicSurfer";
 import PopularPosts from "@/Components/MainPage/post/popularPosts";
 import getPopularPosts from "@/Components/MainPage/utils/getPopularPosts";
 import CreatePost from "@/Components/MainPage/post/createPost";
+import axios from "axios";
 export const metadata: Metadata = {
     title: '...',
     description: '...',
@@ -24,26 +25,25 @@ interface HomePageProps {
 
 
 export default async function Home({params, searchParams}: HomePageProps ) {
+    const currentPage = sanitizePageQuery(params?.slug?.[0]);
+
     const [getPostsReply, popularPosts] =
         await Promise.all([
-            getPosts({params: {slug: "page1"}, searchParams}).catch(_ => undefined),
+            getPosts(currentPage, searchParams).catch(_ => undefined),
             getPopularPosts().catch(_ => undefined)
         ]);
 
     if(!getPostsReply) {
         return (<div>404 lmao</div>)
     }
-
-    const currentPage = sanitizePageQuery("page1", getPostsReply.totalPosts);
-    console.log(currentPage)
-
+//<TopicSurfer currentPage={currentPage} totalPosts={getPostsReply.totalPosts} postsPerPage={5} />
     return (
         <div className="flex justify-center align-middle items-center w-full relative mt-4 md:px-4">
             <main className={'relative'}>
                 <CreatePost />
-                <TopicList topics={getPostsReply.topics} page={currentPage}/>
+                <TopicList posts={getPostsReply.payload.posts} page={currentPage}/>
                 <PopularPosts popularPosts={popularPosts} />
-                <TopicSurfer currentPage={currentPage} totalPosts={getPostsReply.totalPosts} postsPerPage={5} />
+
             </main>
         </div>
     )

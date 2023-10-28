@@ -1,7 +1,8 @@
 import axios from "axios";
+import {postsURL} from "@/Fetching/URLs/postsURLs";
 
 interface HomePageProps {
-    params: {slug: string | undefined}
+    currentPage: number;
     searchParams?: {
         ["search"]: string | string[] | undefined
         ["author"]: string | string[] | undefined
@@ -9,21 +10,14 @@ interface HomePageProps {
     }
 }
 
-export default async function getPosts({params, searchParams}: HomePageProps): Promise<FetchTopicResult>{
-    if(!params.slug || (params.slug && isNaN(parseInt(params.slug.replace(/[^\d.-]+/g, ''))))) throw new Error('Invalid query');
-
-    const res = await axios.get<FetchTopicResult>("http://localhost:3000/getTopics" + `/${params.slug}`, {
+export default async function getPosts(currentPage: number, searchParams: HomePageProps["searchParams"]): Promise<FetchTopicResult>{
+    const returnedPosts = await axios.get<FetchTopicResult>(postsURL + 'findPosts/' + currentPage, {
         withCredentials: true,
         params: searchParams
     })
-        .then(
-            result => {
 
-            },
-            error => {
-
-            }
-        )
+    return returnedPosts.data;
+    /*
     return {
         totalPosts: 53,
         topics: [
@@ -72,5 +66,7 @@ export default async function getPosts({params, searchParams}: HomePageProps): P
             }
         ]
     }
+
+     */
 
 }

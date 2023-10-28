@@ -7,17 +7,16 @@ import AuthorLink from "@/Components/MainPage/authorModule/authorLink";
 import TopicEntity from "@/Components/MainPage/topic/topicEntity";
 
 interface TopicListProps {
-    topics: PostForTopic[]
+    posts: PostForTopic[]
     page: number
     pageSize?:number
 }
-export default function TopicList({topics, page, pageSize = 5}: TopicListProps){
+export default function TopicList({posts, page, pageSize = 5}: TopicListProps){
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-
     const pageTopics =
         useMemo(() =>
-            topics
+            posts
                 .slice(startIndex, endIndex)
                 .map(topicItem => {
                     return <TopicEntity key={topicItem.postId} topicProp={topicItem} />

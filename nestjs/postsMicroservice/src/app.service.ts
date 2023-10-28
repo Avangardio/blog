@@ -2,12 +2,19 @@ import { Injectable } from '@nestjs/common';
 import RedisService from '@/Modules/redis/redis.service';
 import PostgresService from '@/Modules/postgres/postgres.service';
 import { CreatePostBodyDto, CreatePostOutputDto } from '@/DTO/posts/createPost';
+import {
+  GetExactPostOutputDto,
+  GetExactPostQueryDto,
+} from '@/DTO/posts/getExactPost';
+import {
+  DeleteExactPostBodyDto,
+  DeleteExactPostOutputDto,
+} from '@/DTO/posts/deletePost';
+import { CreateLikeBodyDto, CreateLikeOutputDto } from '@/DTO/posts/createLike';
+import { GetPostsBodyDto, GetPostsOutputDto } from '@/DTO/posts/getPosts';
 @Injectable()
 export class AppService {
-  constructor(
-    private readonly redisService: RedisService,
-    public readonly postgresService: PostgresService,
-  ) {}
+  constructor(public readonly postgresService: PostgresService) {}
 
   async createNewPost(body: CreatePostBodyDto): Promise<CreatePostOutputDto> {
     const { userId, newPostData } = body;
@@ -24,6 +31,53 @@ export class AppService {
       payload: {
         postId: newPostId,
       },
+    };
+  }
+  async getExactPost(
+    body: GetExactPostQueryDto,
+  ): Promise<GetExactPostOutputDto> {
+    const { postId } = body;
+    const post = await this.postgresService.postService.getExactPost(postId);
+    return {
+      code: 200,
+      isSucceed: true,
+      message: 'POST_FOUND_SUCCEED',
+      payload: post,
+    };
+  }
+  async deletePost(
+    body: DeleteExactPostBodyDto,
+  ): Promise<DeleteExactPostOutputDto> {
+    const { postId } = body;
+    await this.postgresService.postService.deletePost(postId);
+    return {
+      code: 200,
+      isSucceed: true,
+      message: 'POST_DELETE_SUCCEED',
+    };
+  }
+  async createLike(body: CreateLikeBodyDto): Promise<CreateLikeOutputDto> {
+    const { userId, postId } = body;
+    await this.postgresService.mediaService.createNewLike(userId, postId);
+    return {
+      code: 201,
+      isSucceed: true,
+      message: 'LIKE_CREATED_SUCCEED',
+    };
+  }
+  async findPosts(body: GetPostsBodyDto): Promise<GetPostsOutputDto> {
+    console.log()
+    const { page, criteria } = body;
+    //Шаг 1: Ищем посты и есть ли еще
+    const postsOutput = await this.postgresService.postService.findPosts(
+      page,
+      criteria,
+    );
+    return {
+      code: 200,
+      isSucceed: true,
+      message: 'FIND_SUCCEED',
+      payload: postsOutput,
     };
   }
 }

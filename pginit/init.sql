@@ -13,8 +13,9 @@ CREATE TABLE users (
 CREATE TABLE posts (
     postId SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
+    picture TEXT NOT NULL,
     description TEXT NOT NULL,
-    authorId INT NOT NULL REFERENCES users(userId),
+    authorId INT NOT NULL REFERENCES users(userId) ON DELETE SET NULL ,
     texts TEXT NOT NULL,
     tags TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[],
     cTime TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
@@ -25,8 +26,8 @@ CREATE TABLE posts (
 ---лайки постов---
 CREATE TABLE post_likes (
                             likeId SERIAL PRIMARY KEY,
-                            postId INT REFERENCES posts(postId),
-                            userId INT REFERENCES users(userId),
+                            postId INT REFERENCES posts(postId) ON DELETE CASCADE ,
+                            userId INT REFERENCES users(userId) ON DELETE CASCADE,
                             liked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX idx_post_likes_post_id ON post_likes(postId);
@@ -36,8 +37,8 @@ CREATE UNIQUE INDEX idx_post_likes_post_id_user_id ON post_likes(postId, userId)
 ---комментарии постов---
 CREATE TABLE post_comments (
                             commentId SERIAL PRIMARY KEY,
-                            postId INT REFERENCES posts(postId),
-                            userId INT REFERENCES users(userId),
+                            postId INT REFERENCES posts(postId) ON DELETE CASCADE,
+                            userId INT REFERENCES users(userId) ON DELETE CASCADE,
                             commented_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX idx_post_comments_post_id ON post_comments(postId);

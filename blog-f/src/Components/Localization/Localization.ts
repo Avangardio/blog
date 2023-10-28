@@ -1,3 +1,4 @@
+'use client'
 import { useState, useEffect } from 'react';
 import { autorun } from 'mobx';
 import store from "@/MobX/RootStore";

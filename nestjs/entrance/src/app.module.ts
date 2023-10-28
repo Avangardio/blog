@@ -8,9 +8,11 @@ import { GuardsModule } from '@/Guards/guards.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { RmqModule } from '@/rmq.module';
 import { JwtModule } from '@nestjs/jwt';
+import { PostsModule } from '@/Modules/posts/posts.module';
 
 @Module({
   imports: [
+    PostsModule,
     RmqModule,
     GuardsModule,
     AuthModule,

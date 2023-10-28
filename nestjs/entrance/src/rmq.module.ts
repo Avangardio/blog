@@ -11,12 +11,31 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         imports: [ConfigModule], // импорт ConfigModule
         useFactory: (configService: ConfigService) => {
           const { rmqHost, rmqPort, rmqAuth } = configService.get('RMQ');
-          console.log(`amqp://${rmqAuth}${rmqHost}:${rmqPort}`)
+          console.log(`amqp://${rmqAuth}${rmqHost}:${rmqPort}`);
           return {
             transport: Transport.RMQ,
             options: {
               urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}/`],
               queue: 'auth_Queue',
+              queueOptions: {
+                durable: false,
+              },
+            },
+          };
+        },
+        inject: [ConfigService],
+      },
+      {
+        name: 'POSTS_SERVICE',
+        imports: [ConfigModule], // импорт ConfigModule
+        useFactory: (configService: ConfigService) => {
+          const { rmqHost, rmqPort, rmqAuth } = configService.get('RMQ');
+          console.log(`amqp://${rmqAuth}${rmqHost}:${rmqPort}`);
+          return {
+            transport: Transport.RMQ,
+            options: {
+              urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}/`],
+              queue: 'posts_Queue',
               queueOptions: {
                 durable: false,
               },

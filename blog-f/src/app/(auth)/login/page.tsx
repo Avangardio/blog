@@ -4,7 +4,6 @@ import {Formik, Field, Form, ErrorMessage, useFormik} from "formik";
 import * as Yup from "yup";
 import React, {useMemo, useState} from "react";
 import Image from "next/image";
-import {loginURL, registrationURL} from "@/Fetching/URLs/authURLs";
 import {useRouter} from "next/navigation";
 import axios from "axios";
 import {observer} from "mobx-react";
@@ -12,10 +11,10 @@ import useLocalization from "@/Components/Localization/Localization";
 import FormHelper from "@/Components/forms/FormUtils/FormHelper";
 import ReplyError from "@/Components/forms/FormUtils/ReplyError";
 import FieldRedirect from "@/Components/forms/FormUtils/FieldRedirect";
+import {authURL} from "@/Fetching/URLs/authURLs";
 
 
 export default function LoginPage() {
-    const router = useRouter();
     const {
         inputPlaceholder,
         inputHeader,
@@ -54,12 +53,16 @@ export default function LoginPage() {
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={(values, actions) => {
-                    /* axios.post(registrationURL).then(
-                        result => result.data
-                    )
-                    */
-                    console.log(values);
-                    setReplyError(serverErrors.BAD_INPUT)
+                    axios.post<{ payload: { confirmationToken: string } }>(authURL + 'login', {
+                        email: values.email,
+                        password: values.password
+                    }, {
+                            withCredentials: true
+                        })
+                        .then(
+                            result => {},
+                            error => {}
+                        )
                 }}
             >
                 {({ errors, touched }) =>

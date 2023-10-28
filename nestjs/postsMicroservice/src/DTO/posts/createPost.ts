@@ -7,6 +7,7 @@ export class CreatePostBodyDto {
     description: string;
     texts: string;
     tags: string[];
+    picture: string;
   };
 }
 

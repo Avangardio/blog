@@ -6,6 +6,8 @@ import React, {useRef, useState} from "react";
 import {Field, Form, Formik, FormikHelpers} from "formik";
 import FormHelper from "@/Components/forms/FormUtils/FormHelper";
 import {formKits} from "@/Components/forms/FormUtils/FormWindow";
+import axios from "axios";
+import {authURL} from "@/Fetching/URLs/authURLs";
 
 type FormValues = {
     input1: string;
@@ -15,9 +17,14 @@ type FormValues = {
     input5: string;
     input6: string;
 };
-
-export default function MyForm() {
+interface ConfirmationPageProps {
+    searchParams?: {
+        ["request"]: string | string[] | undefined
+    }
+}
+export default function MyForm({searchParams}: ConfirmationPageProps) {
     const localization = useLocalization('auth/inputs')
+    const { push } = useRouter();
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const inputRefs = Array(6).fill(null).map(() => useRef<HTMLInputElement>(null));
@@ -63,7 +70,14 @@ export default function MyForm() {
                 input6: '',
             }}
             onSubmit={(values: FormValues, helpers: FormikHelpers<FormValues>) => {
-                console.log(values);
+                axios.post(authURL + 'confirmation', {
+                    confirmationToken: searchParams?.request,
+                    emailCode: Object.values(values).join('')
+                })
+                    .then(
+                        result => push('/login'),
+                        error => {}
+                    )
             }}
         >
             {formikProps => (
@@ -81,7 +95,7 @@ export default function MyForm() {
                                 key={index}
                                 name={`input${index + 1}`}
                                 type="text"
-                                pattern={'\d*'}
+                                pattern={'\\d'}
                                 innerRef={inputRefs[index]}
                                 maxLength={1}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

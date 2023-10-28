@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@/Modules/postgres/Entities/user.entity';
-import { getRepository, Repository } from 'typeorm';
+import { Any, ArrayContains, In, Like, Repository } from "typeorm";
 import { Post } from '@/Modules/postgres/Entities/post.entity';
 import { DatabasePGError } from '@/Errors/postgresErrors/postgresErrors';
 import { CreatePostBodyDto } from '@/DTO/posts/createPost';
+import { GetPostsBodyDto } from '@/DTO/posts/getPosts';
 
 @Injectable()
 export default class PostRepo {
@@ -14,8 +15,9 @@ export default class PostRepo {
   ) {}
 
   async createPost(user: User, postData: CreatePostBodyDto['newPostData']) {
-    const { title, tags, texts, description } = postData;
+    const { title, tags, texts, description, picture } = postData;
     const post = new Post();
+    post.picture = picture;
     post.title = title;
     post.description = description;
     post.texts = texts;
@@ -23,12 +25,75 @@ export default class PostRepo {
     post.author = user; // Устанавливаем связь с пользователем
 
     // Сохраните пост в базе данных
-    const savedPost = (await this.postRepository.save(post).catch((error) => {
-      throw new DatabasePGError('POST_ERROR');
-    })) as Post;
+    const savedPost = await this.postRepository.save(post).catch((error) => {
+      console.log(error.message)
+      throw new DatabasePGError('POST_CREATE_ERROR', error.message);
+    });
     return savedPost.postId;
   }
-  async findExactPost(postid: number) {
-    const z = this.postRepository.findOne()
+
+  async getPosts(
+    page = 1,
+    criteria: GetPostsBodyDto['criteria'] = {},
+    take = 6,
+  ): Promise<Post[]> {
+    const skip = (page - 1) * (take - 1); // Пропустить предыдущие страницы
+    // Базовые условия для поиска
+    const whereConditions = {};
+
+    // Если передано название для поиска
+    if (criteria.title) {
+      whereConditions['title'] = Like(`%${criteria.title}%`);
+    }
+
+    // Если переданы теги для поиска
+    if (criteria.tags && criteria.tags.length) {
+      whereConditions['tags'] = ArrayContains(criteria.tags);
+    }
+
+    // Если передан ID автора
+    if (criteria.authorId) {
+      whereConditions['authorId'] = criteria.authorId;
+    }
+
+    return await this.postRepository
+      .find({
+        where: whereConditions,
+        take: take,
+        skip: skip,
+        order: { postId: 'DESC' },
+      })
+      .catch((error) => {
+        throw new DatabasePGError('POST_SEARCH_ERROR', error.message);
+      });
+  }
+
+  findPostByPostId(postId: number, selectFields?: (keyof Post)[]) {
+    //Пытаемся получить данные по имейлу
+    return this.postRepository
+      .findOne({
+        where: { postId: postId },
+        ...(selectFields &&
+          selectFields.length > 0 && { select: selectFields }),
+      })
+      .catch((error) => {
+        throw new DatabasePGError('NO_POST', error.message);
+      });
+  }
+
+  findExactPost(postId: number) {
+    return this.postRepository
+      .findOne({
+        where: { postId: postId },
+      })
+      .catch((error) => {
+        throw new DatabasePGError('POST_SEARCH_ERROR', error.message);
+      });
+  }
+  deletePost(postId: number) {
+    //!!!В БАЗЕ ДАННЫХ НАСТРОЕН КАСКАД НА УДАЛЕНИЕ КОММЕНТОВ И ЛАЙКОВ
+    return this.postRepository.delete({
+      postId: postId,
+    });
   }
 }

@@ -2,7 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from '@/app.controller';
 import { AppModule } from '@/app.module';
 import { CreatePostBodyDto } from '@/DTO/posts/createPost';
-import { NoUserError } from "@/Errors/postgresErrors/postgresErrors";
+import {
+  DatabasePGError,
+  NoUserError,
+} from '@/Errors/postgresErrors/postgresErrors';
+import { GetExactPostQueryDto } from '@/DTO/posts/getExactPost';
+import { raw, response } from 'express';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -13,12 +18,13 @@ describe('AppController', () => {
     }).compile();
     appController = app.get<AppController>(AppController);
   });
-
+  let newPostId;
   describe('Микросервис постов', () => {
     it('[NEST] - Создание поста - пользователь есть ✅', async () => {
       const createPostBody: CreatePostBodyDto = {
         userId: 1,
         newPostData: {
+          picture: "https://hsto.org/r/w780/getpro/habr/upload_files/07f/b0c/f64/07fb0cf64efb401c980f33f3a652cc61.jpg",
           title: 'Ну типа тайтл',
           description: 'ЭЙЙЙ, НЕ ЗАСЛОНЯЙ МНЕ СОЛНЦЕ',
           texts: 'Ну здесь тестовой даты ооочень много, но мало....',
@@ -26,6 +32,7 @@ describe('AppController', () => {
         },
       };
       const response = await appController.createNewPost(createPostBody);
+      newPostId = response.payload.postId;
       expect(response.code).toBe(201);
       expect(response.payload?.postId > 0).toBeTruthy();
     });
@@ -33,13 +40,58 @@ describe('AppController', () => {
       const createPostBody: CreatePostBodyDto = {
         userId: 612723930,
         newPostData: {
+          picture: "https://hsto.org/r/w780/getpro/habr/upload_files/07f/b0c/f64/07fb0cf64efb401c980f33f3a652cc61.jpg",
           title: 'Ну типа тайтл',
           description: 'ЭЙЙЙ, НЕ ЗАСЛОНЯЙ МНЕ СОЛНЦЕ',
           texts: 'Ну здесь тестовой даты ооочень много, но мало....',
           tags: ['ANIME'],
         },
       };
-      await expect( appController.createNewPost(createPostBody)).rejects.toThrowError('NO_USER');
+      await expect(
+        appController.createNewPost(createPostBody),
+      ).rejects.toThrowError('NO_USER');
+    });
+    it('[NEST] - Поиск поста - пост есть', async () => {
+      const findExactPostQuery: GetExactPostQueryDto = { postId: 1 };
+      const postResponse = await appController.findExactPost(
+        findExactPostQuery,
+      );
+      expect(postResponse.code).toBe(200);
+    });
+    it('[NEST] - Поиск поста - поста нет', async () => {
+      const findExactPostQuery: GetExactPostQueryDto = {
+        postId: 15321,
+      };
+      await expect(
+        appController.findExactPost(findExactPostQuery),
+      ).rejects.toThrowError('NO_POST');
+    });
+    it('[NEST] - Создание лайка - данные верные', async () => {
+      const createLikeResponse = await appController.createLike({
+        userId: 1,
+        postId: newPostId,
+      });
+      expect(createLikeResponse.code).toBe(201);
+    });
+    it('[NEST] - Создание лайка - данные неверные', async () => {
+      await expect(
+        appController.createLike({
+          userId: 6223,
+          postId: 123,
+        }),
+      ).rejects.toThrowError('NO_POST');
+    });
+    it('[NEST] - Удаление поста - пост есть', async () => {
+      //await appController.deletePost({postId: 2})
+    });
+    it('[NEST] - Поиск постов - критериев нет', async () => {
+      const findBody = { page: 2 };
+      const findpostsresponse = await appController.findPosts(findBody);
+      expect(findpostsresponse.code).toBe(200);
+      expect(findpostsresponse.payload.hasMore).toBe(
+        findpostsresponse.payload.posts.length > 5,
+      );
+      console.log(findpostsresponse);
     });
   });
 });

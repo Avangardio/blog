@@ -58,7 +58,7 @@ describe('[Entrance] Auth - (e2e)', () => {
     await app.init();
     await app.getHttpAdapter().getInstance().ready();
     client.release();
-    //const authcontroller = app.get<AuthController>(AuthController);
+    //const authcontroller = app.get<PostsController>(PostsController);
   });
   afterAll(async () => {
     //Выключаем редис подключение и нестжс

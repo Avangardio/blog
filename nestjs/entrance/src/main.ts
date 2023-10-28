@@ -10,7 +10,7 @@ import createSwaggerMiddleware from '@/Swagger/swagger.guard';
 import * as fastifyCookie from '@fastify/cookie';
 import { ClusterManager } from '@/clusterManager';
 import fastifyCsrf from '@fastify/csrf-protection';
-
+import fastifyCors from '@fastify/cors';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -23,6 +23,21 @@ async function bootstrap() {
   // @ts-ignore
   await app.register(fastifyCookie, {
     secret: secret, // for cookies signature
+  });
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  app.register(fastifyCors, {
+    origin: 'http://localhost:3000',
+    credentials: true,
+    allowedHeaders: [
+      'Access-Control-Allow-Credentials',
+      'Origin',
+      'X-Requested-With',
+      'Accept',
+      'Content-Type',
+      'Authorization'
+    ],
+    methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE'],
   });
 
   const { port, host } = configService.get('server');

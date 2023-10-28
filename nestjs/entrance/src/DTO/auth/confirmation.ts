@@ -1,4 +1,4 @@
-import Output from '@/DTO/auth/auth';
+import Output from "@/DTO/output";
 
 export class ConfirmationBodyDto {
   confirmationToken: string;

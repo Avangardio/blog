@@ -4,7 +4,7 @@ import {Formik, Field, Form, ErrorMessage} from "formik";
 import * as Yup from "yup";
 import React, {useState} from "react";
 import Image from "next/image";
-import {loginURL, registrationURL} from "@/Fetching/URLs/authURLs";
+import {authURL} from "@/Fetching/URLs/authURLs";
 import {useRouter} from "next/navigation";
 import axios from "axios";
 import {observer} from "mobx-react";
@@ -14,7 +14,8 @@ import ReplyError from "@/Components/forms/FormUtils/ReplyError";
 
 
 export default function LoginPage() {
-    const router = useRouter();
+    const { push } = useRouter();
+    const {language} = useStore('UserStore');
     const {
         inputPlaceholder,
         inputHeader,
@@ -50,12 +51,14 @@ export default function LoginPage() {
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={(values, actions) => {
-                    /* axios.post(registrationURL).then(
-                        result => result.data
-                    )
-                    */
-                    console.log(values);
-                    setReplyError(serverErrors.USER_EXIST)
+                    axios.post<{ payload: { confirmationToken: string } }>(authURL + 'registration', {
+                        ...values,
+                        language: language
+                    })
+                        .then(
+                            result => push('/confirmation' + `?request=${result.data.payload.confirmationToken}`),
+                            error => {}
+                        )
                 }}
             >
                 {({ errors, touched }) =>

@@ -1,4 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Post } from '@/Modules/postgres/Entities/post.entity';
 import { User } from '@/Modules/postgres/Entities/user.entity';
 
@@ -7,11 +13,11 @@ export class Post_like {
   @PrimaryGeneratedColumn({ name: 'likeid' })
   likeId: number;
 
-  @ManyToOne(() => Post, (post) => post.postLikes)
+  @ManyToOne(() => Post, (post) => post.postLikes, { cascade: true })
   @JoinColumn({ name: 'postid' })
   post: Post;
 
-  @ManyToOne(() => User, (user) => user.postLikes)
+  @ManyToOne(() => User, (user) => user.postLikes, { cascade: true })
   @JoinColumn({ name: 'userid' })
   user: User;
 

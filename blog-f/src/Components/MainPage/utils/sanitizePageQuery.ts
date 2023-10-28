@@ -1,5 +1,5 @@
 
-export default function sanitizePageQuery(page: string | undefined, totalPosts: number, pageSize: number = 5): number {
+export default function sanitizePageQuery(page: string | undefined): number {
     let currentPage: string;
 
     if (page === undefined) {

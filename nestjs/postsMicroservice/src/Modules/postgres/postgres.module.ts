@@ -7,8 +7,11 @@ import { Post } from '@/Modules/postgres/Entities/post.entity';
 import UserRepo from '@/Modules/postgres/repositories/userRepo';
 import { Post_like } from '@/Modules/postgres/Entities/post_like.entity';
 import { Post_comment } from '@/Modules/postgres/Entities/post_comment.entity';
-import PostService from "@/Modules/postgres/post.service";
-import PostRepo from "@/Modules/postgres/repositories/postRepo";
+import PostService from '@/Modules/postgres/post.service';
+import PostRepo from '@/Modules/postgres/repositories/postRepo';
+import LikeRepo from '@/Modules/postgres/repositories/likeRepo';
+import CommentRepo from '@/Modules/postgres/repositories/commentRepo';
+import MediaService from '@/Modules/postgres/media.service';
 
 @Module({
   imports: [
@@ -31,7 +34,15 @@ import PostRepo from "@/Modules/postgres/repositories/postRepo";
     }),
     TypeOrmModule.forFeature([User, Post, Post_like, Post_comment]),
   ],
-  providers: [PostgresService, PostService, UserRepo, PostRepo],
+  providers: [
+    PostgresService,
+    PostService,
+    MediaService,
+    UserRepo,
+    PostRepo,
+    LikeRepo,
+    CommentRepo,
+  ],
   exports: [PostgresService],
 })
 export class PostgresModule {}

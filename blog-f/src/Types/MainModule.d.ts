@@ -1,12 +1,10 @@
 declare type PostForTopic = {
-    postId: number,
-    author: Author,
-    topic: {
+        postId: number,
+        authorId: number,
         tags: string[]
         title: string,
         description: string,
-        imageURL: string,
-    }
+        picture: string,
 }
 declare type PostForPopular = {
     postId: number,
@@ -22,17 +20,18 @@ declare type Author = {
 }
 declare type PostListForTopic = number
 declare type Post = {
-    postId: number,
-    author: Author,
-    topic: {
+    posts: {
+        postId: number,
+        authorId: number,
         tags: string[]
         title: string,
+        texts: string,
         description: string,
-        imageURL: string,
+        picture: string,
     }
-    postText: string
 }
 declare type FetchTopicResult = {
-    topics: PostForTopic[],
-    totalPosts: PostListForTopic
+    payload: {
+        posts: PostForTopic[]
+    },
 }

@@ -1,44 +1,25 @@
 import { ExtendedError } from "@/Errors/errors";
-import { ApiProperty } from "@nestjs/swagger";
 
 export class DatabaseRedisError extends ExtendedError {
-  @ApiProperty({ description: "Error code", default: 500 })
-  code: number;
-
-  @ApiProperty({ description: "Error name", default: "DatabaseRedisError" })
-  name: string;
-
-  @ApiProperty({ description: "Error message", default: "REDIS_ERROR" })
-  message: string;
-
-  constructor(message: string) {
-    super("DatabaseError", message, 500);
+  constructor(message: string,  originMessage?: any) {
+    super("DatabaseError", message, 500, originMessage);
   }
 }
 
 export class ActiveBlockError extends ExtendedError {
-  @ApiProperty({ description: "Error code", default: 400 })
-  code: number;
-
-  @ApiProperty({ description: "Error name", default: "BlockActiveError" })
-  name: string;
-
-  @ApiProperty({ description: "Error message", default: "ACTIVE_BLOCK" })
-  message: string;
-
-  constructor(message: string) {
-    super("BlockActiveError", message, 400);
+  constructor(message: string,  originMessage?: any) {
+    super("BlockActiveError", message, 400, originMessage);
   }
 }
 
 export class InvalidRequestError extends ExtendedError {
-  constructor(message: string) {
-    super("InvalidRequestError", message, 404);
+  constructor(message: string,  originMessage?: any) {
+    super("InvalidRequestError", message, 404, originMessage);
   }
 }
 
 export class NotMatchingError extends ExtendedError {
-  constructor(message: string) {
-    super("NotMatchingError", message, 400);
+  constructor(message: string,  originMessage?: any) {
+    super("NotMatchingError", message, 400, originMessage);
   }
 }

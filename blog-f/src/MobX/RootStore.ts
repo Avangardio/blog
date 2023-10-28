@@ -1,3 +1,4 @@
+'use client'
 import { createContext, useContext } from "react";
 import { enableStaticRendering } from "mobx-react";
 import UserStore from "@/MobX/userStore";
@@ -11,15 +12,6 @@ const initialStore = {
 };
 
 export const StoreContext = createContext<typeof initialStore>(initialStore);
-
-function display(a:string, b:string):void //Compiler Error: Duplicate function implementation
-
-
-function display(a:number): void //Compiler Error: Duplicate function implementation
-
-function display(a: number | string){
-    console.log(a)
-}
 
 //Использую перегрузку функции, чтоб четко определить тип возвращенного стора, или же тип всех сторов
 export function useStore<T extends keyof typeof initialStore>(

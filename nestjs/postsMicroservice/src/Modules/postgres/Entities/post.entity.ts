@@ -22,7 +22,13 @@ export class Post {
   title: string;
 
   @Column()
+  picture: string;
+
+  @Column()
   description: string;
+
+  @Column({ name: 'authorid' })
+  authorId: number;
 
   @ManyToOne(() => User, (user) => user.posts)
   @JoinColumn({ name: 'authorid' })

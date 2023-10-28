@@ -7,5 +7,6 @@ export const CreatePostSchema = Joi.object({
     description: Joi.string().required(),
     texts: Joi.string().required(),
     tags: Joi.array().items(Joi.string()).required(),
+    picture: Joi.string().required(),
   }).required(),
 });

@@ -25,11 +25,13 @@ export default function ErrorHandler(error: Error): ErrorHandlerOutput {
 export class ExtendedError extends Error {
   public readonly code: number;
   public readonly name: string;
+  public readonly originMessage?: any;
 
-  constructor(name: string, message: string, code: number) {
+  constructor(name: string, message: string, code: number, originMessage?: any) {
     super(message);
     this.name = name;
     this.code = code;
+    this.originMessage = originMessage;
     Object.setPrototypeOf(this, ExtendedError.prototype);
   }
 }

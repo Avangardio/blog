@@ -4,7 +4,7 @@ import { ExtendedError } from '@/Errors/errors';
 @Catch(ExtendedError) // Ловим только ошибки этого типа
 export class ExtendedErrorFilter implements ExceptionFilter {
   catch(error: ExtendedError, host: ArgumentsHost) {
-    console.error(error.message)
+    console.error(error.originMessage);
     return {
       isSucceed: false,
       name: error.name,
