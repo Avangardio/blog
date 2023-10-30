@@ -37,15 +37,7 @@ export class PostsController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     const { title, tags, authorId } = query;
-    console.log({
-      page: +page,
-      criteria: {
-        authorId: +authorId || undefined,
-        title: title,
-        tags: tags?.split(',').length > 0 ? tags?.split(',') : undefined,
-      },
-    })
-    const z = await this.postsService.findPosts({
+    const z = await this.postsService.rmqPostsService.findPosts({
       page: +page,
       criteria: {
         authorId: +authorId || undefined,

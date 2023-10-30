@@ -79,7 +79,7 @@ export class AuthController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //Выполняем метод регистрации
-    const result = await this.authService.registration(body);
+    const result = await this.authService.rmqAuthService.registration(body);
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат
@@ -101,7 +101,7 @@ export class AuthController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //Выполняем метод подтверждения
-    const result = await this.authService.confirmation(body);
+    const result = await this.authService.rmqAuthService.confirmation(body);
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат
@@ -123,7 +123,7 @@ export class AuthController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //Выполняем метод логина
-    const result = await this.authService.login(body);
+    const result = await this.authService.rmqAuthService.login(body);
     //Проверяем, успешно ли прошел проверку пользователь
     if (result.code === 200) {
       const { code, message, isSucceed, payload } = result;
@@ -177,7 +177,7 @@ export class AuthController {
     @Req() request: FastifyRequest,
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
-    const result = await this.authService.restoration(body);
+    const result = await this.authService.rmqAuthService.restoration(body);
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат
@@ -198,7 +198,7 @@ export class AuthController {
     @Req() request: FastifyRequest,
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
-    const result = await this.authService.validateRequest(body);
+    const result = await this.authService.rmqAuthService.validateRequest(body);
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат
@@ -231,7 +231,7 @@ export class AuthController {
     @Req() request: FastifyRequest,
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
-    const result = await this.authService.setNewPassword(body);
+    const result = await this.authService.rmqAuthService.setNewPassword(body);
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат

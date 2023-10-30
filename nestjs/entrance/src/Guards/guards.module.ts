@@ -7,9 +7,9 @@ import RedisCSRFService from '@/Guards/guards.service';
 import { AuthService } from '@/Modules/auth/auth.service';
 import GuardsService from '@/Guards/guards.service';
 import { ClientsModule } from '@nestjs/microservices';
-import { RmqModule } from '@/rmq.module';
 import { JwtGuard } from '@/Guards/jwt.guard';
 import { JwtServiceRoot } from '@/Guards/jwt.service';
+import { RmqModule } from '@/Modules/rabbitmq/rmq.module';
 
 @Module({
   imports: [

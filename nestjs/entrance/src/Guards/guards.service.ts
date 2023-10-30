@@ -11,10 +11,7 @@ import { lastValueFrom, take, timeout } from 'rxjs';
 
 @Injectable()
 export default class GuardsService {
-  constructor(
-    @InjectRedis() private readonly redis: Redis,
-    @Inject('AUTH_SERVICE') private rmqService: ClientProxy,
-  ) {}
+  constructor(@InjectRedis() private readonly redis: Redis) {}
 
   private generateCSRF(length: number): string {
     let result = '';
@@ -38,18 +35,5 @@ export default class GuardsService {
   }
   async deleteCSRF(csrf: string) {
     await this.redis.del(csrf).catch((e) => e.message);
-  }
-
-  //метод для проверки userid с постгреса для гварда
-  validateUserid(userid: number) {
-    return lastValueFrom(
-      this.rmqService
-        .send<boolean>('validateUserid', userid)
-        .pipe(take(1), timeout(5 * 1000)),
-    ).catch(() => {
-      //если поймали ошибку, у сервера все плохо и нужно применять деградацию
-      //Может сломаться сервис аутентификации, но другие - работать
-      return true;
-    });
   }
 }

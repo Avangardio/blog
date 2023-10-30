@@ -6,14 +6,13 @@ import configuration from './config/configuration';
 import { AuthModule } from './Modules/auth/auth.module';
 import { GuardsModule } from '@/Guards/guards.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { RmqModule } from '@/rmq.module';
 import { JwtModule } from '@nestjs/jwt';
 import { PostsModule } from '@/Modules/posts/posts.module';
+import { RmqModule } from '@/Modules/rabbitmq/rmq.module';
 
 @Module({
   imports: [
     PostsModule,
-    RmqModule,
     GuardsModule,
     AuthModule,
     ConfigModule.forRoot({

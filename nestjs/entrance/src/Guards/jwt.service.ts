@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import GuardsService from '@/Guards/guards.service';
+import { RmqAuthService } from '@/Modules/rabbitmq/rmq-auth.service';
 
 type userdataJWT = {
   username: string;
@@ -11,7 +12,7 @@ type userdataJWT = {
 export class JwtServiceRoot {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly guardsService: GuardsService,
+    private readonly authService: RmqAuthService,
   ) {}
 
   async signUser({ username, userid }: userdataJWT) {
@@ -26,7 +27,7 @@ export class JwtServiceRoot {
     if (!verifiedUser) return false;
     const { userid, username } = verifiedUser as userdataJWT;
     //Теперь надо проверить валидность токена из базы данных, ошибки ловятся внутри
-    const checkedUser = await this.guardsService.validateUserid(userid);
+    const checkedUser = await this.authService.validateUserid(userid);
     //если пользователь не найден, то возвращаем false
     if (!checkedUser) return false;
     //Иначе, подписываем обновленный куки

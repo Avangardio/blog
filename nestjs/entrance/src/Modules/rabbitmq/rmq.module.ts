@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ClientProxy, ClientsModule, Transport } from '@nestjs/microservices';
+import { AuthService } from '@/Modules/auth/auth.service';
+import { RmqAuthService } from '@/Modules/rabbitmq/rmq-auth.service';
+import { RmqBaseService } from '@/Modules/rabbitmq/base.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import {RmqPostsService} from "@/Modules/rabbitmq/rmq-posts.service";
 
 @Module({
   imports: [
@@ -11,7 +15,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         imports: [ConfigModule], // импорт ConfigModule
         useFactory: (configService: ConfigService) => {
           const { rmqHost, rmqPort, rmqAuth } = configService.get('RMQ');
-          console.log(`amqp://${rmqAuth}${rmqHost}:${rmqPort}`);
           return {
             transport: Transport.RMQ,
             options: {
@@ -30,7 +33,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         imports: [ConfigModule], // импорт ConfigModule
         useFactory: (configService: ConfigService) => {
           const { rmqHost, rmqPort, rmqAuth } = configService.get('RMQ');
-          console.log(`amqp://${rmqAuth}${rmqHost}:${rmqPort}`);
           return {
             transport: Transport.RMQ,
             options: {
@@ -46,7 +48,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       },
     ]),
   ],
-  providers: [ClientsModule],
-  exports: [ClientsModule],
+  providers: [RmqAuthService, RmqPostsService],
+  exports: [RmqAuthService, RmqPostsService],
 })
 export class RmqModule {}
