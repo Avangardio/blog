@@ -1,4 +1,4 @@
-import Output from "@/DTO/output";
+import Output from '@/DTO/output';
 
 export class GetPostsBodyDto {
   page: number;

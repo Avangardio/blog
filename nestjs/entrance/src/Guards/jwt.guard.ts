@@ -40,8 +40,8 @@ export class JwtGuard implements CanActivate {
     });
 
     //добавляем в тело запроса пользователя
-    request['userid'] = newToken.userid;
-    request['username'] = newToken.username;
+    request.body['userid'] = newToken.userid;
+    request.body['username'] = newToken.username;
     return true;
   }
 }

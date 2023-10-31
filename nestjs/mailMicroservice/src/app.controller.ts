@@ -1,8 +1,8 @@
 import { Controller, Get, Req, Res } from '@nestjs/common';
 import { AppService } from './app.service';
-import {MessagePattern, Payload} from "@nestjs/microservices";
-import {ConfirmationBodyDto} from "@/DTO/confirmationBody";
-import {RestorationBodyDto} from "@/DTO/restorationBody";
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { ConfirmationBodyDto } from '@/DTO/confirmationBody';
+import { RestorationBodyDto } from '@/DTO/restorationBody';
 
 @Controller()
 export class AppController {

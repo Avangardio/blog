@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   HttpStatus,
@@ -6,7 +7,9 @@ import {
   NotFoundException,
   Param,
   ParseIntPipe,
+  Post,
   Query,
+  Req,
   Res,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
@@ -17,7 +20,9 @@ import { GetPostsBodyDto, GetPostsOutputDto } from '@/DTO/posts/getPosts';
 import { JoiValidationPipe } from '@/Pipes/JoiValidationPipe';
 import { GetPostsQuerySchema } from '@/Pipes/Jois/posts/GetPostsQuerySchema';
 import { GetPostsParamSchema } from '@/Pipes/Jois/posts/GetPostsParamSchema';
-import { FastifyReply } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { RegistrationBodyDto } from '@/DTO/auth/registration';
+import { CreatePostBodyDto } from '@/DTO/posts/createPost';
 
 @ApiTags('Entrance/Auth')
 @Controller('posts')
@@ -37,7 +42,7 @@ export class PostsController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     const { title, tags, authorId } = query;
-    const z = await this.postsService.rmqPostsService.findPosts({
+    const postsResponse = await this.postsService.rmqPostsService.findPosts({
       page: +page,
       criteria: {
         authorId: +authorId || undefined,
@@ -45,7 +50,34 @@ export class PostsController {
         tags: tags?.split(',').length > 0 ? tags?.split(',') : undefined,
       },
     });
-    response.status(z.code);
-    return z;
+    response.status(postsResponse.code);
+    return postsResponse;
   }
+  @Post('createPost')
+  async createPost(
+    @Body() body: CreatePostBodyDto,
+    @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ) {
+    const createResponse = await this.postsService.rmqPostsService.createPost(
+      body,
+    );
+    response.status(createResponse.code);
+    return createResponse;
+  }
+  @Get('findExactPost')
+  async findExactPost(
+    @Query()
+    query: { postId: string },
+    @Res({ passthrough: true }) response: FastifyReply,
+  ) {
+    const { postId } = query;
+    const article = await this.postsService.rmqPostsService.findExactPost({
+      postId: +postId || undefined,
+    });
+    response.status(article.code);
+    return article;
+  }
+  @Get('findPopularPosts')
+
 }

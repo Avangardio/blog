@@ -17,26 +17,6 @@ import { AppService } from '@/app.service';
       envFilePath: '.env',
       expandVariables: true,
     }),
-    ClientsModule.registerAsync([
-      {
-        name: 'POSTS_SERVICE',
-        imports: [ConfigModule], // импорт ConfigModule
-        useFactory: (configService: ConfigService) => {
-          const { rmqHost, rmqPort, rmqAuth } = configService.get('RMQ');
-          return {
-            transport: Transport.RMQ,
-            options: {
-              urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}`],
-              queue: 'posts_Queue',
-              queueOptions: {
-                durable: false,
-              },
-            },
-          };
-        },
-        inject: [ConfigService],
-      },
-    ]),
   ],
   controllers: [AppController],
   providers: [AppService],

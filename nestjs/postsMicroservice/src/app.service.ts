@@ -37,6 +37,7 @@ export class AppService {
     body: GetExactPostQueryDto,
   ): Promise<GetExactPostOutputDto> {
     const { postId } = body;
+    //Шаг 1: ищем пост, если он есть - добавляем +1 к просмотрам
     const post = await this.postgresService.postService.getExactPost(postId);
     return {
       code: 200,
@@ -48,8 +49,8 @@ export class AppService {
   async deletePost(
     body: DeleteExactPostBodyDto,
   ): Promise<DeleteExactPostOutputDto> {
-    const { postId } = body;
-    await this.postgresService.postService.deletePost(postId);
+    const { postId, userId } = body;
+    await this.postgresService.postService.deletePost(postId, userId);
     return {
       code: 200,
       isSucceed: true,
@@ -66,7 +67,7 @@ export class AppService {
     };
   }
   async findPosts(body: GetPostsBodyDto): Promise<GetPostsOutputDto> {
-    console.log()
+    console.log();
     const { page, criteria } = body;
     //Шаг 1: Ищем посты и есть ли еще
     const postsOutput = await this.postgresService.postService.findPosts(
@@ -79,5 +80,8 @@ export class AppService {
       message: 'FIND_SUCCEED',
       payload: postsOutput,
     };
+  }
+  async findPopularPosts() {
+    return this.postgresService.postService.findPopularPosts();
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@/Modules/postgres/Entities/user.entity';
-import { Any, ArrayContains, In, Like, Repository } from "typeorm";
+import { ArrayContains, Like, Repository } from 'typeorm';
 import { Post } from '@/Modules/postgres/Entities/post.entity';
 import { DatabasePGError } from '@/Errors/postgresErrors/postgresErrors';
 import { CreatePostBodyDto } from '@/DTO/posts/createPost';
@@ -26,7 +26,7 @@ export default class PostRepo {
 
     // Сохраните пост в базе данных
     const savedPost = await this.postRepository.save(post).catch((error) => {
-      console.log(error.message)
+      console.log(error.message);
       throw new DatabasePGError('POST_CREATE_ERROR', error.message);
     });
     return savedPost.postId;
@@ -81,6 +81,15 @@ export default class PostRepo {
       });
   }
 
+  increasePostViews(postId: number) {
+    // Увеличить значение поля "views" на 1
+    return this.postRepository
+      .increment({ postId }, 'views', 1)
+      .catch((error) => {
+        throw new DatabasePGError('NO_POST', error.message);
+      });
+  }
+
   findExactPost(postId: number) {
     return this.postRepository
       .findOne({
@@ -95,5 +104,15 @@ export default class PostRepo {
     return this.postRepository.delete({
       postId: postId,
     });
+  }
+  findPopularPosts() {
+    return this.postRepository
+      .find({
+        take: 5, // Ограничение на количество результатов
+        order: { views: 'DESC' }, // Сортировка по убыванию по полю "views"
+      })
+      .catch((error) => {
+        throw new DatabasePGError('POST_SEARCH_ERROR', error.message);
+      });
   }
 }

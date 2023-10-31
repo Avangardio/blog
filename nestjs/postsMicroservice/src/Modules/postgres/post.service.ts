@@ -49,9 +49,21 @@ export default class PostService {
   async getExactPost(postId: number) {
     const exactPost = await this.postRepo.findExactPost(postId);
     if (!exactPost) throw new NoPostError('NO_POST');
+    //И увеличиваем просмотры на 1
+    await this.postRepo.increasePostViews(postId);
     return exactPost;
   }
-  async deletePost(postId: number) {
+  async deletePost(postId: number, userId: number) {
+    //Получаем айди пользователя по предоставленному, чтоб проверить. Если нет - ошибка.
+    const user = await this.userRepo.findUserByUserId(userId, ['userId']);
+    //Создаем новый пост, в котором возвращается айди его.
+    if (!user) throw new NoUserError('NO_USER');
     return this.postRepo.deletePost(postId);
+  }
+  async findPopularPosts() {
+    //Шаг 1: просто ищем 5 популярных самых постов
+    const popularPosts = await this.postRepo.findPopularPosts();
+    if(popularPosts.length === 0) throw new ExtendedError('NoPostsError', 'NO_POSTS', 404);
+    return popularPosts;
   }
 }
