@@ -79,5 +79,13 @@ export class PostsController {
     return article;
   }
   @Get('findPopularPosts')
-
+  async findPopularPosts(@Res({ passthrough: true }) response: FastifyReply) {
+    const popularPostsResponse =
+      await this.postsService.rmqPostsService.findPopularPosts();
+    response.status(popularPostsResponse.code);
+    return popularPostsResponse;
+  }
+  @Post('deletePost')
+  async deletePost() {
+  }
 }
