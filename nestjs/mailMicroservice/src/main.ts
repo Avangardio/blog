@@ -7,24 +7,24 @@ async function bootstrap() {
     process.env.RMQ_HOST || 'localhost',
     process.env.RMQ_PORT || 5672,
     process.env.RMQ_PASSWORD && process.env.RMQ_USERNAME
-      ? `${process.env.RMQ_USERNAME}:${process.env.RMQ_PASSWORD}@`
-      : '',
+        ? `${process.env.RMQ_USERNAME}:${process.env.RMQ_PASSWORD}@`
+        : '',
   ];
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.RMQ,
-      options: {
-        urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}`],
-        queue: 'auth_Queue',
-        queueOptions: {
-          durable: false,
+      AppModule,
+      {
+        transport: Transport.RMQ,
+        options: {
+          urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}`],
+          queue: 'mail_Queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
-    },
   );
   await app.listen();
-  console.log('Server started on: authQueue');
+  console.log('Server started on: mail_Queue');
 }
 
 bootstrap();

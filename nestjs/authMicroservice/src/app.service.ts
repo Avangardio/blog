@@ -30,12 +30,14 @@ import {
   SetNewPasswordBodyDto,
   SetNewPasswordOutputDto,
 } from '@/DTO/auth/setNewPassword';
+import { RmqMailService } from '@/Modules/rabbitmq/rmq-mail.service';
 
 @Injectable()
 export class AppService {
   constructor(
     private readonly redisService: RedisService,
     public readonly postgresService: PostgresService,
+    private readonly rmqMailService: RmqMailService,
   ) {}
 
   async registration(
@@ -63,11 +65,22 @@ export class AppService {
         password: hashedPassword,
         language,
         emailCode,
+        token,
       },
     );
 
     //Шаг 5: Устанавливаем блок на 15 минут посредством ячейки в редисе с ttl
     await this.redisService.regBlock.setBlock(email);
+    //Шаг 6: Отправляем имейл пользователю,не ждем, ошибки устраняем
+    this.rmqMailService
+      .sendConfirmationEmail({
+        email,
+        name,
+        language,
+        emailCode,
+        token,
+      })
+      .catch(() => undefined);
     //Возвращаем объект успешного прохождения начала регистрации
     return {
       code: 201,
@@ -141,15 +154,27 @@ export class AppService {
     );
     //Шаг 2: генерируем код доступа для пользователя для подтверждения хозяина почты и код для отправки на имейл
     const [token, emailCode] = [generateToken(10), generateEmailCode(6)];
-    //Шаг 2: записываем новый реквест в редис на сутки
+    //Шаг 3: записываем новый реквест в редис на сутки
     await this.redisService.regRequestData.setRequestData<RestorationEntityDto>(
       token,
       {
         requestType: 'restoration',
         userid: user.userid.toString(),
         emailCode,
+        token,
+        email,
+        language: user.language,
       },
     );
+    //Шаг 4: Отправляем запрос на отправку письма пользователю
+    this.rmqMailService
+      .sendRestorationEmail({
+        email,
+        emailCode,
+        token,
+        language: user.language,
+      })
+      .catch(() => undefined);
     return {
       code: 201,
       message: 'REQ_SUCCESS',
