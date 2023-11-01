@@ -18,6 +18,7 @@ import MediaService from '@/Modules/postgres/media.service';
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => {
         const postgresConfig = configService.get('postgres');
+        const redisConfig = configService.get('redis');
         return {
           type: 'postgres',
           host: postgresConfig.host,
@@ -27,7 +28,13 @@ import MediaService from '@/Modules/postgres/media.service';
           database: postgresConfig.database,
           entities: [User, Post, Post_like, Post_comment],
           synchronize: false,
-          cache: true,
+          cache: {
+            type: 'ioredis',
+            options: {
+              host: redisConfig.host,
+              port: redisConfig.port,
+            },
+          },
         };
       },
       inject: [ConfigService],

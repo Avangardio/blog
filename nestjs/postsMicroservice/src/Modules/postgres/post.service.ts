@@ -63,7 +63,8 @@ export default class PostService {
   async findPopularPosts() {
     //Шаг 1: просто ищем 5 популярных самых постов
     const popularPosts = await this.postRepo.findPopularPosts();
-    if(popularPosts.length === 0) throw new ExtendedError('NoPostsError', 'NO_POSTS', 404);
+    if (popularPosts.length === 0)
+      throw new ExtendedError('NoPostsError', 'NO_POSTS', 404);
     return popularPosts;
   }
 }

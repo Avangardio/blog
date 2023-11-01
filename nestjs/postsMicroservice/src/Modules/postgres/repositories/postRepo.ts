@@ -94,6 +94,10 @@ export default class PostRepo {
     return this.postRepository
       .findOne({
         where: { postId: postId },
+        cache: {
+          id: `exact_post_${postId}`,
+          milliseconds: 120_000,
+        },
       })
       .catch((error) => {
         throw new DatabasePGError('POST_SEARCH_ERROR', error.message);

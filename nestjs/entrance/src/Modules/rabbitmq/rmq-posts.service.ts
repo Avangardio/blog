@@ -15,7 +15,7 @@ import { FindPopularPosts } from '@/DTO/posts/findPopularPosts';
 
 @Injectable()
 export class RmqPostsService extends RmqBaseService {
-  constructor(@Inject('AUTH_SERVICE') rmqService: ClientProxy) {
+  constructor(@Inject('POSTS_SERVICE') rmqService: ClientProxy) {
     super(rmqService);
   }
   findPosts(body: GetPostsBodyDto): Promise<GetPostsOutputDto> {

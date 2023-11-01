@@ -35,7 +35,7 @@ async function bootstrap() {
       'X-Requested-With',
       'Accept',
       'Content-Type',
-      'Authorization'
+      'Authorization',
     ],
     methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE'],
   });

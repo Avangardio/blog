@@ -38,9 +38,9 @@ export class JwtGuard implements CanActivate {
       //1 Месяц
       maxAge: 2.592e6,
     });
-
     //добавляем в тело запроса пользователя
-    request.body['userid'] = newToken.userid;
+    if (!request.body) request.body = {};
+    request.body['userId'] = newToken.userid;
     request.body['username'] = newToken.username;
     return true;
   }

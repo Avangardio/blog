@@ -8,5 +8,4 @@ export const GetPostsSchema = Joi.object({
     authorId: Joi.number(),
   }),
 }).options({
-  presence: 'required',
 });

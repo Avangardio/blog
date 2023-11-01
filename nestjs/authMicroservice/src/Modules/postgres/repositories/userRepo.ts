@@ -1,17 +1,16 @@
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { User } from "@/Modules/postgres/Entities/user.entity";
-import { DatabasePGError } from "@/Errors/postgresErrors/postgresErrors";
-import { Injectable } from "@nestjs/common";
-import { ConfirmationEntityDto } from "@/DTO/redisEntities/redisEntities";
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from '@/Modules/postgres/Entities/user.entity';
+import { DatabasePGError } from '@/Errors/postgresErrors/postgresErrors';
+import { Injectable } from '@nestjs/common';
+import { ConfirmationEntityDto } from '@/DTO/redisEntities/redisEntities';
 
 @Injectable()
 export default class UserRepo {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
-  ) {
-  }
+    private readonly userRepository: Repository<User>,
+  ) {}
 
   findUserByUserId(userid: number) {
     //Пытаемся получить данные по uid
@@ -21,8 +20,8 @@ export default class UserRepo {
           where: { userid: userid },
           cache: {
             id: `user_${userid}`,
-            milliseconds: 120_000
-          }
+            milliseconds: 120_000,
+          },
         })
         //для случая деградации возвращаем true
         .catch(() => true)
@@ -33,10 +32,10 @@ export default class UserRepo {
     //Пытаемся получить данные по имейлу
     return this.userRepository
       .findOne({
-        where: { email: email }
+        where: { email: email },
       })
       .catch(() => {
-        throw new DatabasePGError("POSTGRES_ERROR");
+        throw new DatabasePGError('POSTGRES_ERROR');
       });
   }
 
@@ -46,11 +45,11 @@ export default class UserRepo {
       email: data.email,
       username: data.name,
       hash: data.password,
-      language: data.language
+      language: data.language,
     });
     //Пытаемся создать пользователя
     return await this.userRepository.save(newUser).catch(() => {
-      throw new DatabasePGError("POSTGRES_ERROR");
+      throw new DatabasePGError('POSTGRES_ERROR');
     });
   }
 
@@ -59,7 +58,7 @@ export default class UserRepo {
     this.userRepository
       .update({ userid: +userid }, { hash: password })
       .catch(() => {
-        throw new DatabasePGError("POSTGRES_ERROR");
+        throw new DatabasePGError('POSTGRES_ERROR');
       });
   }
 
@@ -67,10 +66,10 @@ export default class UserRepo {
     return this.userRepository
       .findOne({
         where: { email },
-        select: ["hash", "userid", "username"]
+        select: ['hash', 'userid', 'username'],
       })
       .catch(() => {
-        throw new DatabasePGError("POSTGRES_ERROR");
+        throw new DatabasePGError('POSTGRES_ERROR');
       });
   }
 }

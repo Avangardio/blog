@@ -11,6 +11,8 @@ import {
   Query,
   Req,
   Res,
+  UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { ConfigService } from '@nestjs/config';
@@ -23,6 +25,11 @@ import { GetPostsParamSchema } from '@/Pipes/Jois/posts/GetPostsParamSchema';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { RegistrationBodyDto } from '@/DTO/auth/registration';
 import { CreatePostBodyDto } from '@/DTO/posts/createPost';
+import { CreatePostSchema } from '@/Pipes/Jois/posts/CreatePostSchema';
+import { JwtGuard } from '@/Guards/jwt.guard';
+import { FindExactPostsSchema } from '@/Pipes/Jois/posts/findExactPostsSchema';
+import { DeletePostSchema } from '@/Pipes/Jois/posts/DeletePostSchema';
+import { DeleteExactPostBodyDto } from "@/DTO/posts/deletePost";
 
 @ApiTags('Entrance/Auth')
 @Controller('posts')
@@ -54,11 +61,15 @@ export class PostsController {
     return postsResponse;
   }
   @Post('createPost')
+  @UseGuards(JwtGuard)
+  //@UsePipes(new JoiValidationPipe(CreatePostSchema))
   async createPost(
     @Body() body: CreatePostBodyDto,
     @Req() request: FastifyRequest,
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
+    delete body?.['username'];
+    console.log(body)
     const createResponse = await this.postsService.rmqPostsService.createPost(
       body,
     );
@@ -66,6 +77,7 @@ export class PostsController {
     return createResponse;
   }
   @Get('findExactPost')
+  @UsePipes(new JoiValidationPipe(FindExactPostsSchema))
   async findExactPost(
     @Query()
     query: { postId: string },
@@ -86,6 +98,16 @@ export class PostsController {
     return popularPostsResponse;
   }
   @Post('deletePost')
-  async deletePost() {
+  @UsePipes(new JoiValidationPipe(DeletePostSchema))
+  async deletePost(
+    @Body() body: DeleteExactPostBodyDto,
+    @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ) {
+    const deleteResponse = await this.postsService.rmqPostsService.deletePost(
+      body,
+    );
+    response.status(deleteResponse.code);
+    return deleteResponse;
   }
 }

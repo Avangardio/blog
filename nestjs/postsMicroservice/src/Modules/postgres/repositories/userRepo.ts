@@ -17,6 +17,10 @@ export default class UserRepo {
     return this.userRepository
       .findOne({
         where: { userId: userId },
+        cache: {
+          id: `user_${userId}`,
+          milliseconds: 120_000,
+        },
         ...(selectFields &&
           selectFields.length > 0 && { select: selectFields }),
       })

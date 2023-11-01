@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ca4e9a4a-09e6-42a2-b69c-3f9a3f5a3f2d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/postsMicroservice/src/DTO/posts/createLike.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postsMicroservice/src/DTO/posts/deletePost.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postsMicroservice/src/DTO/posts/getPosts.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/media.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/repositories/commentRepo.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/repositories/likeRepo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authMicroservice/src/Errors/JoiErrors/joierrors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/authMicroservice/src/Errors/JoiErrors/joierrors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authMicroservice/src/Errors/bcryptErrors/bcryptErrors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/authMicroservice/src/Errors/bcryptErrors/bcryptErrors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authMicroservice/src/Errors/errors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/authMicroservice/src/Errors/errors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authMicroservice/src/Errors/postgresErrors/postgresErrors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/authMicroservice/src/Errors/postgresErrors/postgresErrors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authMicroservice/src/Errors/redisErrors/redisErrors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/authMicroservice/src/Errors/redisErrors/redisErrors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/DTO/posts/createPost.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/DTO/posts/createPost.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/DTO/posts/getExactPost.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/DTO/posts/getExactPost.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Errors/JoiErrors/joierrors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/Errors/JoiErrors/joierrors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Errors/bcryptErrors/bcryptErrors.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Errors/errors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/Errors/errors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Errors/postgresErrors/postgresErrors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/Errors/postgresErrors/postgresErrors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Errors/validationErrors/validationErrors.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/Entities/post.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/Entities/post.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/Entities/post_comment.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/Entities/post_comment.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/Entities/post_like.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/Entities/post_like.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/Entities/user.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/Entities/user.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/post.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/post.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/postgres.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/postgres.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/postgres.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/postgres.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/repositories/postRepo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/repositories/postRepo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/repositories/userRepo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/Modules/postgres/repositories/userRepo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/app.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/app.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/app.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/app.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postsMicroservice/test/app.controller.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/postsMicroservice/test/app.controller.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pginit/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../pginit/init.sql" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2XJUdrUvEbhPASgOWIv3uqVr1pY" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ca4e9a4a-09e6-42a2-b69c-3f9a3f5a3f2d" name="Changes" comment="" />
+      <created>1698346766666</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1698346766666</updated>
+      <workItem from="1698346768671" duration="5000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

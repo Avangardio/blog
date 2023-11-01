@@ -12,7 +12,8 @@ export abstract class RmqBaseService {
   ): Promise<R> {
     return lastValueFrom(
       this.rmqService.send<R>(pattern, body).pipe(take(1), timeout(timeoutSec)),
-    ).catch(() => {
+    ).catch((error) => {
+      console.log(error)
       //Все ошибки обрабатываются внутри микросервиса, здесь глобальные ловим и выбрасываем для неста исключение
       throw new InternalServerErrorException();
     });
