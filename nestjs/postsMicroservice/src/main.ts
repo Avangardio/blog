@@ -20,6 +20,7 @@ async function bootstrap() {
                 queueOptions: {
                     durable: false,
                 },
+                maxConnectionAttempts: -1,
             },
         },
     );

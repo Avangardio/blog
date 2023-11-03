@@ -57,6 +57,7 @@ import { ClientSession } from "typeorm";
               queueOptions: {
                 durable: false,
               },
+              maxConnectionAttempts: -1,
             },
           };
         },
