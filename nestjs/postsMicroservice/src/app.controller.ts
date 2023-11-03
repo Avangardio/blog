@@ -41,14 +41,6 @@ export class AppController {
     //Возвращаем результат
     return this.appService.deletePost(payload);
   }
-  @MessagePattern('createLike')
-  @UsePipes(new JoiValidationPipe(CreatePostSchema))
-  @UseFilters(ExtendedErrorFilter)
-  async createLike(@Payload() payload: CreateLikeBodyDto) {
-    //Выполняем метод удаления поста + комментов + лайков
-    //Возвращаем результат
-    return this.appService.createLike(payload);
-  }
   @MessagePattern('findPosts')
   @UsePipes(new JoiValidationPipe(GetPostsSchema))
   @UseFilters(ExtendedErrorFilter)

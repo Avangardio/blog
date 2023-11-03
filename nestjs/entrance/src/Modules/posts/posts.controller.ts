@@ -1,6 +1,6 @@
 import {
   Body,
-  Controller,
+  Controller, Delete,
   Get,
   HttpStatus,
   NotAcceptableException,
@@ -12,8 +12,8 @@ import {
   Req,
   Res,
   UseGuards,
-  UsePipes,
-} from '@nestjs/common';
+  UsePipes
+} from "@nestjs/common";
 import { PostsService } from './posts.service';
 import { ConfigService } from '@nestjs/config';
 import { JwtServiceRoot } from '@/Guards/jwt.service';
@@ -29,7 +29,7 @@ import { CreatePostSchema } from '@/Pipes/Jois/posts/CreatePostSchema';
 import { JwtGuard } from '@/Guards/jwt.guard';
 import { FindExactPostsSchema } from '@/Pipes/Jois/posts/findExactPostsSchema';
 import { DeletePostSchema } from '@/Pipes/Jois/posts/DeletePostSchema';
-import { DeleteExactPostBodyDto } from "@/DTO/posts/deletePost";
+import { DeleteExactPostBodyDto } from '@/DTO/posts/deletePost';
 
 @ApiTags('Entrance/Auth')
 @Controller('posts')
@@ -62,14 +62,13 @@ export class PostsController {
   }
   @Post('createPost')
   @UseGuards(JwtGuard)
-  //@UsePipes(new JoiValidationPipe(CreatePostSchema))
+  @UsePipes(new JoiValidationPipe(CreatePostSchema))
   async createPost(
     @Body() body: CreatePostBodyDto,
     @Req() request: FastifyRequest,
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
-    delete body?.['username'];
-    console.log(body)
+    //удаляем с тела запроса юзернейм из жвт гварда
     const createResponse = await this.postsService.rmqPostsService.createPost(
       body,
     );
@@ -97,7 +96,8 @@ export class PostsController {
     response.status(popularPostsResponse.code);
     return popularPostsResponse;
   }
-  @Post('deletePost')
+  @Delete('deletePost')
+  @UseGuards(JwtGuard)
   @UsePipes(new JoiValidationPipe(DeletePostSchema))
   async deletePost(
     @Body() body: DeleteExactPostBodyDto,

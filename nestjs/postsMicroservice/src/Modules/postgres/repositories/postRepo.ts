@@ -60,6 +60,13 @@ export default class PostRepo {
       .find({
         where: whereConditions,
         take: take,
+        relations: ['author'],
+        select: {
+          author: {
+            username: true,
+            userId: true,
+          },
+        },
         skip: skip,
         order: { postId: 'DESC' },
       })
@@ -75,6 +82,17 @@ export default class PostRepo {
         where: { postId: postId },
         ...(selectFields &&
           selectFields.length > 0 && { select: selectFields }),
+        relations: ['author'],
+        select: {
+          author: {
+            username: true,
+            userId: true,
+          },
+        },
+        cache: {
+          id: `post_by_id_${postId}`,
+          milliseconds: 120_000,
+        },
       })
       .catch((error) => {
         throw new DatabasePGError('NO_POST', error.message);
@@ -94,6 +112,13 @@ export default class PostRepo {
     return this.postRepository
       .findOne({
         where: { postId: postId },
+        relations: ['author'],
+        select: {
+          author: {
+            username: true,
+            userId: true,
+          },
+        },
         cache: {
           id: `exact_post_${postId}`,
           milliseconds: 120_000,
@@ -113,6 +138,13 @@ export default class PostRepo {
     return this.postRepository
       .find({
         take: 5, // Ограничение на количество результатов
+        relations: ['author'],
+        select: {
+          author: {
+            username: true,
+            userId: true,
+          },
+        },
         order: { views: 'DESC' }, // Сортировка по убыванию по полю "views"
       })
       .catch((error) => {

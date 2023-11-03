@@ -28,9 +28,9 @@ export class RmqPostsService extends RmqBaseService {
     );
   }
   findPopularPosts() {
-    return this.sendCmd<undefined, FindPopularPosts>(
+    return this.sendCmd<unknown, FindPopularPosts>(
       'findPopularPosts',
-      undefined,
+      {}
     );
   }
   createPost(body: CreatePostBodyDto): Promise<CreatePostOutputDto> {

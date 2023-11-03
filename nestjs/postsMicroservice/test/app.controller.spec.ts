@@ -18,17 +18,18 @@ describe('AppController', () => {
     }).compile();
     appController = app.get<AppController>(AppController);
   });
-  let newPostId;
+  let newPostId: number;
   describe('Микросервис постов', () => {
     it('[NEST] - Создание поста - пользователь есть ✅', async () => {
       const createPostBody: CreatePostBodyDto = {
         userId: 1,
         newPostData: {
-          picture: "https://hsto.org/r/w780/getpro/habr/upload_files/07f/b0c/f64/07fb0cf64efb401c980f33f3a652cc61.jpg",
+          picture:
+            'https://hsto.org/r/w780/getpro/habr/upload_files/07f/b0c/f64/07fb0cf64efb401c980f33f3a652cc61.jpg',
           title: 'Ну типа тайтл',
           description: 'ЭЙЙЙ, НЕ ЗАСЛОНЯЙ МНЕ СОЛНЦЕ',
           texts: 'Ну здесь тестовой даты ооочень много, но мало....',
-          tags: ['ANIME'],
+          tags: ['HUMOR'],
         },
       };
       const response = await appController.createNewPost(createPostBody);
@@ -40,7 +41,8 @@ describe('AppController', () => {
       const createPostBody: CreatePostBodyDto = {
         userId: 612723930,
         newPostData: {
-          picture: "https://hsto.org/r/w780/getpro/habr/upload_files/07f/b0c/f64/07fb0cf64efb401c980f33f3a652cc61.jpg",
+          picture:
+            'https://hsto.org/r/w780/getpro/habr/upload_files/07f/b0c/f64/07fb0cf64efb401c980f33f3a652cc61.jpg',
           title: 'Ну типа тайтл',
           description: 'ЭЙЙЙ, НЕ ЗАСЛОНЯЙ МНЕ СОЛНЦЕ',
           texts: 'Ну здесь тестовой даты ооочень много, но мало....',
@@ -66,32 +68,16 @@ describe('AppController', () => {
         appController.findExactPost(findExactPostQuery),
       ).rejects.toThrowError('NO_POST');
     });
-    it('[NEST] - Создание лайка - данные верные', async () => {
-      const createLikeResponse = await appController.createLike({
-        userId: 1,
-        postId: newPostId,
-      });
-      expect(createLikeResponse.code).toBe(201);
-    });
-    it('[NEST] - Создание лайка - данные неверные', async () => {
-      await expect(
-        appController.createLike({
-          userId: 6223,
-          postId: 123,
-        }),
-      ).rejects.toThrowError('NO_POST');
-    });
     it('[NEST] - Удаление поста - пост есть', async () => {
-      //await appController.deletePost({postId: 2})
+      await appController.deletePost({ postId: newPostId, userId: 1 });
     });
     it('[NEST] - Поиск постов - критериев нет', async () => {
-      const findBody = { page: 2 };
+      const findBody = { page: 1 };
       const findpostsresponse = await appController.findPosts(findBody);
       expect(findpostsresponse.code).toBe(200);
       expect(findpostsresponse.payload.hasMore).toBe(
         findpostsresponse.payload.posts.length > 5,
       );
-      console.log(findpostsresponse);
     });
   });
 });

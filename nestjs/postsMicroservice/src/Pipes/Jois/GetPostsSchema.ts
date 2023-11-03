@@ -7,5 +7,4 @@ export const GetPostsSchema = Joi.object({
     tags: Joi.array(),
     authorId: Joi.number(),
   }),
-}).options({
-});
+}).options({});

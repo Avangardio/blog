@@ -56,8 +56,8 @@ export class AuthController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     const [username, userid] = [
-      request.body['username'] as string,
-      request.body['userid'] as number,
+      request['username'] as string,
+      request.body['userId'] as number,
     ];
     response.status(200);
     return { userid, username };

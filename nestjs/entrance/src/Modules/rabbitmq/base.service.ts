@@ -13,7 +13,7 @@ export abstract class RmqBaseService {
     return lastValueFrom(
       this.rmqService.send<R>(pattern, body).pipe(take(1), timeout(timeoutSec)),
     ).catch((error) => {
-      console.log(error)
+      console.log(error);
       //Все ошибки обрабатываются внутри микросервиса, здесь глобальные ловим и выбрасываем для неста исключение
       throw new InternalServerErrorException();
     });

@@ -9,9 +9,6 @@ import { Post_like } from '@/Modules/postgres/Entities/post_like.entity';
 import { Post_comment } from '@/Modules/postgres/Entities/post_comment.entity';
 import PostService from '@/Modules/postgres/post.service';
 import PostRepo from '@/Modules/postgres/repositories/postRepo';
-import LikeRepo from '@/Modules/postgres/repositories/likeRepo';
-import CommentRepo from '@/Modules/postgres/repositories/commentRepo';
-import MediaService from '@/Modules/postgres/media.service';
 
 @Module({
   imports: [
@@ -41,15 +38,7 @@ import MediaService from '@/Modules/postgres/media.service';
     }),
     TypeOrmModule.forFeature([User, Post, Post_like, Post_comment]),
   ],
-  providers: [
-    PostgresService,
-    PostService,
-    MediaService,
-    UserRepo,
-    PostRepo,
-    LikeRepo,
-    CommentRepo,
-  ],
+  providers: [PostgresService, PostService, UserRepo, PostRepo],
   exports: [PostgresService],
 })
 export class PostgresModule {}

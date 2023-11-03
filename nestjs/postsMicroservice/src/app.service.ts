@@ -57,15 +57,6 @@ export class AppService {
       message: 'POST_DELETE_SUCCEED',
     };
   }
-  async createLike(body: CreateLikeBodyDto): Promise<CreateLikeOutputDto> {
-    const { userId, postId } = body;
-    await this.postgresService.mediaService.createNewLike(userId, postId);
-    return {
-      code: 201,
-      isSucceed: true,
-      message: 'LIKE_CREATED_SUCCEED',
-    };
-  }
   async findPosts(body: GetPostsBodyDto): Promise<GetPostsOutputDto> {
     console.log();
     const { page, criteria } = body;
@@ -82,6 +73,12 @@ export class AppService {
     };
   }
   async findPopularPosts() {
-    return this.postgresService.postService.findPopularPosts();
+    const posts = await this.postgresService.postService.findPopularPosts();
+    return {
+      code: 200,
+      isSucceed: true,
+      message: 'FIND_SUCCEED',
+      payload: posts,
+    };
   }
 }

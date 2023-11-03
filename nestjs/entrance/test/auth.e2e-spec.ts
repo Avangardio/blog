@@ -22,8 +22,8 @@ describe('[Entrance] Auth - (e2e)', () => {
   beforeAll(async () => {
     //подключаемся к редису
     redis = new Redis({
-      host: 'localhost',
-      port: 6379,
+      host: env.REDIS_HOST,
+      port: +env.REDIS_PORT,
     });
     //подключаемся к постгресу
     pool = new Pool({
