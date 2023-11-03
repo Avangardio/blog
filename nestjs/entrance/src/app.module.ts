@@ -9,9 +9,11 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { JwtModule } from '@nestjs/jwt';
 import { PostsModule } from '@/Modules/posts/posts.module';
 import { RmqModule } from '@/Modules/rabbitmq/rmq.module';
+import { MediaModule } from "@/Modules/media/media.module";
 
 @Module({
   imports: [
+    MediaModule,
     PostsModule,
     GuardsModule,
     AuthModule,

@@ -1,37 +1,62 @@
+import { INestApplication } from '@nestjs/common';
+import Redis from 'ioredis';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from '@/app.controller';
 import { AppModule } from '@/app.module';
-import { CheckUserPostLikesBody } from '@/DTO/media/checkUserPostLikesBody';
-import ErrorHandler from '@/Errors/errors';
-import { CreateLikeBody } from '@/DTO/media/createLikeBody';
-import { DeleteLikeBody } from '@/DTO/media/deleteLikeBody';
 import {
-  GetPostCommentsBody,
-  GetPostCommentsOutput,
-} from '@/DTO/media/getPostComments';
-import {
-  CreateCommentBody,
-  CreateCommentOutput,
-} from '@/DTO/media/createComment';
-import { DeleteCommentBody } from '@/DTO/media/deleteComment';
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
+import fastifyCookie from '@fastify/cookie';
+import generateWrongField from './generateWrongData';
+import { Pool } from 'pg';
+import * as request from 'supertest';
+import { CreatePostBodyDto } from '@/DTO/posts/createPost';
+import { GetPostCommentsBody } from "@/DTO/media/getPostComments";
+import { CreateCommentBody } from "@/DTO/media/createComment";
 
-describe('[MICROSERVICE] - Медия - комментарии', () => {
-  let appController: AppController;
+describe('[Entrance] Posts - (e2e)', () => {
+  let app: INestApplication;
+  const env = process.env;
+  let cookies;
 
-  beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+  beforeAll(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
-    appController = app.get<AppController>(AppController);
+
+    app = moduleFixture.createNestApplication<NestFastifyApplication>(
+      new FastifyAdapter(),
+    );
+    const secret = env.JWT;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    await app.register(fastifyCookie, {
+      secret: secret, // for cookies signature
+    });
+    await app.init();
+    await app.getHttpAdapter().getInstance().ready();
   });
-  let commentsLength: number;
+  afterAll(async () => {
+    await app.close();
+  }, 10000);
+
+  it('[NEST] - Логин тестового пользователя', async () => {
+    const loginPayload = {
+      email: '12lol34lol56lol@gmail.com',
+      password: 'MyNewPass42',
+    };
+    const loginNewResponse = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send(loginPayload)
+      .expect(200);
+    cookies = loginNewResponse.headers['set-cookie'];
+  });
   it('[NEST] - Поиск комментариев', async () => {
     const getCommentsBody: GetPostCommentsBody = {
       postId: 1,
     };
     const response = (await appController
       .getComments(getCommentsBody)
-      .catch((error) => ErrorHandler(error))) as GetPostCommentsOutput;
     expect(response.code).toBe(200);
     commentsLength = response.payload.comments.length;
   });
@@ -44,7 +69,6 @@ describe('[MICROSERVICE] - Медия - комментарии', () => {
     };
     const response = (await appController
       .createComment(createCommentBody)
-      .catch((error) => ErrorHandler(error))) as CreateCommentOutput;
     expect(response.code).toBe(201);
     NewCommentId1 = response.payload.commentId;
   });
@@ -76,7 +100,6 @@ describe('[MICROSERVICE] - Медия - комментарии', () => {
     };
     const response = (await appController
       .getComments(getCommentsBody)
-      .catch((error) => ErrorHandler(error))) as GetPostCommentsOutput;
     expect(response.code).toBe(200);
     expect(response.payload.comments.length - commentsLength == 1).toBe(true);
   });
@@ -88,7 +111,6 @@ describe('[MICROSERVICE] - Медия - комментарии', () => {
     };
     const response = (await appController
       .deleteComment(deleteCommentBody)
-      .catch((error) => ErrorHandler(error))) as GetPostCommentsOutput;
     expect(response.code).toBe(201);
   });
   it('[NEST] - Удаление комментария - комментария нет', async () => {
@@ -99,7 +121,6 @@ describe('[MICROSERVICE] - Медия - комментарии', () => {
     };
     const response = (await appController
       .deleteComment(deleteCommentBody)
-      .catch((error) => ErrorHandler(error))) as GetPostCommentsOutput;
     expect(response.code).toBe(201);
   });
 });

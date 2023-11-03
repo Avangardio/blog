@@ -4,7 +4,8 @@ import { RmqAuthService } from '@/Modules/rabbitmq/rmq-auth.service';
 import { RmqBaseService } from '@/Modules/rabbitmq/base.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import {RmqPostsService} from "@/Modules/rabbitmq/rmq-posts.service";
+import { RmqPostsService } from '@/Modules/rabbitmq/rmq-posts.service';
+import { RmqMediaService } from "@/Modules/rabbitmq/rmq-media.service";
 
 @Module({
   imports: [
@@ -46,9 +47,27 @@ import {RmqPostsService} from "@/Modules/rabbitmq/rmq-posts.service";
         },
         inject: [ConfigService],
       },
+      {
+        name: 'MEDIA_SERVICE',
+        imports: [ConfigModule], // импорт ConfigModule
+        useFactory: (configService: ConfigService) => {
+          const { rmqHost, rmqPort, rmqAuth } = configService.get('RMQ');
+          return {
+            transport: Transport.RMQ,
+            options: {
+              urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}/`],
+              queue: 'media_Queue',
+              queueOptions: {
+                durable: false,
+              },
+            },
+          };
+        },
+        inject: [ConfigService],
+      },
     ]),
   ],
-  providers: [RmqAuthService, RmqPostsService],
-  exports: [RmqAuthService, RmqPostsService],
+  providers: [RmqAuthService, RmqPostsService, RmqMediaService],
+  exports: [RmqAuthService, RmqPostsService, RmqMediaService],
 })
 export class RmqModule {}

@@ -43,6 +43,7 @@ export class JwtGuard implements CanActivate {
 
     request.body['userId'] = newToken.userid;
     request['username'] = newToken.username;
+    request['userId'] = newToken.userid;
     return true;
   }
 }

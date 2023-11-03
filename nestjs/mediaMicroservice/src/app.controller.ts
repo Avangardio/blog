@@ -2,17 +2,17 @@ import { Controller, UseFilters, UsePipes } from '@nestjs/common';
 import { AppService } from '@/app.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ExtendedErrorFilter } from '@/Errors/errors.filter';
-import {JoiValidationPipe} from "@/Pipes/JoiValidationPipe";
-import {CheckUserPostLikesBody} from "@/DTO/media/checkUserPostLikesBody";
-import {LikeBodySchema} from "@/Pipes/Jois/LikeBodySchema";
-import {CreateLikeBody} from "@/DTO/media/createLikeBody";
-import {DeleteLikeBody} from "@/DTO/media/deleteLikeBody";
-import {GetPostCommentsBody} from "@/DTO/media/getPostComments";
-import {CreateCommentBody} from "@/DTO/media/createComment";
-import {DeleteCommentBody} from "@/DTO/media/deleteComment";
-import {GetCommentsSchema} from "@/Pipes/Jois/GetCommentsSchema";
-import {CreateCommentSchema} from "@/Pipes/Jois/CreateCommentSchema";
-import {DeleteCommentSchema} from "@/Pipes/Jois/DeleteCommentSchema";
+import { JoiValidationPipe } from '@/Pipes/JoiValidationPipe';
+import { CheckUserPostLikesBody } from '@/DTO/media/checkUserPostLikesBody';
+import { LikeBodySchema } from '@/Pipes/Jois/LikeBodySchema';
+import { CreateLikeBody } from '@/DTO/media/createLikeBody';
+import { DeleteLikeBody } from '@/DTO/media/deleteLikeBody';
+import { GetPostCommentsBody } from '@/DTO/media/getPostComments';
+import { CreateCommentBody } from '@/DTO/media/createComment';
+import { DeleteCommentBody } from '@/DTO/media/deleteComment';
+import { GetCommentsSchema } from '@/Pipes/Jois/GetCommentsSchema';
+import { CreateCommentSchema } from '@/Pipes/Jois/CreateCommentSchema';
+import { DeleteCommentSchema } from '@/Pipes/Jois/DeleteCommentSchema';
 
 @Controller()
 export class AppController {
@@ -43,7 +43,6 @@ export class AppController {
     return this.appService.deleteLike(payload);
   }
 
-
   @MessagePattern('getComments')
   @UsePipes(new JoiValidationPipe(GetCommentsSchema))
   @UseFilters(ExtendedErrorFilter)
@@ -68,5 +67,4 @@ export class AppController {
     //Возвращаем результат
     return this.appService.deleteComment(payload);
   }
-
 }

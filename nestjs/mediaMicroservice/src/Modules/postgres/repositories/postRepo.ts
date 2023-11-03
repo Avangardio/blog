@@ -25,10 +25,10 @@ export default class PostRepo {
             userId: true,
           },
         },
-          cache: {
-              id: `post_by_id_${postId}`,
-              milliseconds: 120_000,
-          },
+        cache: {
+          id: `post_by_id_${postId}`,
+          milliseconds: 120_000,
+        },
       })
       .catch((error) => {
         throw new DatabasePGError('NO_POST', error.message);

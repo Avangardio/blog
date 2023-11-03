@@ -54,7 +54,7 @@ describe('[Entrance] Posts - (e2e)', () => {
     await app.init();
     await app.getHttpAdapter().getInstance().ready();
     client.release();
-    //const authcontroller = app.get<PostsController>(PostsController);
+    //const authcontroller = app.get<MediaController>(MediaController);
   });
   afterAll(async () => {
     //Выключаем редис подключение и нестжс
