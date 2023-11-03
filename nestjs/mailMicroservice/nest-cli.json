@@ -5,8 +5,11 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "assets": [
-      "resources/**/*",
-      "emails/**/*.hbs"
+      {
+        "include": "../emails",
+        "outDir": "dist/emails",
+        "watchAssets": true
+      }
     ]
   }
 }
