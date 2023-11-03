@@ -9,16 +9,17 @@ interface TopicSurferProps {
     type: "Prev" | "Next";
     totalPages: number;
 }
-export default function TopicSurferButton({currentPage, totalPosts, navigation, totalPages, type}: TopicSurferProps){
+
+export default function TopicSurferButton({currentPage, totalPosts, navigation, totalPages, type}: TopicSurferProps) {
     const allParams = useSearchParams();
 
     const authorParams = allParams.get('author');
     const searchParams = allParams.get('search');
-    const tagParams    = allParams.get('tags');
+    const tagParams = allParams.get('tags');
 
     const {hrefProp, classProp} = useMemo(() => {
         return {
-            hrefProp:  `/page${type == 'Prev' ? currentPage - 1 : currentPage + 1}` + (authorParams || searchParams || tagParams? `?${allParams}` : ""),
+            hrefProp: `/page${type == 'Prev' ? currentPage - 1 : currentPage + 1}` + (authorParams || searchParams || tagParams ? `?${allParams}` : ""),
             classProp: ` ${currentPage === (type == "Prev" ? 1 : totalPages) ? "text-gray-400 " : " text-cyan-700"}`
         }
     }, [currentPage, allParams, totalPosts])

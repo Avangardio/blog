@@ -1,9 +1,10 @@
-import AuthorLink from "@/Components/MainPage/authorModule/authorLink";
 import useLocalization from "@/Components/Localization/Localization";
+
 interface TopicEntityProps {
     topicProp: PostForTopic
 }
-export default function TopicEntity({topicProp}: TopicEntityProps){
+
+export default function TopicEntity({topicProp}: TopicEntityProps) {
     const {authorTag, addNewPost} = useLocalization('topics/interface');
     const {postId, authorId, picture, tags, title, description} = topicProp;
     return (

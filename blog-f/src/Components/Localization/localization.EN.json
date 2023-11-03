@@ -1,72 +1,72 @@
 {
-    "topics/interface": {
-      "authorTag": "Автор",
-      "addNewPost": "Напишите статью",
-      "popularHeader": "Популярные статьи",
-      "createButtonLogged": "Write your own post!",
-      "createButtonGuest": "Login in to create posts!",
-      "authorFrom": "On portal from: ",
-      "authorHelp": "Chose posts"
+  "topics/interface": {
+    "authorTag": "Автор",
+    "addNewPost": "Напишите статью",
+    "popularHeader": "Популярные статьи",
+    "createButtonLogged": "Write your own post!",
+    "createButtonGuest": "Login in to create posts!",
+    "authorFrom": "On portal from: ",
+    "authorHelp": "Chose posts"
+  },
+  "auth": {
+    "login": "Login",
+    "password": "Password"
+  },
+  "auth/redirects": {
+    "restorationRedirect": "Restore password",
+    "loginRedirect": "Already have an account? Log in",
+    "confirmationRedirect": "TBC",
+    "registrationRedirect": "Create account"
+  },
+  "auth/inputs": {
+    "serverErrors": {
+      "BAD_INPUT": "Incorrect data proven!",
+      "USER_EXIST": "User is already exists!"
     },
-    "auth": {
+    "headers": {
+      "registration": "Registration",
       "login": "Login",
-      "password": "Password"
+      "confirmation": "Confirmation"
     },
-    "auth/redirects": {
-      "restorationRedirect": "Restore password",
-      "loginRedirect": "Already have an account? Log in",
-      "confirmationRedirect": "TBC",
-      "registrationRedirect": "Create account"
+    "inputPlaceholder": {
+      "namePlaceholder": "Name",
+      "emailPlaceholder": "example@example.org",
+      "passwordPlaceholder": "Password",
+      "rememberPlaceholder": "Remember me"
     },
-    "auth/inputs": {
-      "serverErrors": {
-        "BAD_INPUT": "Incorrect data proven!",
-        "USER_EXIST": "User is already exists!"
-      },
-      "headers": {
-        "registration": "Registration",
-        "login": "Login",
-        "confirmation": "Confirmation"
-      },
-      "inputPlaceholder": {
-        "namePlaceholder": "Name",
-        "emailPlaceholder": "example@example.org",
-        "passwordPlaceholder": "Password",
-        "rememberPlaceholder": "Remember me"
-      },
-      "termsOfUse": {
-        "terms1": "By clicking the button, you accept the",
-        "terms2": "Terms of Use"
-      },
-      "inputHeader": {
-        "nameHeader": "Username",
-        "emailHeader": "Email",
-        "passwordHeader": "Password",
-        "codeHeader": "Code"
-      },
-      "inputError": {
-        "required": "Field is required!",
-        "short": "Field is too short!",
-        "long": "Field is too long!",
-        "emailIncorrect": "Invalid email!",
-        "passwordIncorrect": "Password must be at least 8 symbols, one letter and number!",
-        "codeIncorrect": "Code is invalid!"
-      },
-      "inputHelper": {
-        "nameHelper": "Name must contain at least 2 any symbols",
-        "emailHelper": "Email must be correct",
-        "passwordHelper": "TBC",
-        "codeHelper": "Must be 6 digits"
-      }
+    "termsOfUse": {
+      "terms1": "By clicking the button, you accept the",
+      "terms2": "Terms of Use"
     },
-    "registration": {
-      "header": "Registration"
+    "inputHeader": {
+      "nameHeader": "Username",
+      "emailHeader": "Email",
+      "passwordHeader": "Password",
+      "codeHeader": "Code"
     },
-    "header": {
-      "welcome": "Welcome"
+    "inputError": {
+      "required": "Field is required!",
+      "short": "Field is too short!",
+      "long": "Field is too long!",
+      "emailIncorrect": "Invalid email!",
+      "passwordIncorrect": "Password must be at least 8 symbols, one letter and number!",
+      "codeIncorrect": "Code is invalid!"
     },
-    "navigation": {
-      "home": "Home",
-      "registration": "Registration"
+    "inputHelper": {
+      "nameHelper": "Name must contain at least 2 any symbols",
+      "emailHelper": "Email must be correct",
+      "passwordHelper": "TBC",
+      "codeHelper": "Must be 6 digits"
     }
+  },
+  "registration": {
+    "header": "Registration"
+  },
+  "header": {
+    "welcome": "Welcome"
+  },
+  "navigation": {
+    "home": "Home",
+    "registration": "Registration"
+  }
 }

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function UserCabinet(){
+export default function UserCabinet() {
 
     return (
         <div>

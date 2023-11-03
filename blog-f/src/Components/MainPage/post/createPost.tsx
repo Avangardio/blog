@@ -3,7 +3,7 @@ import useLocalization from "@/Components/Localization/Localization";
 import {useStore} from "@/MobX/RootStore";
 import Image from "next/image";
 
-export default function CreatePost(){
+export default function CreatePost() {
     const {createButtonGuest, createButtonLogged} = useLocalization('topics/interface');
     const {UserStore} = useStore();
 

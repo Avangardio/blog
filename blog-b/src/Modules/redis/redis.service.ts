@@ -4,8 +4,9 @@ import {Injectable} from "@nestjs/common";
 
 @Injectable()
 export default class RedisService {
-  constructor(
-    public readonly regBlock: RegBlock,
-    public readonly regRequestData: RegRequestData,
-  ) {}
+    constructor(
+        public readonly regBlock: RegBlock,
+        public readonly regRequestData: RegRequestData,
+    ) {
+    }
 }

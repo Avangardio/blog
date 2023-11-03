@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import GuardsService from '@/Guards/guards.service';
 import { RmqAuthService } from '@/Modules/rabbitmq/rmq-auth.service';
 
 type userdataJWT = {
@@ -18,6 +17,7 @@ export class JwtServiceRoot {
   async signUser({ username, userid }: userdataJWT) {
     return await this.jwtService.signAsync({ username, userid });
   }
+
   async validateUserdata(userdata: string) {
     //если жвт невалиден или просрочен
     const verifiedUser = await this.jwtService

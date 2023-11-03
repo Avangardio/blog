@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import {useStore} from "@/MobX/RootStore";
 
-function LanguageControl(){
+function LanguageControl() {
     const {UserStore} = useStore();
     return (
         <select
@@ -14,4 +14,5 @@ function LanguageControl(){
         </select>
     )
 }
+
 export default observer(LanguageControl)

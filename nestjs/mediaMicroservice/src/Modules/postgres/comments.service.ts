@@ -29,6 +29,7 @@ export default class CommentsService {
         //Создаем пост
         return await this.commentRepo.createComment(user, post, text);
     }
+
     async deleteComment(body: DeleteCommentBody) {
         const {postId, commentId, userId} = body;
         //Получаем айди пользователя по предоставленному, чтоб проверить. Если нет - ошибка.
@@ -43,6 +44,7 @@ export default class CommentsService {
         const result: DeleteResult = await this.commentRepo.deleteComment(user, post, commentId);
         return result.affected == 0;
     }
+
     async getPostComments(postId: number) {
         //Получаем айди пользователя по предоставленному, чтоб проверить. Если нет - ошибка.
         //Получаем айди поста. Нет - ошибка.

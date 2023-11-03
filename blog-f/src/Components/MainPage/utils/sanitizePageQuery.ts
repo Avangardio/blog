@@ -1,4 +1,3 @@
-
 export default function sanitizePageQuery(page: string | undefined): number {
     let currentPage: string;
 

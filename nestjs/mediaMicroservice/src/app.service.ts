@@ -18,9 +18,11 @@ import {
   DeleteCommentBody,
   DeleteCommentOutput,
 } from '@/DTO/media/deleteComment';
+
 @Injectable()
 export class AppService {
   constructor(public readonly postgresService: PostgresService) {}
+
   async checkLike(
     body: CheckUserPostLikesBody,
   ): Promise<CheckUserPostLikesOutput> {
@@ -39,6 +41,7 @@ export class AppService {
       },
     };
   }
+
   async createLike(body: CreateLikeBody): Promise<CreateLikeOutput> {
     const { userId, postId } = body;
     //Пытаемся создать лайк
@@ -52,6 +55,7 @@ export class AppService {
       message: 'LIKE_CREATED',
     };
   }
+
   async deleteLike(body: DeleteLikeBody): Promise<DeleteLikeOutput> {
     const { userId, postId } = body;
     //Пытаемся создать лайк
@@ -83,6 +87,7 @@ export class AppService {
       },
     };
   }
+
   async createComment(body: CreateCommentBody): Promise<CreateCommentOutput> {
     const { userId, postId, text } = body;
     //Пытаемся создать лайк
@@ -101,6 +106,7 @@ export class AppService {
       },
     };
   }
+
   async deleteComment(body: DeleteCommentBody): Promise<DeleteCommentOutput> {
     //Пытаемся создать лайк
     const result = await this.postgresService.commentsService.deleteComment(

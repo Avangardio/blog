@@ -7,10 +7,8 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import fastifyCookie from '@fastify/cookie';
-import generateWrongField from './generateWrongData';
 import { Pool } from 'pg';
 import * as request from 'supertest';
-import { CreatePostBodyDto } from '@/DTO/posts/createPost';
 
 describe('[Entrance] Posts - (e2e)', () => {
   let app: INestApplication;

@@ -1,6 +1,6 @@
 'use client'
-import { createContext, useContext } from "react";
-import { enableStaticRendering } from "mobx-react";
+import {createContext, useContext} from "react";
+import {enableStaticRendering} from "mobx-react";
 import UserStore from "@/MobX/userStore";
 import UIStore from "@/MobX/UIStore";
 

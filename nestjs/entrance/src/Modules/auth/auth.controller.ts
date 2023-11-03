@@ -1,10 +1,7 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
-  InternalServerErrorException,
-  NotFoundException,
   Post,
   Query,
   Req,
@@ -19,7 +16,6 @@ import { RegistrationSchema } from '@/Pipes/Jois/auth/RegistrationSchema';
 import { SwaggerDecorator } from '@/Swagger/swagger.decorator';
 import RegistrationMetadata from '@/Modules/auth/metadata/auth.metadata';
 import { ConfigService } from '@nestjs/config';
-import { CookieAuthGuard } from '@/Guards/cookie.guard';
 import {
   RegistrationBodyDto,
   RegistrationOutputDto,
@@ -62,6 +58,7 @@ export class AuthController {
     response.status(200);
     return { userid, username };
   }
+
   /**
    * @name registration
    * @description Роут для начального этапа регистрации
@@ -79,12 +76,13 @@ export class AuthController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //Выполняем метод регистрации
-    const result = await this.authService.rmqAuthService.registration(body);
+    const result = await this.authService.registration(body);
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат
     return result;
   }
+
   /**
    * @name confirmation
    * @description Роут для подтверждения регистрации посредтством отправки кода с имейла
@@ -101,12 +99,13 @@ export class AuthController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //Выполняем метод подтверждения
-    const result = await this.authService.rmqAuthService.confirmation(body);
+    const result = await this.authService.confirmation(body);
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат
     return result;
   }
+
   /**
    * @name login
    * @description Роут для логина посредством пароля и имейла
@@ -123,7 +122,7 @@ export class AuthController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //Выполняем метод логина
-    const result = await this.authService.rmqAuthService.login(body);
+    const result = await this.authService.login(body);
     //Проверяем, успешно ли прошел проверку пользователь
     if (result.code === 200) {
       const { code, message, isSucceed, payload } = result;
@@ -148,6 +147,7 @@ export class AuthController {
     //Возвращаем результат
     return result;
   }
+
   /**
    * @name logoutUser
    * @description Роут для выхода пользователя посредтством обнуления его куки с данными
@@ -162,6 +162,7 @@ export class AuthController {
     response.status(200);
     return 'OK';
   }
+
   /**
    * @name restoration
    * @description Роут для начала восстановления пароля, создает реквест в редисе, который надо будет подтвердить кодом
@@ -177,12 +178,13 @@ export class AuthController {
     @Req() request: FastifyRequest,
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
-    const result = await this.authService.rmqAuthService.restoration(body);
+    const result = await this.authService.restoration(body);
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат
     return result;
   }
+
   /**
    * @name validateRequest
    * @description Роут для проверки запроса с имейл кодом, нужно для фронтенда больше
@@ -198,8 +200,8 @@ export class AuthController {
     @Req() request: FastifyRequest,
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
-    const result = await this.authService.rmqAuthService.validateRequest(body);
-    //Отдаем код результата
+    const result = await this.authService.validateRequest(body);
+    //Отдаем код результатa
     response.status(result.code);
     //Возвращаем результат
     return result;
@@ -224,6 +226,7 @@ export class AuthController {
     });
     response.status(302).redirect('/' + swaggerURL);
   }
+
   @Post('setNewPassword')
   @UsePipes(new JoiValidationPipe(SetNewPasswordSchema))
   async setNewPassword(
@@ -231,7 +234,7 @@ export class AuthController {
     @Req() request: FastifyRequest,
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
-    const result = await this.authService.rmqAuthService.setNewPassword(body);
+    const result = await this.authService.setNewPassword(body);
     //Отдаем код результата
     response.status(result.code);
     //Возвращаем результат

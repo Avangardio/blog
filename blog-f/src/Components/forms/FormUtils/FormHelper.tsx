@@ -1,7 +1,6 @@
-import useLocalization from "@/Components/Localization/Localization";
 import FormWindow, {formKits} from "@/Components/forms/FormUtils/FormWindow";
 import Image from "next/image";
-import {ReactNode, useState} from "react";
+import {useState} from "react";
 import {FormikTouched} from "formik";
 
 type Forms = keyof typeof formKits;
@@ -18,14 +17,14 @@ interface ErrorNotifyProps<Form extends Forms = Forms> {
     className?: string
 }
 
-export default function FormHelper({form, error, touched, field, className}: ErrorNotifyProps){
+export default function FormHelper({form, error, touched, field, className}: ErrorNotifyProps) {
     const [window, setWindow] = useState<boolean>(false);
     return (
         <div className={'relative  flex-shrink-0'}>
             <Image src={(error && error[field] && touched && touched[field]) ? "input-error.svg" : "input-info.svg"}
                    alt={'input-info.svg'}
                    width={20} height={20}
-                   className = {className ?? `absolute mt-[calc(-2.75rem-10px)] right-2`}
+                   className={className ?? `absolute mt-[calc(-2.75rem-10px)] right-2`}
                    onMouseOver={() => setWindow(true)}
                    onMouseOut={() => setWindow(false)}
             />

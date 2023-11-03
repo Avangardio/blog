@@ -1,11 +1,8 @@
 'use client'
 import {useRouter} from "next/navigation";
 import useLocalization from "@/Components/Localization/Localization";
-import * as Yup from "yup";
 import React, {useRef, useState} from "react";
 import {Field, Form, Formik, FormikHelpers} from "formik";
-import FormHelper from "@/Components/forms/FormUtils/FormHelper";
-import {formKits} from "@/Components/forms/FormUtils/FormWindow";
 import axios from "axios";
 import {authURL} from "@/Fetching/URLs/authURLs";
 
@@ -17,14 +14,16 @@ type FormValues = {
     input5: string;
     input6: string;
 };
+
 interface ConfirmationPageProps {
     searchParams?: {
         ["request"]: string | string[] | undefined
     }
 }
+
 export default function MyForm({searchParams}: ConfirmationPageProps) {
     const localization = useLocalization('auth/inputs')
-    const { push } = useRouter();
+    const {push} = useRouter();
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const inputRefs = Array(6).fill(null).map(() => useRef<HTMLInputElement>(null));
@@ -76,7 +75,8 @@ export default function MyForm({searchParams}: ConfirmationPageProps) {
                 })
                     .then(
                         result => push('/login'),
-                        error => {}
+                        error => {
+                        }
                     )
             }}
         >
@@ -108,7 +108,9 @@ export default function MyForm({searchParams}: ConfirmationPageProps) {
                         ))}
                     </div>
 
-                    <button className={"bg-orange-300 self-center rounded-3xl h-12 w-60 drop-shadow-lg"} type="submit">Kod</button>
+                    <button className={"bg-orange-300 self-center rounded-3xl h-12 w-60 drop-shadow-lg"}
+                            type="submit">Kod
+                    </button>
                 </Form>
             )}
         </Formik>

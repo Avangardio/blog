@@ -3,45 +3,114 @@ import {
   Controller,
   Delete,
   Get,
-  HttpStatus,
-  NotAcceptableException,
-  NotFoundException,
-  Param,
+  HttpStatus, Param,
   ParseIntPipe,
   Post,
   Query,
   Req,
   Res,
-  UseGuards,
-  UsePipes,
-} from '@nestjs/common';
+  UseGuards, UsePipes
+} from "@nestjs/common";
 import { MediaService } from './media.service';
 import { ApiTags } from '@nestjs/swagger';
-import { JoiValidationPipe } from '@/Pipes/JoiValidationPipe';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { CreatePostBodyDto } from '@/DTO/posts/createPost';
-import { CreatePostSchema } from '@/Pipes/Jois/posts/CreatePostSchema';
 import { JwtGuard } from '@/Guards/jwt.guard';
-import { CheckUserPostLikesBody } from '@/DTO/media/checkUserPostLikesBody';
-import { LikeBodySchema } from '@/Pipes/Jois/media/LikeBodySchema';
+import { DeleteExactPostBodyDto } from '@/DTO/posts/deletePost';
+import { CreateLikeBody } from '@/DTO/media/createLikeBody';
+import { DeleteLikeBody } from '@/DTO/media/deleteLikeBody';
+import { CreateCommentBody } from '@/DTO/media/createComment';
+import { DeleteCommentBody } from '@/DTO/media/deleteComment';
+import { LikeBodySchema } from "@/Pipes/Jois/media/LikeBodySchema";
+import { JoiValidationPipe } from "@/Pipes/JoiValidationPipe";
+import { CreateCommentSchema } from "@/Pipes/Jois/media/CreateCommentSchema";
+import { DeleteCommentSchema } from "@/Pipes/Jois/media/DeleteCommentSchema";
 
 @ApiTags('Entrance/Media')
 @Controller('media')
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
 
-  @Get('checkLike')
+  @Get('checkLike/:postId')
   @UseGuards(JwtGuard)
   async checkLike(
-    @Query(
+    @Param(
       'postId',
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     postId: number,
     @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
   ) {
     const userId = request['userId'] as number;
-    return this.mediaService.rmqMediaService.checkLike({ postId, userId });
+    const likeResponse = await this.mediaService.checkLike({ postId, userId });
+    response.status(likeResponse.code);
+    return likeResponse;
   }
-  
+
+  @Post('createLike')
+  @UseGuards(JwtGuard)
+  @UsePipes(new JoiValidationPipe(LikeBodySchema))
+  async createLike(
+    @Body() body: CreateLikeBody,
+    @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ) {
+    const createResponse = await this.mediaService.createLike(body);
+    response.status(createResponse.code);
+    return createResponse;
+  }
+
+  @Delete('deleteLike')
+  @UseGuards(JwtGuard)
+  @UsePipes(new JoiValidationPipe(LikeBodySchema))
+  async deleteLike(
+    @Body() body: DeleteLikeBody,
+    @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ) {
+    const deleteResponse = await this.mediaService.deleteLike(body);
+    response.status(deleteResponse.code);
+    return deleteResponse;
+  }
+
+  @Get('getComments/:postId')
+  async getComments(
+    @Param(
+      'postId',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    postId: number,
+    @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ) {
+    const commentsResponse = await this.mediaService.getComments({ postId });
+    response.status(commentsResponse.code);
+    return commentsResponse;
+  }
+
+  @Post('createComment')
+  @UseGuards(JwtGuard)
+  @UsePipes(new JoiValidationPipe(CreateCommentSchema))
+  async createComment(
+    @Body() body: CreateCommentBody,
+    @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ) {
+    const createResponse = await this.mediaService.createComment(body);
+    response.status(createResponse.code);
+    return createResponse;
+  }
+
+  @Delete('deleteComment')
+  @UseGuards(JwtGuard)
+  @UsePipes(new JoiValidationPipe(DeleteCommentSchema))
+  async deleteComment(
+    @Body() body: DeleteCommentBody,
+    @Req() request: FastifyRequest,
+    @Res({ passthrough: true }) response: FastifyReply,
+  ) {
+    const deleteResponse = await this.mediaService.deleteComment(body);
+    response.status(deleteResponse.code);
+    return deleteResponse;
+  }
 }

@@ -1,6 +1,4 @@
-import axios from "axios";
-
-export default async function getPopularPosts(time = 7): Promise<PostForPopular[]>{
+export default async function getPopularPosts(time = 7): Promise<PostForPopular[]> {
     /*const res = await axios.get<PostForPopular>(`http://localhost:3000/getPopularPosts/${time}`)
         .then(
             (result: any) => {

@@ -1,7 +1,7 @@
 import * as Joi from 'joi';
 
 export const FindExactPostsSchema = Joi.object({
-  postId: Joi.number().required(),
+    postId: Joi.number().required(),
 }).options({
-  presence: 'required',
+    presence: 'required',
 });

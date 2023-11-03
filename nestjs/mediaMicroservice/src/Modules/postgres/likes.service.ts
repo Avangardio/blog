@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import PostRepo from '@/Modules/postgres/repositories/postRepo';
 import UserRepo from '@/Modules/postgres/repositories/userRepo';
-import { Post_like } from '@/Modules/postgres/Entities/post_like.entity';
-import { Post_comment } from '@/Modules/postgres/Entities/post_comment.entity';
-import {NoLikeError, NoPostError, NoUserError} from "@/Errors/postgresErrors/postgresErrors";
+import {
+  NoLikeError,
+  NoPostError,
+} from '@/Errors/postgresErrors/postgresErrors';
 import LikeRepo from '@/Modules/postgres/repositories/likeRepo';
 import CommentRepo from '@/Modules/postgres/repositories/commentRepo';
-import {DeleteResult} from "typeorm";
+import { DeleteResult } from 'typeorm';
 
 @Injectable()
 export default class LikesService {
@@ -16,6 +17,7 @@ export default class LikesService {
     private readonly likeRepo: LikeRepo,
     private readonly commentRepo: CommentRepo,
   ) {}
+
   async createNewLike(userId: number, postId: number) {
     //Получаем айди пользователя по предоставленному, чтоб проверить. Если нет - ошибка.
     //Получаем айди поста. Нет - ошибка.
@@ -29,6 +31,7 @@ export default class LikesService {
     await this.likeRepo.createLike(user, post);
     return true;
   }
+
   async deleteLike(userId: number, postId: number) {
     //Получаем айди пользователя по предоставленному, чтоб проверить. Если нет - ошибка.
     //Получаем айди поста. Нет - ошибка.
@@ -42,6 +45,7 @@ export default class LikesService {
     const result: DeleteResult = await this.likeRepo.deleteLike(user, post);
     return result.affected == 0;
   }
+
   async checkIfUserLikesPosts(userId: number, postId: number) {
     //Получаем айди пользователя по предоставленному, чтоб проверить. Если нет - ошибка.
     //Получаем айди поста. Нет - ошибка.
@@ -52,7 +56,7 @@ export default class LikesService {
     //Проверяем, чтоб все данные были
     if (!user || !post) throw new NoPostError('NO_POST');
     const like = await this.likeRepo.checkUserPostLike(user, post);
-    if(!like) throw new NoLikeError('NO_LIKE');
+    if (!like) throw new NoLikeError('NO_LIKE');
     //Возвращаем существовует или нет
     return !!like;
   }

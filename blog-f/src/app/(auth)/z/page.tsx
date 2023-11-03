@@ -1,10 +1,10 @@
 'use client'
-import {useForm, Form, Field, FieldError} from "afreactforms";
+import {Field, FieldError, Form, useForm} from "afreactforms";
 import useLocalization from "@/Components/Localization/Localization";
 import * as Yup from "yup";
 
 
-export default function Z(){
+export default function Z() {
     const {
         inputPlaceholder,
         inputHeader,
@@ -24,7 +24,7 @@ export default function Z(){
             .email(inputError.emailIncorrect)
             .required(inputError.required),
         password: Yup.string()
-            .min(8,  inputError.short)
+            .min(8, inputError.short)
             .required(inputError.required),
     })
 

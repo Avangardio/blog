@@ -1,29 +1,24 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
+  Delete,
   Get,
-  HttpStatus,
-  NotAcceptableException,
-  NotFoundException,
   Param,
-  ParseIntPipe,
   Post,
   Query,
   Req,
   Res,
   UseGuards,
-  UsePipes
-} from "@nestjs/common";
+  UsePipes,
+} from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { ConfigService } from '@nestjs/config';
 import { JwtServiceRoot } from '@/Guards/jwt.service';
 import { ApiTags } from '@nestjs/swagger';
-import { GetPostsBodyDto, GetPostsOutputDto } from '@/DTO/posts/getPosts';
 import { JoiValidationPipe } from '@/Pipes/JoiValidationPipe';
 import { GetPostsQuerySchema } from '@/Pipes/Jois/posts/GetPostsQuerySchema';
 import { GetPostsParamSchema } from '@/Pipes/Jois/posts/GetPostsParamSchema';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { RegistrationBodyDto } from '@/DTO/auth/registration';
 import { CreatePostBodyDto } from '@/DTO/posts/createPost';
 import { CreatePostSchema } from '@/Pipes/Jois/posts/CreatePostSchema';
 import { JwtGuard } from '@/Guards/jwt.guard';
@@ -49,7 +44,7 @@ export class PostsController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     const { title, tags, authorId } = query;
-    const postsResponse = await this.postsService.rmqPostsService.findPosts({
+    const postsResponse = await this.postsService.findPosts({
       page: +page,
       criteria: {
         authorId: +authorId || undefined,
@@ -60,6 +55,7 @@ export class PostsController {
     response.status(postsResponse.code);
     return postsResponse;
   }
+
   @Post('createPost')
   @UseGuards(JwtGuard)
   @UsePipes(new JoiValidationPipe(CreatePostSchema))
@@ -69,12 +65,13 @@ export class PostsController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //удаляем с тела запроса юзернейм из жвт гварда
-    const createResponse = await this.postsService.rmqPostsService.createPost(
+    const createResponse = await this.postsService.createPost(
       body,
     );
     response.status(createResponse.code);
     return createResponse;
   }
+
   @Get('findExactPost')
   @UsePipes(new JoiValidationPipe(FindExactPostsSchema))
   async findExactPost(
@@ -83,19 +80,21 @@ export class PostsController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     const { postId } = query;
-    const article = await this.postsService.rmqPostsService.findExactPost({
+    const article = await this.postsService.findExactPost({
       postId: +postId || undefined,
     });
     response.status(article.code);
     return article;
   }
+
   @Get('findPopularPosts')
   async findPopularPosts(@Res({ passthrough: true }) response: FastifyReply) {
     const popularPostsResponse =
-      await this.postsService.rmqPostsService.findPopularPosts();
+      await this.postsService.findPopularPosts();
     response.status(popularPostsResponse.code);
     return popularPostsResponse;
   }
+
   @Delete('deletePost')
   @UseGuards(JwtGuard)
   @UsePipes(new JoiValidationPipe(DeletePostSchema))
@@ -104,7 +103,7 @@ export class PostsController {
     @Req() request: FastifyRequest,
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
-    const deleteResponse = await this.postsService.rmqPostsService.deletePost(
+    const deleteResponse = await this.postsService.deletePost(
       body,
     );
     response.status(deleteResponse.code);

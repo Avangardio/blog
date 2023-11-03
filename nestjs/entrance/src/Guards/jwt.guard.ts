@@ -2,12 +2,11 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { FastifyRequest } from 'fastify';
 import { JwtServiceRoot } from '@/Guards/jwt.service';
+
 @Injectable()
 export class JwtGuard implements CanActivate {
   constructor(private jwtService: JwtServiceRoot) {}
@@ -40,8 +39,8 @@ export class JwtGuard implements CanActivate {
     });
     //добавляем в тело запроса пользователя
     if (!request.body) request.body = {};
-
-    request.body['userId'] = newToken.userid;
+    if (typeof request.body === 'object')
+      request.body['userId'] = newToken.userid;
     request['username'] = newToken.username;
     request['userId'] = newToken.userid;
     return true;

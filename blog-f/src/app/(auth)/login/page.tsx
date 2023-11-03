@@ -1,12 +1,8 @@
 'use client'
-import {useStore} from "@/MobX/RootStore";
-import {Formik, Field, Form, ErrorMessage, useFormik} from "formik";
+import {Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import React, {useMemo, useState} from "react";
-import Image from "next/image";
-import {useRouter} from "next/navigation";
 import axios from "axios";
-import {observer} from "mobx-react";
 import useLocalization from "@/Components/Localization/Localization";
 import FormHelper from "@/Components/forms/FormUtils/FormHelper";
 import ReplyError from "@/Components/forms/FormUtils/ReplyError";
@@ -33,7 +29,7 @@ export default function LoginPage() {
             .min(2, inputError.short)
             .email(inputError.emailIncorrect)
             .required(inputError.required),
-    }),[inputError])
+    }), [inputError])
 
     const inputClasses = `transition duration-300 ease-in-out 
                                        focus:border-transparent focus:bg-gray-300 focus:bg-transparent focus:outline-0 focus:border-gray-300
@@ -44,7 +40,8 @@ export default function LoginPage() {
     const [replyError, setReplyError] = useState('');
     return (
         <div className={'bg-white p-4 rounded-s'}>
-            <div className={'font-medium text-2xl text-cyan-800 z-50 mb-5 border-b-2 border-cyan-600 text-center'}>{headers.login}</div>
+            <div
+                className={'font-medium text-2xl text-cyan-800 z-50 mb-5 border-b-2 border-cyan-600 text-center'}>{headers.login}</div>
             <Formik
                 initialValues={{
                     password: '',
@@ -57,18 +54,21 @@ export default function LoginPage() {
                         email: values.email,
                         password: values.password
                     }, {
-                            withCredentials: true
-                        })
+                        withCredentials: true
+                    })
                         .then(
-                            result => {},
-                            error => {}
+                            result => {
+                            },
+                            error => {
+                            }
                         )
                 }}
             >
-                {({ errors, touched }) =>
+                {({errors, touched}) =>
                     (
-                    <Form id='reg-form' className="relative flex-col flex justify-center z-40">
-                            <label className={'px-5 block font-medium text-sm text-cyan-700'} htmlFor={'email'}>{inputHeader.emailHeader}</label>
+                        <Form id='reg-form' className="relative flex-col flex justify-center z-40">
+                            <label className={'px-5 block font-medium text-sm text-cyan-700'}
+                                   htmlFor={'email'}>{inputHeader.emailHeader}</label>
                             <Field name="email"
                                    className={`${errors.email && touched.email ? 'border-red-700' : "border-cyan-600"} ` + inputClasses}
                                    placeholder={inputPlaceholder.emailPlaceholder}
@@ -76,39 +76,39 @@ export default function LoginPage() {
                             <FormHelper form={'login'} field={'email'} error={errors} touched={touched}/>
 
 
-
-                            <label className={'px-5 block font-medium text-sm text-cyan-700'} htmlFor={'password'}>{inputHeader.passwordHeader}</label>
+                            <label className={'px-5 block font-medium text-sm text-cyan-700'}
+                                   htmlFor={'password'}>{inputHeader.passwordHeader}</label>
                             <Field name="password"
                                    type="password"
                                    className={`${errors.password && touched.password ? 'border-red-700' : "border-cyan-600"} ` + inputClasses}
                                    placeholder={inputPlaceholder.passwordPlaceholder}
                             />
-                            <FormHelper form={'login'} field={'password'} error={errors} touched={touched} />
+                            <FormHelper form={'login'} field={'password'} error={errors} touched={touched}/>
 
 
-                        <div className={'text-cyan-700 px-1 w-full mb-3 flex-shrink-0'}>
-                            <label className="">
-                                <Field name="remember"
-                                       type="checkbox"
-                                       className={`
+                            <div className={'text-cyan-700 px-1 w-full mb-3 flex-shrink-0'}>
+                                <label className="">
+                                    <Field name="remember"
+                                           type="checkbox"
+                                           className={`
                                           align-middle mr-1`}
-                                />
-                                {inputPlaceholder.rememberPlaceholder}
-                            </label>
-                            <FieldRedirect to={'restoration'} className={'absolute whitespace-nowrap text-cyan-600 end-0 '}/>
-                        </div>
+                                    />
+                                    {inputPlaceholder.rememberPlaceholder}
+                                </label>
+                                <FieldRedirect to={'restoration'}
+                                               className={'absolute whitespace-nowrap text-cyan-600 end-0 '}/>
+                            </div>
 
 
-
-                        <ReplyError replyError={replyError}/>
-                        <button className={`bg-cyan-600 self-center rounded-xl h-12 w-80 drop-shadow-lg 
+                            <ReplyError replyError={replyError}/>
+                            <button className={`bg-cyan-600 self-center rounded-xl h-12 w-80 drop-shadow-lg 
                                             transform transition-transform active:scale-95 active:translate-y-1 active:shadow-sm
                                             `} type="submit"
-                        >
-                            {headers.login}
-                        </button>
-                    </Form>
-                )}
+                            >
+                                {headers.login}
+                            </button>
+                        </Form>
+                    )}
             </Formik>
         </div>
     )

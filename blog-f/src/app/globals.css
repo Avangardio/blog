@@ -7,13 +7,16 @@ html {
     height: 100%;
 
 }
+
 body {
     height: 100vh;
     padding: 2.5rem 0 0;
     background-color: #f0f0f0
 }
+
 body:after {
 }
+
 /* Для Firefox */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {

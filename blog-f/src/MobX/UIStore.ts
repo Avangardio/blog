@@ -1,6 +1,5 @@
 'use client'
-import {observable, action, makeObservable} from 'mobx';
-import {enableStaticRendering} from "mobx-react";
+import {action, makeObservable, observable} from 'mobx';
 
 export class UIStore {
     @observable

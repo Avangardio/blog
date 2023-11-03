@@ -1,7 +1,5 @@
 'use client'
-import {observable, action, makeObservable, runInAction} from 'mobx';
-import axios from "axios";
-import {loginURL} from "@/Fetching/URLs/authURLs";
+import {action, makeObservable, observable, runInAction} from 'mobx';
 
 export class UserStore {
     @observable count = 0;
@@ -17,7 +15,7 @@ export class UserStore {
     @observable language: "RU" | "EN" = 'RU';
 
     @action loginUser = (authData: AuthUserTypeResponse['payload']) => {
-        if(!authData) return;
+        if (!authData) return;
         runInAction(() => {
             this.userName = authData?.username ? authData.username : this.userName;
             this.userId = authData?.userid ? authData.userid : this.userId;
@@ -27,9 +25,11 @@ export class UserStore {
     @action decrement = () => {
         this.count--;
     };
+
     public constructor() {
         makeObservable(this)
 
     }
 }
+
 export default UserStore;

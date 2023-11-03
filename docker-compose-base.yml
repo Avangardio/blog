@@ -1,28 +1,17 @@
 version: '3.5'
 
 services:
-  nextjs:
-   # env_file: ${ENV_FILE:-.env.example}
+  api:
+    #  env_file: ${ENV_FILE:-.env.example}
     build:
-      context: ./blog-f
+      context: ./nestjs/entrance
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    networks:
-      - app-network
-    environment:
-      REDIS_PORT: 6379
-
-  nestjs:
-  #  env_file: ${ENV_FILE:-.env.example}
-    build:
-      context: ./blog-b
-      dockerfile: Dockerfile
-    depends_on:
-      - postgres
-      - redis
     ports:
       - "4000:3000"
+    depends_on:
+      - rabbitmq
+      - postgres
+      - redis
     networks:
       - app-network
     environment:
@@ -39,6 +28,69 @@ services:
     #  env_file: ${ENV_FILE:-.env.example}
     build:
       context: ./nestjs/authMicroservice
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+      - postgres
+      - redis
+    networks:
+      - app-network
+    environment:
+      REDIS_PORT: 6379
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: dbname
+      RMQ_HOST: rabbitmq
+
+  posts_microservice:
+    #  env_file: ${ENV_FILE:-.env.example}
+    build:
+      context: ./nestjs/postsMicroservice
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+      - postgres
+      - redis
+    networks:
+      - app-network
+    environment:
+      REDIS_PORT: 6379
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: dbname
+      RMQ_HOST: rabbitmq
+
+  media_microservice:
+    #  env_file: ${ENV_FILE:-.env.example}
+    build:
+      context: ./nestjs/mediaMicroservice
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+      - postgres
+      - redis
+    networks:
+      - app-network
+    environment:
+      REDIS_PORT: 6379
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: dbname
+      RMQ_HOST: rabbitmq
+
+  mail_microservice:
+    #  env_file: ${ENV_FILE:-.env.example}
+    build:
+      context: ./nestjs/mailMicroservice
       dockerfile: Dockerfile
     depends_on:
       - rabbitmq
@@ -87,7 +139,7 @@ services:
 
 
   redis:
-   # env_file: ${ENV_FILE:-.env.example}
+    # env_file: ${ENV_FILE:-.env.example}
     image: redis:latest
     ports:
       - "6379:6379"

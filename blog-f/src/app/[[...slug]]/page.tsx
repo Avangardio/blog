@@ -1,13 +1,11 @@
 import getPosts from "@/Components/MainPage/utils/getPosts";
-import {useRouter} from "next/navigation";
 import sanitizePageQuery from "@/Components/MainPage/utils/sanitizePageQuery";
 import TopicList from "@/Components/MainPage/topic/topicList";
 import {Metadata} from "next";
-import TopicSurfer from "@/Components/MainPage/topic/topicSurfer/topicSurfer";
 import PopularPosts from "@/Components/MainPage/post/popularPosts";
 import getPopularPosts from "@/Components/MainPage/utils/getPopularPosts";
 import CreatePost from "@/Components/MainPage/post/createPost";
-import axios from "axios";
+
 export const metadata: Metadata = {
     title: '...',
     description: '...',
@@ -15,16 +13,16 @@ export const metadata: Metadata = {
 export const revalidate = 3600 // revalidate at most every hour
 
 interface HomePageProps {
-    params: {slug: string | undefined}
+    params: { slug: string | undefined }
     searchParams?: {
         ["search"]: string | string[] | undefined
         ["author"]: string | string[] | undefined
-        ["tags"]  : string | string[] | undefined
+        ["tags"]: string | string[] | undefined
     }
 }
 
 
-export default async function Home({params, searchParams}: HomePageProps ) {
+export default async function Home({params, searchParams}: HomePageProps) {
     const currentPage = sanitizePageQuery(params?.slug?.[0]);
 
     const [getPostsReply, popularPosts] =
@@ -33,16 +31,16 @@ export default async function Home({params, searchParams}: HomePageProps ) {
             getPopularPosts().catch(_ => undefined)
         ]);
 
-    if(!getPostsReply) {
+    if (!getPostsReply) {
         return (<div>404 lmao</div>)
     }
 //<TopicSurfer currentPage={currentPage} totalPosts={getPostsReply.totalPosts} postsPerPage={5} />
     return (
         <div className="flex justify-center align-middle items-center w-full relative mt-4 md:px-4">
             <main className={'relative'}>
-                <CreatePost />
+                <CreatePost/>
                 <TopicList posts={getPostsReply.payload.posts} page={currentPage}/>
-                <PopularPosts popularPosts={popularPosts} />
+                <PopularPosts popularPosts={popularPosts}/>
 
             </main>
         </div>

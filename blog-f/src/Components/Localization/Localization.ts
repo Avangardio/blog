@@ -1,8 +1,8 @@
 'use client'
-import { useState, useEffect } from 'react';
-import { autorun } from 'mobx';
+import {useEffect, useState} from 'react';
+import {autorun} from 'mobx';
 import store from "@/MobX/RootStore";
-import { enableStaticRendering } from "mobx-react";
+import {enableStaticRendering} from "mobx-react";
 
 import * as ruLocalization from './localization.RU.json';
 import * as enLocalization from './localization.EN.json';

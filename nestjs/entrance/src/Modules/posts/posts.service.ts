@@ -1,19 +1,50 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { catchError, lastValueFrom, take, throwError, timeout } from 'rxjs';
-import {
-  RegistrationBodyDto,
-  RegistrationOutputDto,
-} from '@/DTO/auth/registration';
 import { GetPostsBodyDto, GetPostsOutputDto } from '@/DTO/posts/getPosts';
-import { RmqPostsService } from '@/Modules/rabbitmq/rmq-posts.service';
+import {
+  GetExactPostOutputDto,
+  GetExactPostQueryDto,
+} from '@/DTO/posts/getExactPost';
+import { FindPopularPosts } from '@/DTO/posts/findPopularPosts';
+import { CreatePostBodyDto, CreatePostOutputDto } from '@/DTO/posts/createPost';
+import {
+  DeleteExactPostBodyDto,
+  DeleteExactPostOutputDto,
+} from '@/DTO/posts/deletePost';
+import { RmqBaseService } from '@/Modules/rabbitmq/base.service';
 
 @Injectable()
-export class PostsService {
-  constructor(public readonly rmqPostsService: RmqPostsService) {}
+export class PostsService extends RmqBaseService {
+  constructor(@Inject('POSTS_SERVICE') rmqService: ClientProxy) {
+    super(rmqService);
+  }
+
+  findPosts(body: GetPostsBodyDto): Promise<GetPostsOutputDto> {
+    return this.sendCmd<GetPostsBodyDto, GetPostsOutputDto>('findPosts', body);
+  }
+
+  findExactPost(body: GetExactPostQueryDto): Promise<GetExactPostOutputDto> {
+    return this.sendCmd<GetExactPostQueryDto, GetExactPostOutputDto>(
+      'findExactPost',
+      body,
+    );
+  }
+
+  findPopularPosts() {
+    return this.sendCmd<unknown, FindPopularPosts>('findPopularPosts', {});
+  }
+
+  createPost(body: CreatePostBodyDto): Promise<CreatePostOutputDto> {
+    return this.sendCmd<CreatePostBodyDto, CreatePostOutputDto>(
+      'createPost',
+      body,
+    );
+  }
+
+  deletePost(body: DeleteExactPostBodyDto): Promise<DeleteExactPostOutputDto> {
+    return this.sendCmd<DeleteExactPostBodyDto, DeleteExactPostOutputDto>(
+      'deletePost',
+      body,
+    );
+  }
 }

@@ -1,11 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from '@/Modules/auth/auth.service';
 import { RmqAuthService } from '@/Modules/rabbitmq/rmq-auth.service';
-import { RmqBaseService } from '@/Modules/rabbitmq/base.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { RmqPostsService } from '@/Modules/rabbitmq/rmq-posts.service';
-import { RmqMediaService } from "@/Modules/rabbitmq/rmq-media.service";
+import { ClientSession } from "typeorm";
 
 @Module({
   imports: [
@@ -67,7 +64,7 @@ import { RmqMediaService } from "@/Modules/rabbitmq/rmq-media.service";
       },
     ]),
   ],
-  providers: [RmqAuthService, RmqPostsService, RmqMediaService],
-  exports: [RmqAuthService, RmqPostsService, RmqMediaService],
+  providers: [RmqAuthService],
+  exports: [RmqAuthService, ClientsModule],
 })
 export class RmqModule {}

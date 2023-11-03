@@ -1,13 +1,13 @@
-import Output from "@/DTO/media/media";
+import Output from '@/DTO/media/media';
 
 export class CreateCommentBody {
-    userId: number;
-    postId: number;
-    text: string;
+  userId: number;
+  postId: number;
+  text: string;
 }
 
 export class CreateCommentOutput extends Output {
-    payload: {
-        commentId: number;
-    }
+  payload: {
+    commentId: number;
+  };
 }

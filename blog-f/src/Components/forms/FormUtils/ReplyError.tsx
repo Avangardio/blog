@@ -1,7 +1,7 @@
 import React from "react";
 
-export default function ReplyError({replyError}: {replyError: string}){
-    if(!replyError) return null;
+export default function ReplyError({replyError}: { replyError: string }) {
+    if (!replyError) return null;
     return (
         <div className={`
              self-center

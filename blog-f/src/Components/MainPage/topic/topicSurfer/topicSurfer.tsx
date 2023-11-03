@@ -2,7 +2,6 @@
 import React from 'react';
 import {useRouter, useSearchParams} from "next/navigation";
 import TopicSurferButton from "@/Components/MainPage/topic/topicSurfer/topicSurferButton";
-import {router} from "next/client";
 import TopicSurferNumbers from "@/Components/MainPage/topic/topicSurfer/topicSurferNumbers";
 
 interface PaginationProps {
@@ -11,7 +10,7 @@ interface PaginationProps {
     postsPerPage: number;
 }
 
-export default function TopicSurfer({currentPage, totalPosts, postsPerPage }: PaginationProps) {
+export default function TopicSurfer({currentPage, totalPosts, postsPerPage}: PaginationProps) {
     const navigation = useRouter();
     const searchParams = useSearchParams();
     const totalPages = Math.ceil(totalPosts / postsPerPage);

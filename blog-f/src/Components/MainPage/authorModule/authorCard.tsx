@@ -4,7 +4,7 @@ import {useStore} from "@/MobX/RootStore";
 import {useEffect} from "react";
 import useLocalization from "@/Components/Localization/Localization";
 
-function AuthorCard(){
+function AuthorCard() {
     const {
         selectedAuthorId,
         selectedAuthorName,
@@ -40,4 +40,5 @@ function AuthorCard(){
         </div>
     )
 }
+
 export default observer(AuthorCard);

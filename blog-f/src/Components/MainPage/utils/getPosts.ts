@@ -6,11 +6,11 @@ interface HomePageProps {
     searchParams?: {
         ["search"]: string | string[] | undefined
         ["author"]: string | string[] | undefined
-        ["tags"]  : string | string[] | undefined
+        ["tags"]: string | string[] | undefined
     }
 }
 
-export default async function getPosts(currentPage: number, searchParams: HomePageProps["searchParams"]): Promise<FetchTopicResult>{
+export default async function getPosts(currentPage: number, searchParams: HomePageProps["searchParams"]): Promise<FetchTopicResult> {
     const returnedPosts = await axios.get<FetchTopicResult>(postsURL + 'findPosts/' + currentPage, {
         withCredentials: true,
         params: searchParams

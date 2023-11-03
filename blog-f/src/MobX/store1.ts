@@ -1,6 +1,5 @@
 'use client'
-import {observable, action, makeObservable} from 'mobx';
-import {createContext, useContext} from "react";
+import {action, makeObservable, observable} from 'mobx';
 
 export class ZStore {
     @observable count = 0;
@@ -19,4 +18,5 @@ export class ZStore {
         makeObservable(this)
     }
 }
+
 export default ZStore;

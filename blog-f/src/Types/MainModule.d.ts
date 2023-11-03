@@ -1,10 +1,10 @@
 declare type PostForTopic = {
-        postId: number,
-        authorId: number,
-        tags: string[]
-        title: string,
-        description: string,
-        picture: string,
+    postId: number,
+    authorId: number,
+    tags: string[]
+    title: string,
+    description: string,
+    picture: string,
 }
 declare type PostForPopular = {
     postId: number,

@@ -1,13 +1,9 @@
 'use client'
-import {useStore} from "@/MobX/RootStore";
-import {Formik, Field, Form, ErrorMessage} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import React, {useState} from "react";
 import Image from "next/image";
-import {loginURL, registrationURL} from "@/Fetching/URLs/authURLs";
 import {useRouter} from "next/navigation";
-import axios from "axios";
-import {observer} from "mobx-react";
 import useLocalization from "@/Components/Localization/Localization";
 
 const SignupSchema = Yup.object().shape({
@@ -53,18 +49,19 @@ export default function LoginPage() {
                     setReplyError('pososi')
                 }}
             >
-                {({ errors, touched }) => (
+                {({errors, touched}) => (
                     <Form id='reg-form' className="relative flex-col flex justify-center z-40">
                         <div>
-                            <label className={'px-5 block font-medium text-sm text-white'} htmlFor={'name'}>Имя пользователя</label>
+                            <label className={'px-5 block font-medium text-sm text-white'} htmlFor={'name'}>Имя
+                                пользователя</label>
                             <Field name="name"
                                    className={`
                                        transition duration-300 ease-in-out 
                                        focus:border-transparent focus:bg-gray-300 focus:bg-transparent focus:outline-0 focus:border-gray-300
                                        hover:border-gray-300 hover:bg-gray-300 hover:bg-transparent 
                                        text-white placeholder-gray-500 bg-opacity-10 bg-white px-5 border rounded-3xl h-12  mb-5 w-80 shadow-sm
-                                       ${ errors.name && touched.name ? 'border-red-700' : "border-transparent"}`
-                                    }
+                                       ${errors.name && touched.name ? 'border-red-700' : "border-transparent"}`
+                                   }
                                    placeholder={"Name"}
                             />
                             <ErrorMessage name="name" component="p"
@@ -73,7 +70,8 @@ export default function LoginPage() {
                         </div>
 
                         <div>
-                            <label className={'px-5 block font-medium text-sm text-white'} htmlFor={'email'}>Электронная почта</label>
+                            <label className={'px-5 block font-medium text-sm text-white'} htmlFor={'email'}>Электронная
+                                почта</label>
                             <Field name="email"
                                    type="email"
                                    className={`
@@ -81,7 +79,7 @@ export default function LoginPage() {
                                        focus:border-transparent focus:bg-gray-300 focus:bg-transparent focus:outline-0 focus:border-gray-300
                                        hover:border-gray-300 hover:bg-gray-300 hover:bg-transparent 
                                        text-white placeholder-gray-500 bg-opacity-10 bg-white px-5 border rounded-3xl h-12  mb-5 w-80 shadow-sm 
-                                       ${ errors.email && touched.email ? 'border-red-700' : "border-transparent"}`}
+                                       ${errors.email && touched.email ? 'border-red-700' : "border-transparent"}`}
                                    placeholder={"example@example.org"}
                             />
                             <ErrorMessage name="email" component="p"
@@ -90,7 +88,8 @@ export default function LoginPage() {
                         </div>
 
                         <div>
-                            <label className={'px-5 block font-medium text-sm text-white'} htmlFor={'password'}>Пароль</label>
+                            <label className={'px-5 block font-medium text-sm text-white'}
+                                   htmlFor={'password'}>Пароль</label>
                             <Field name="password"
                                    type={showPassword ? 'text' : 'password'}
                                    className={`
@@ -98,7 +97,7 @@ export default function LoginPage() {
                                        focus:border-transparent focus:bg-gray-300 focus:bg-transparent focus:outline-0 focus:border-gray-300
                                        hover:border-gray-300 hover:bg-gray-300 hover:bg-transparent 
                                        text-white placeholder-gray-500 bg-opacity-10 bg-white px-5 border rounded-3xl h-12  mb-5 w-80 shadow-sm 
-                                       ${ errors.password && touched.password ? 'border-red-700' : "border-transparent"}`}
+                                       ${errors.password && touched.password ? 'border-red-700' : "border-transparent"}`}
                                    placeholder={"••••••••"}
                             />
                             <button type="button"
@@ -116,7 +115,8 @@ export default function LoginPage() {
                             />
                         </div>
                         <div>
-                            <label className={'px-5 block font-medium text-sm text-white'} htmlFor={'re_password'}>Повторите пароль</label>
+                            <label className={'px-5 block font-medium text-sm text-white'} htmlFor={'re_password'}>Повторите
+                                пароль</label>
                             <Field name="re_password"
                                    type={showRe_Password ? 'text' : 'password'}
                                    className={`
@@ -124,7 +124,7 @@ export default function LoginPage() {
                                        focus:border-transparent focus:bg-gray-300 focus:bg-transparent focus:outline-0 focus:border-gray-300
                                        hover:border-gray-300 hover:bg-gray-300 hover:bg-transparent 
                                        text-white placeholder-gray-500 bg-opacity-10 bg-white px-5 border rounded-3xl h-12  mb-5 w-80 shadow-sm 
-                                       ${ errors.re_password && touched.re_password ? 'border-red-700' : "border-transparent"}`}
+                                       ${errors.re_password && touched.re_password ? 'border-red-700' : "border-transparent"}`}
                                    placeholder={"••••••••"}
                             />
                             <button type="button"
@@ -143,10 +143,14 @@ export default function LoginPage() {
                         </div>
                         <div>
                             <div className={`px-5 block font-medium text-sm text-white my-5`}>
-                                Нажимая кнопку, вы принимаете <p><a className={`text-amber-300 cursor-pointer border-b-amber-300 border-b-2`}>Условия использования</a></p>
+                                Нажимая кнопку, вы принимаете <p><a
+                                className={`text-amber-300 cursor-pointer border-b-amber-300 border-b-2`}>Условия
+                                использования</a></p>
                             </div>
                         </div>
-                        <button className={`${!replyError ? "bg-orange-300": "bg-red-950"} bg-orange-300 self-center rounded-3xl h-12  w-80 drop-shadow-lg`} type="submit">{replyError? replyError : "Регистрация"}</button>
+                        <button
+                            className={`${!replyError ? "bg-orange-300" : "bg-red-950"} bg-orange-300 self-center rounded-3xl h-12  w-80 drop-shadow-lg`}
+                            type="submit">{replyError ? replyError : "Регистрация"}</button>
                     </Form>
                 )}
             </Formik>

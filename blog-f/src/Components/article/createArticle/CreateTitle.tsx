@@ -1,11 +1,12 @@
 'use client'
 
-import React, {ChangeEvent, Dispatch, FormEvent, SetStateAction} from "react";
+import React, {ChangeEvent} from "react";
 
 interface ICreateTitle {
     title: string;
     changeAction: (event: ChangeEvent<HTMLInputElement>) => void;
 }
+
 export default function CreateTitle({title, changeAction}: ICreateTitle) {
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         changeAction(event)

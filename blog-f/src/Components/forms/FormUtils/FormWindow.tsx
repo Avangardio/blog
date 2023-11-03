@@ -1,6 +1,5 @@
 import useLocalization from "@/Components/Localization/Localization";
 import {FormikTouched} from "formik";
-import {keys} from "mobx";
 
 
 export const formKits = {
@@ -22,10 +21,10 @@ interface ErrorNotifyProps<Form extends Forms = Forms> {
     field: typeof formKits[Form][number]
 }
 
-export default function FormWindow({form, error, touched, field}: ErrorNotifyProps){
+export default function FormWindow({form, error, touched, field}: ErrorNotifyProps) {
     const {inputHelper, inputError} = useLocalization('auth/inputs')
 
-    if(error && error[field] && touched && touched[field]){
+    if (error && error[field] && touched && touched[field]) {
         console.log(error, error[field])
         return (
             <div className='fixed border-black bg-red-700 text-white ml-[10rem] md:ml-[21rem] mt-[-3.4rem] px-1'>
@@ -39,9 +38,9 @@ export default function FormWindow({form, error, touched, field}: ErrorNotifyPro
     return (
         <div className='fixed border-gray-500 bg-gray-500 text-white ml-[10rem] md:ml-[21rem] mt-[-3.4rem] px-1 '>
             {
-                formKits[form].map((item, _,array) => {
+                formKits[form].map((item, _, array) => {
                     const fieldTag = item + "Helper" as keyof typeof inputHelper;
-                    if(item === field) return <p key={item}>{inputHelper[fieldTag]}</p>
+                    if (item === field) return <p key={item}>{inputHelper[fieldTag]}</p>
                 })
             }
         </div>
