@@ -15,7 +15,7 @@ import {RmqMailService} from '@/Modules/rabbitmq/rmq-mail.service';
                     return {
                         transport: Transport.RMQ,
                         options: {
-                            urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}/`],
+                            urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}`],
                             queue: 'mail_Queue',
                             queueOptions: {
                                 durable: false,

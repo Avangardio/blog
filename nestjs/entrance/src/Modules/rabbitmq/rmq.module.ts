@@ -16,7 +16,7 @@ import { ClientSession } from "typeorm";
           return {
             transport: Transport.RMQ,
             options: {
-              urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}/`],
+              urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}`],
               queue: 'auth_Queue',
               queueOptions: {
                 durable: false,
@@ -34,7 +34,7 @@ import { ClientSession } from "typeorm";
           return {
             transport: Transport.RMQ,
             options: {
-              urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}/`],
+              urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}`],
               queue: 'posts_Queue',
               queueOptions: {
                 durable: false,
@@ -52,7 +52,7 @@ import { ClientSession } from "typeorm";
           return {
             transport: Transport.RMQ,
             options: {
-              urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}/`],
+              urls: [`amqp://${rmqAuth}${rmqHost}:${rmqPort}`],
               queue: 'media_Queue',
               queueOptions: {
                 durable: false,
