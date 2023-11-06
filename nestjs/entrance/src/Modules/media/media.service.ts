@@ -19,6 +19,7 @@ import {
   DeleteCommentOutput,
 } from '@/DTO/media/deleteComment';
 import { RmqBaseService } from '@/Modules/rabbitmq/base.service';
+import { LikePatchBody, LikePatchOutput } from '@/DTO/media/patchLikeDto';
 
 @Injectable()
 export class MediaService extends RmqBaseService {
@@ -33,14 +34,9 @@ export class MediaService extends RmqBaseService {
     );
   }
 
-  createLike(body: CreateLikeBody): Promise<CreateLikeOutput> {
-    return this.sendCmd<CreateLikeBody, CreateLikeOutput>('createLike', body);
+  patchLike(body: LikePatchBody): Promise<LikePatchOutput> {
+    return this.sendCmd<LikePatchBody, LikePatchOutput>('like', body);
   }
-
-  deleteLike(body: DeleteLikeBody): Promise<DeleteLikeOutput> {
-    return this.sendCmd<DeleteLikeBody, DeleteLikeOutput>('deleteLike', body);
-  }
-
   getComments(body: GetPostCommentsBody): Promise<GetPostCommentsOutput> {
     return this.sendCmd<GetPostCommentsBody, GetPostCommentsOutput>(
       'getComments',

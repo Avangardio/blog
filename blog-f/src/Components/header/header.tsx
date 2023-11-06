@@ -7,15 +7,15 @@ import UserCabinet from "@/Components/header/userCabinet";
 import Image from "next/image";
 import {useMemo} from "react";
 
-interface UserAuth extends AuthUserTypeResponse {
+interface UserAuth {
+    payload?: AuthUserTypeResponse
 }
 
-function Header({payload}: AuthUserTypeResponse) {
+function Header({payload}: UserAuth) {
     const {UserStore} = useStore();
     useMemo(() => {
         UserStore.loginUser(payload);
     }, [])
-    console.log(UserStore.userName)
 
     return (
         <header className={'flex h-10 bg-cyan-900 justify-between flex-wrap fixed top-0 w-full z-[100] px-2'}>

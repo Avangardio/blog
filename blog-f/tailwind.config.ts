@@ -17,6 +17,15 @@ const config: Config = {
                 'outline': '0 0 0 2px border-cyan-600',
             }
         },
+        keyframes: {
+            fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+            },
+        },
+        animation: {
+            'fade-in': 'fadeIn 0.3s ease-in',
+        },
     },
     plugins: [],
 }

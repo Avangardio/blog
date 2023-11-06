@@ -56,7 +56,6 @@ export default class LikesService {
     //Проверяем, чтоб все данные были
     if (!user || !post) throw new NoPostError('NO_POST');
     const like = await this.likeRepo.checkUserPostLike(user, post);
-    if (!like) throw new NoLikeError('NO_LIKE');
     //Возвращаем существовует или нет
     return !!like;
   }

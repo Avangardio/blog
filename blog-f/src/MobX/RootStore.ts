@@ -3,12 +3,14 @@ import {createContext, useContext} from "react";
 import {enableStaticRendering} from "mobx-react";
 import UserStore from "@/MobX/userStore";
 import UIStore from "@/MobX/UIStore";
+import TagsStore from "@/MobX/TagsStore";
 
 enableStaticRendering(typeof window === "undefined");
 
 const initialStore = {
     UserStore: new UserStore(),
     UIStore: new UIStore(),
+    tagsStore: new TagsStore()
 };
 
 export const StoreContext = createContext<typeof initialStore>(initialStore);

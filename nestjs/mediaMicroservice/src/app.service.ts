@@ -4,8 +4,6 @@ import {
   CheckUserPostLikesBody,
   CheckUserPostLikesOutput,
 } from '@/DTO/media/checkUserPostLikesBody';
-import { CreateLikeBody, CreateLikeOutput } from '@/DTO/media/createLikeBody';
-import { DeleteLikeBody, DeleteLikeOutput } from '@/DTO/media/deleteLikeBody';
 import {
   GetPostCommentsBody,
   GetPostCommentsOutput,
@@ -18,6 +16,7 @@ import {
   DeleteCommentBody,
   DeleteCommentOutput,
 } from '@/DTO/media/deleteComment';
+import { LikePatchBody, LikePatchOutput } from "@/DTO/media/patchLikeDto";
 
 @Injectable()
 export class AppService {
@@ -27,7 +26,7 @@ export class AppService {
     body: CheckUserPostLikesBody,
   ): Promise<CheckUserPostLikesOutput> {
     const { postId, userId } = body;
-    //Шаг 1: ищем пост, если он есть - добавляем +1 к просмотрам
+    //Шаг 1: ищем лайк
     const liked = await this.postgresService.likesService.checkIfUserLikesPosts(
       userId,
       postId,
@@ -42,31 +41,21 @@ export class AppService {
     };
   }
 
-  async createLike(body: CreateLikeBody): Promise<CreateLikeOutput> {
+  async patchLike(body: LikePatchBody): Promise<LikePatchOutput> {
     const { userId, postId } = body;
-    //Пытаемся создать лайк
-    const result = await this.postgresService.likesService.createNewLike(
+    //Проверяем лайк
+    const liked = await this.postgresService.likesService.checkIfUserLikesPosts(
       userId,
       postId,
     );
+    //Пытаемся создать или удалить лайк
+    !liked
+      ? await this.postgresService.likesService.createNewLike(userId, postId)
+      : await this.postgresService.likesService.deleteLike(userId, postId);
     return {
       code: 201,
       isSucceed: true,
-      message: 'LIKE_CREATED',
-    };
-  }
-
-  async deleteLike(body: DeleteLikeBody): Promise<DeleteLikeOutput> {
-    const { userId, postId } = body;
-    //Пытаемся создать лайк
-    const result = await this.postgresService.likesService.deleteLike(
-      userId,
-      postId,
-    );
-    return {
-      code: 201,
-      isSucceed: true,
-      message: 'LIKE_DELETED',
+      message: 'LIKE_SUCCESS',
     };
   }
 

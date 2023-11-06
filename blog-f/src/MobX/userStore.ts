@@ -14,7 +14,7 @@ export class UserStore {
 
     @observable language: "RU" | "EN" = 'RU';
 
-    @action loginUser = (authData: AuthUserTypeResponse['payload']) => {
+    @action loginUser = (authData: AuthUserTypeResponse | undefined) => {
         if (!authData) return;
         runInAction(() => {
             this.userName = authData?.username ? authData.username : this.userName;

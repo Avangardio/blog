@@ -1,17 +1,18 @@
 'use client'
 import useLocalization from "@/Components/Localization/Localization";
+import shrinkText from "@/Components/utils/shrinkMultiLineText";
+import AuthorLink from "@/Components/Author/authorLink";
 
 interface PopularPostsProps {
-    popularPosts: PostForPopular[] | undefined
+    popularPosts: PostData[] | undefined
 }
 
 export default function PopularPosts({popularPosts}: PopularPostsProps) {
     const {authorTag, popularHeader} = useLocalization('topics/interface')
 
-    if (!popularPosts) return <div>{"ZzzzzZzv"}</div>
-
+    if (!popularPosts) return <div>{"No posts"}</div>
     return (
-        <div className={'hidden sm:block absolute right-0 mr-[-15rem] bg-white p-2 top-0'}>
+        <div className={'hidden sm:block absolute left-[calc(100%+20px)] bg-white p-2 top-0 break-words max-w-[300px] min-w-[200px]'}>
             <p className={'border-b-2 mx-[-0.5rem] mt-[-0.5rem] w-[calc(100% + 1rem)] bg-cyan-600 px-1'}>{popularHeader}</p>
             {
                 popularPosts.map(post => {
@@ -21,12 +22,9 @@ export default function PopularPosts({popularPosts}: PopularPostsProps) {
                                href={'/article/' + post.postId}
                                onClick={(event) => event.preventDefault()}
                             >
-                                {post.topic.title.split('\n').map((item, i) => <p key={i}>{item}</p>)}
+                                {shrinkText(post.title)}
                             </a>
-                            <div className={'mb-2 text-sm'}>
-                                <span>{authorTag + ": "}</span>
-                                <b className={'text-cyan-600'}>{post.author.authorName}</b>
-                            </div>
+                            <AuthorLink author={post.author} className={'mb-2 text-sm'} />
                         </div>
                     )
                 })

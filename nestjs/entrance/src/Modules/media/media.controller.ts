@@ -3,14 +3,17 @@ import {
   Controller,
   Delete,
   Get,
-  HttpStatus, Param,
+  HttpStatus,
+  Param,
   ParseIntPipe,
+  Patch,
   Post,
   Query,
   Req,
   Res,
-  UseGuards, UsePipes
-} from "@nestjs/common";
+  UseGuards,
+  UsePipes,
+} from '@nestjs/common';
 import { MediaService } from './media.service';
 import { ApiTags } from '@nestjs/swagger';
 import { FastifyReply, FastifyRequest } from 'fastify';
@@ -20,10 +23,11 @@ import { CreateLikeBody } from '@/DTO/media/createLikeBody';
 import { DeleteLikeBody } from '@/DTO/media/deleteLikeBody';
 import { CreateCommentBody } from '@/DTO/media/createComment';
 import { DeleteCommentBody } from '@/DTO/media/deleteComment';
-import { LikeBodySchema } from "@/Pipes/Jois/media/LikeBodySchema";
-import { JoiValidationPipe } from "@/Pipes/JoiValidationPipe";
-import { CreateCommentSchema } from "@/Pipes/Jois/media/CreateCommentSchema";
-import { DeleteCommentSchema } from "@/Pipes/Jois/media/DeleteCommentSchema";
+import { LikeBodySchema } from '@/Pipes/Jois/media/LikeBodySchema';
+import { JoiValidationPipe } from '@/Pipes/JoiValidationPipe';
+import { CreateCommentSchema } from '@/Pipes/Jois/media/CreateCommentSchema';
+import { DeleteCommentSchema } from '@/Pipes/Jois/media/DeleteCommentSchema';
+import { LikePatchBody } from '@/DTO/media/patchLikeDto';
 
 @ApiTags('Entrance/Media')
 @Controller('media')
@@ -47,30 +51,17 @@ export class MediaController {
     return likeResponse;
   }
 
-  @Post('createLike')
+  @Patch('like')
   @UseGuards(JwtGuard)
   @UsePipes(new JoiValidationPipe(LikeBodySchema))
   async createLike(
-    @Body() body: CreateLikeBody,
+    @Body() body: LikePatchBody,
     @Req() request: FastifyRequest,
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
-    const createResponse = await this.mediaService.createLike(body);
+    const createResponse = await this.mediaService.patchLike(body);
     response.status(createResponse.code);
     return createResponse;
-  }
-
-  @Delete('deleteLike')
-  @UseGuards(JwtGuard)
-  @UsePipes(new JoiValidationPipe(LikeBodySchema))
-  async deleteLike(
-    @Body() body: DeleteLikeBody,
-    @Req() request: FastifyRequest,
-    @Res({ passthrough: true }) response: FastifyReply,
-  ) {
-    const deleteResponse = await this.mediaService.deleteLike(body);
-    response.status(deleteResponse.code);
-    return deleteResponse;
   }
 
   @Get('getComments/:postId')
