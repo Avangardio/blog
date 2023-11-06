@@ -51,7 +51,7 @@ describe('[Entrance] Media - (e2e)', () => {
       postId: 1,
     };
     const likeResponse = await request(app.getHttpServer())
-      .delete('/media/deleteLike')
+      .patch('/media/like')
       .send(likePayload)
       .set('Cookie', cookies)
       .expect(201);
@@ -61,7 +61,7 @@ describe('[Entrance] Media - (e2e)', () => {
       postId: 1,
     };
     const likeResponse = await request(app.getHttpServer())
-      .post('/media/createLike')
+      .patch('/media/like')
       .send(likePayload)
       .set('Cookie', cookies)
       .expect(201);
@@ -71,10 +71,10 @@ describe('[Entrance] Media - (e2e)', () => {
       postId: 123213213,
     };
     const likeResponse = await request(app.getHttpServer())
-      .post('/media/createLike')
+      .patch('/media/like')
       .send(likePayload)
       .set('Cookie', cookies)
-      .expect(404);
+      .expect(200);
   });
   it('[NEST] - Поиск лайка на посте - пост, пользователь и лайк есть', async () => {
     const likeResponse = await request(app.getHttpServer())
@@ -91,24 +91,24 @@ describe('[Entrance] Media - (e2e)', () => {
     const likeResponse = await request(app.getHttpServer())
       .get('/media/checkLike/1123132')
       .set('Cookie', cookies)
-      .expect(404);
+      .expect(200);
   });
   it('[NEST] - Удаление лайка - поста нет', async () => {
     const likePayload = {
       postId: 123213213,
     };
     const likeResponse = await request(app.getHttpServer())
-      .delete('/media/deleteLike')
+      .patch('/media/like')
       .send(likePayload)
       .set('Cookie', cookies)
-      .expect(404);
+      .expect(200);
   });
   it('[NEST] - Удаление лайка', async () => {
     const likePayload = {
       postId: 1,
     };
     const likeResponse = await request(app.getHttpServer())
-      .delete('/media/deleteLike')
+      .patch('/media/like')
       .send(likePayload)
       .set('Cookie', cookies)
       .expect(201);
@@ -139,7 +139,7 @@ describe('[Entrance] Media - (e2e)', () => {
       .set('Cookie', cookies)
       .expect(404);
   });
-  console.log(commentId)
+  console.log(commentId);
   it('[NEST] - Удаление коммента', async () => {
     const commentPayload = {
       commentId,

@@ -36,7 +36,7 @@ async function bootstrap() {
       'Content-Type',
       'Authorization',
     ],
-    methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE'],
+    methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE', 'PATCH'],
   });
 
   const { port, host } = configService.get('server');
