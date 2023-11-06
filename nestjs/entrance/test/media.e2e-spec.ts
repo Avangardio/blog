@@ -74,7 +74,7 @@ describe('[Entrance] Media - (e2e)', () => {
       .patch('/media/like')
       .send(likePayload)
       .set('Cookie', cookies)
-      .expect(200);
+      .expect(404);
   });
   it('[NEST] - Поиск лайка на посте - пост, пользователь и лайк есть', async () => {
     const likeResponse = await request(app.getHttpServer())
@@ -91,7 +91,7 @@ describe('[Entrance] Media - (e2e)', () => {
     const likeResponse = await request(app.getHttpServer())
       .get('/media/checkLike/1123132')
       .set('Cookie', cookies)
-      .expect(200);
+      .expect(404);
   });
   it('[NEST] - Удаление лайка - поста нет', async () => {
     const likePayload = {
@@ -101,7 +101,7 @@ describe('[Entrance] Media - (e2e)', () => {
       .patch('/media/like')
       .send(likePayload)
       .set('Cookie', cookies)
-      .expect(200);
+      .expect(404);
   });
   it('[NEST] - Удаление лайка', async () => {
     const likePayload = {
