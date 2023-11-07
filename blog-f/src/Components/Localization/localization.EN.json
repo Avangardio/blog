@@ -8,6 +8,13 @@
     "authorFrom": "On portal from: ",
     "authorHelp": "Chose posts"
   },
+  "commentaries": {
+    "Header": "Commentaries",
+    "TimeIn": "at",
+    "LoginToGo": "Log in to comment",
+    "Comment": "Leave comment",
+    "Placeholder": "Your commentary"
+  },
   "auth": {
     "login": "Login",
     "password": "Password"

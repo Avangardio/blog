@@ -3,6 +3,13 @@
     "login": "Вход",
     "password": "Пароль"
   },
+  "commentaries": {
+    "Header": "Комментарии",
+    "TimeIn": "в",
+    "LoginToGo": "Войдите, чтобы комментировать",
+    "Comment": "Отправить комментарий",
+    "Placeholder": "Оставьте комментарий"
+  },
   "topics/interface": {
     "authorTag": "Автор",
     "popularHeader": "Популярные статьи",

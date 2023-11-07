@@ -79,7 +79,7 @@ EXECUTE FUNCTION decrement_likes();
 CREATE OR REPLACE FUNCTION increment_comments() RETURNS TRIGGER AS
 $$
 BEGIN
-    UPDATE posts SET comments = posts.comments + 1 WHERE postId = NEW.postId;
+    UPDATE posts SET comments = posts.comments + 1 WHERE postid = NEW.postid;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -93,7 +93,7 @@ EXECUTE FUNCTION increment_comments();
 CREATE OR REPLACE FUNCTION decrement_comments() RETURNS TRIGGER AS
 $$
 BEGIN
-    UPDATE posts SET comments = posts.comments - 1 WHERE postId = OLD.postId;
+    UPDATE posts SET comments = posts.comments - 1 WHERE postid = OLD.postid;
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;

@@ -29,7 +29,7 @@ export default function Z() {
     })
 
     const a = useForm({initialValues: {email: '', password: ''}, validationSchema: SignupSchema});
-    a.serverError
+
     return (
         <Form
             className={'flex flex-col gap-1'}

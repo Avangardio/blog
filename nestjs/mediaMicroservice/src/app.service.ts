@@ -89,7 +89,7 @@ export class AppService {
     return {
       code: 201,
       isSucceed: true,
-      message: 'LIKE_CREATED',
+      message: 'COMMENT_CREATED',
       payload: {
         commentId: resultId,
       },

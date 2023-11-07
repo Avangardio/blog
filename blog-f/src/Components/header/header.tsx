@@ -16,7 +16,6 @@ function Header({payload}: UserAuth) {
     useMemo(() => {
         UserStore.loginUser(payload);
     }, [])
-
     return (
         <header className={'flex h-10 bg-cyan-900 justify-between flex-wrap fixed top-0 w-full z-[100] px-2'}>
             <LanguageControl/>

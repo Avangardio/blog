@@ -11,9 +11,8 @@ export default function CreatePost() {
         <a href={'#'}
            className={`
                 bg-cyan-600 w-full mb-[1rem] h-10 text-center align-middle flex py-2 justify-center
-                transform transition-transform duration-150 shadow-md
-                hover:scale-95 focus:scale-95 active:scale-95 
-                hover:-translate-y-1 focus:-translate-y-1 active:-translate-y-1 gap-1
+                transition-transform transform hover:scale-95
+                 focus:-translate-y-1 active:-translate-y-1 gap-1
            `}
         >
             <Image src={'plus.svg'} alt={'plus.svg'} width={20} height={20}/>
