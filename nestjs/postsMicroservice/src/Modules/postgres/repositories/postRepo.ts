@@ -119,10 +119,6 @@ export default class PostRepo {
             userId: true,
           },
         },
-        cache: {
-          id: `exact_post_${postId}`,
-          milliseconds: 120_000,
-        },
       })
       .catch((error) => {
         throw new DatabasePGError('POST_SEARCH_ERROR', error.message);
