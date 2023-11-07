@@ -7,11 +7,11 @@ export class Post_comment {
     @PrimaryGeneratedColumn({name: 'commentid'})
     commentId: number;
 
-    @ManyToOne(() => Post, (post) => post.postComments, {cascade: true})
+    @ManyToOne(() => Post, (post) => post.postComments)
     @JoinColumn({name: 'postid'})
     post: Post;
 
-    @ManyToOne(() => User, (user) => user.postComments, {cascade: true})
+    @ManyToOne(() => User, (user) => user.postComments)
     @JoinColumn({name: 'userid'})
     user: User;
 

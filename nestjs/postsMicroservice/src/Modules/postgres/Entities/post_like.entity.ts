@@ -7,11 +7,11 @@ export class Post_like {
     @PrimaryGeneratedColumn({name: 'likeid'})
     likeId: number;
 
-    @ManyToOne(() => Post, (post) => post.postLikes, {cascade: true})
+    @ManyToOne(() => Post, (post) => post.postLikes)
     @JoinColumn({name: 'postid'})
     post: Post;
 
-    @ManyToOne(() => User, (user) => user.postLikes, {cascade: true})
+    @ManyToOne(() => User, (user) => user.postLikes)
     @JoinColumn({name: 'userid'})
     user: User;
 
