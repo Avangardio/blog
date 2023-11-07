@@ -9,7 +9,7 @@ import axios from "axios";
 import useLocalization from "@/Components/Localization/Localization";
 import FormHelper from "@/Components/forms/FormUtils/FormHelper";
 import ReplyError from "@/Components/forms/FormUtils/ReplyError";
-
+import FieldRedirect from "@/Components/forms/FormUtils/FieldRedirect";
 
 export default function LoginPage() {
     const {push} = useRouter();
@@ -56,7 +56,7 @@ export default function LoginPage() {
                     })
                         .then(
                             result => push('/confirmation' + `?request=${result.data.payload.confirmationToken}`),
-                            error => {
+                            error => { setReplyError(error.response.data.message)
                             }
                         )
                 }}
@@ -134,6 +134,10 @@ export default function LoginPage() {
                         </Form>
                     )}
             </Formik>
+            <div className={'flex-row flex justify-center mt-2'}>
+                <FieldRedirect to={'login'}
+                               className={' whitespace-nowrap text-cyan-600 end-0'}/>
+            </div>
         </div>
     )
 }

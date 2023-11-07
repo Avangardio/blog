@@ -17,7 +17,8 @@
     "createButtonLogged": "Write your own post!",
     "createButtonGuest": "Войдите, чтобы написать статью!",
     "authorFrom": "На портале с: ",
-    "authorHelp": "Выберите посты"
+    "authorHelp": "Выберите посты",
+    "backToMain": "На главную"
   },
   "auth/redirects": {
     "restorationRedirect": "Restore password",
@@ -31,9 +32,10 @@
       "USER_EXIST": "User is already exists!"
     },
     "headers": {
-      "registration": "Registration",
-      "login": "Login",
-      "confirmation": "Confirmation"
+      "registration": "Регистрация",
+      "login": "Логин",
+      "confirmation": "Подтверждение аккаунта",
+      "confirmationHelp": "Введите код. Проверьте вашу почту"
     },
     "inputPlaceholder": {
       "namePlaceholder": "Имя",
@@ -73,11 +75,23 @@
       "codeHelper": "Must be 6 digits"
     }
   },
+  "auth/errors": {
+    "INV_PASSWORD": "Неправильный пароль",
+    "USER_EXISTS": "Пользователь существует",
+    "U_ERROR": "Ошибка, попробуйте позднее",
+    "INV_CODE": "Неверный код",
+    "WRONG_PASSWORD": "Неверный пароль",
+    "INV_EMAIL": "Неверная почта"
+  },
   "registration": {
     "header": "Регистрация"
   },
   "header": {
-    "welcome": "Добро пожаловать"
+    "welcome": "Добро пожаловать",
+    "logout": "Выход",
+    "login": "Войти",
+    "register": "Создать аккаунта",
+    "back": "Назад"
   },
   "navigation": {
     "home": "Главная",

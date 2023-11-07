@@ -19,13 +19,11 @@ function Header({payload}: UserAuth) {
     return (
         <header className={'flex h-10 bg-cyan-900 justify-between flex-wrap fixed top-0 w-full z-[100] px-2'}>
             <LanguageControl/>
-            {UserStore.userName}
             <Image src={'/logo.png'}
                    alt={'/BBlog.png'}
                    width={100} height={50}
                    onClick={() => window.location.href = '/'}
             />
-            <Navigation/>
             <UserCabinet/>
         </header>
     )

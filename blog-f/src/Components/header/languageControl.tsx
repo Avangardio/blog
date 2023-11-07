@@ -9,8 +9,10 @@ function LanguageControl() {
             defaultValue={UserStore.language}
             onChange={(event) => UserStore.language = event.target.value as "RU" | "EN"}
         >
-            <option value={'RU'}>Русский</option>
-            <option value={'EN'}>English</option>
+            <option value={'RU'}>
+                RU
+            </option>
+            <option value={'EN'}>EN</option>
         </select>
     )
 }

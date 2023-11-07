@@ -2,12 +2,14 @@
 import useLocalization from "@/Components/Localization/Localization";
 import shrinkText from "@/Components/utils/shrinkMultiLineText";
 import AuthorLink from "@/Components/Author/authorLink";
+import {useRouter} from "next/navigation";
 
 interface PopularPostsProps {
     popularPosts: PostData[] | undefined
 }
 
 export default function PopularPosts({popularPosts}: PopularPostsProps) {
+    const router = useRouter()
     const {authorTag, popularHeader} = useLocalization('topics/interface')
 
     if (!popularPosts) return <div>{"No posts"}</div>
@@ -20,7 +22,10 @@ export default function PopularPosts({popularPosts}: PopularPostsProps) {
                         <div className={''} key={post.postId}>
                             <a className={'text-xl font-bold'}
                                href={'/article/' + post.postId}
-                               onClick={(event) => event.preventDefault()}
+                               onClick={(event) => {
+                                   event.preventDefault()
+                                   router.push(`article/${post.postId}`);
+                               }}
                             >
                                 {shrinkText(post.title)}
                             </a>

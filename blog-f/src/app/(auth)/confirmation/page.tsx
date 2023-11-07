@@ -5,6 +5,7 @@ import React, {useRef, useState} from "react";
 import {Field, Form, Formik, FormikHelpers} from "formik";
 import axios from "axios";
 import {authURL} from "@/Fetching/URLs/authURLs";
+import ReplyError from "@/Components/forms/FormUtils/ReplyError";
 
 type FormValues = {
     input1: string;
@@ -28,6 +29,8 @@ export default function MyForm({searchParams}: ConfirmationPageProps) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const inputRefs = Array(6).fill(null).map(() => useRef<HTMLInputElement>(null));
     const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+
+    const [replyError, setReplyError] = useState('');
 
     const handleInputChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
         if (index === focusedIndex) {
@@ -75,22 +78,26 @@ export default function MyForm({searchParams}: ConfirmationPageProps) {
                 })
                     .then(
                         result => push('/login'),
-                        error => {
-                        }
+                        error => setReplyError(error.response.data.message)
                     )
             }}
         >
             {formikProps => (
-                <Form className="relative flex-col flex items-center z-40 ">
-                    <div className={'mb-5'}>
+                <Form className="relative flex-col flex items-center z-40 bg-white p-5">
+                    <div className={'mb-3 text-2xl'}>
+                        {localization.headers.confirmation}
+                    </div>
+                    <p>{localization.headers.confirmationHelp}</p>
+
+                    <div className={'my-10'}>
                         {Array(6).fill(null).map((_, index) => (
                             <Field
                                 className={`
                                     w-[2em] h-[2em] text-center
                                     transition duration-300 ease-in-out
-                                    focus:border-transparent focus:bg-gray-300 focus:bg-transparent focus:outline-0 focus:border-gray-300
+                                    focus:border-cyan-600 focus:bg-gray-300 focus:bg-transparent focus:outline-0
                                     hover:border-gray-300 hover:bg-gray-300 hover:bg-transparent
-                                    text-white placeholder-gray-500 bg-opacity-10 bg-white border`
+                                    text-cyan-800 placeholder-gray-500 bg-opacity-10 bg-white border`
                                 }
                                 key={index}
                                 name={`input${index + 1}`}
@@ -108,7 +115,10 @@ export default function MyForm({searchParams}: ConfirmationPageProps) {
                         ))}
                     </div>
 
-                    <button className={"bg-orange-300 self-center rounded-3xl h-12 w-60 drop-shadow-lg"}
+                    <ReplyError replyError={replyError}/>
+
+
+                    <button className={"bg-cyan-600 self-center rounded h-12 w-32 drop-shadow-lg transition-transform transform hover:scale-95"}
                             type="submit">Kod
                     </button>
                 </Form>

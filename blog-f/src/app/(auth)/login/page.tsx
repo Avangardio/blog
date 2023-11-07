@@ -8,9 +8,11 @@ import FormHelper from "@/Components/forms/FormUtils/FormHelper";
 import ReplyError from "@/Components/forms/FormUtils/ReplyError";
 import FieldRedirect from "@/Components/forms/FormUtils/FieldRedirect";
 import {authURL} from "@/Fetching/URLs/authURLs";
+import {useRouter} from "next/navigation";
 
 
 export default function LoginPage() {
+    const router = useRouter();
     const {
         inputPlaceholder,
         inputHeader,
@@ -58,8 +60,10 @@ export default function LoginPage() {
                     })
                         .then(
                             result => {
+                                window.location.href ='/'
                             },
                             error => {
+                                setReplyError(error.response.data.message)
                             }
                         )
                 }}
@@ -79,26 +83,11 @@ export default function LoginPage() {
                             <label className={'px-5 block font-medium text-sm text-cyan-700'}
                                    htmlFor={'password'}>{inputHeader.passwordHeader}</label>
                             <Field name="password"
-                                   type="password"
+                                   type="text"
                                    className={`${errors.password && touched.password ? 'border-red-700' : "border-cyan-600"} ` + inputClasses}
                                    placeholder={inputPlaceholder.passwordPlaceholder}
                             />
                             <FormHelper form={'login'} field={'password'} error={errors} touched={touched}/>
-
-
-                            <div className={'text-cyan-700 px-1 w-full mb-3 flex-shrink-0'}>
-                                <label className="">
-                                    <Field name="remember"
-                                           type="checkbox"
-                                           className={`
-                                          align-middle mr-1`}
-                                    />
-                                    {inputPlaceholder.rememberPlaceholder}
-                                </label>
-                                <FieldRedirect to={'restoration'}
-                                               className={'absolute whitespace-nowrap text-cyan-600 end-0 '}/>
-                            </div>
-
 
                             <ReplyError replyError={replyError}/>
                             <button className={`bg-cyan-600 self-center rounded-xl h-12 w-80 drop-shadow-lg 
@@ -110,6 +99,11 @@ export default function LoginPage() {
                         </Form>
                     )}
             </Formik>
+            <div className={'flex-row flex justify-center mt-2'}>
+                <FieldRedirect to={'registration'}
+                               className={' whitespace-nowrap text-cyan-600 end-0'}
+                />
+            </div>
         </div>
     )
 }

@@ -6,7 +6,8 @@
     "createButtonLogged": "Write your own post!",
     "createButtonGuest": "Login in to create posts!",
     "authorFrom": "On portal from: ",
-    "authorHelp": "Chose posts"
+    "authorHelp": "Chose posts",
+    "backToMain": "To main page"
   },
   "commentaries": {
     "Header": "Commentaries",
@@ -25,6 +26,14 @@
     "confirmationRedirect": "TBC",
     "registrationRedirect": "Create account"
   },
+  "auth/errors": {
+    "INV_PASSWORD": "Invalid password",
+    "USER_EXISTS": "User exists",
+    "U_ERROR": "Error, try again",
+    "INV_CODE": "Incorrect code",
+    "WRONG_PASSWORD": "Incorrect password",
+    "INV_EMAIL": "Incorrect email"
+  },
   "auth/inputs": {
     "serverErrors": {
       "BAD_INPUT": "Incorrect data proven!",
@@ -33,7 +42,8 @@
     "headers": {
       "registration": "Registration",
       "login": "Login",
-      "confirmation": "Confirmation"
+      "confirmation": "Confirmation",
+      "confirmationHelp": "Insert code from email. Check your inbox"
     },
     "inputPlaceholder": {
       "namePlaceholder": "Name",
@@ -70,7 +80,11 @@
     "header": "Registration"
   },
   "header": {
-    "welcome": "Welcome"
+    "welcome": "Welcome",
+    "logout": "Log out",
+    "login": "Log in",
+    "register": "Create account",
+    "back": "Back"
   },
   "navigation": {
     "home": "Home",
