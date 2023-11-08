@@ -6,7 +6,6 @@ import {
   NoPostError,
 } from '@/Errors/postgresErrors/postgresErrors';
 import LikeRepo from '@/Modules/postgres/repositories/likeRepo';
-import CommentRepo from '@/Modules/postgres/repositories/commentRepo';
 import { DeleteResult } from 'typeorm';
 
 @Injectable()
@@ -15,7 +14,6 @@ export default class LikesService {
     private readonly postRepo: PostRepo,
     private readonly userRepo: UserRepo,
     private readonly likeRepo: LikeRepo,
-    private readonly commentRepo: CommentRepo,
   ) {}
 
   async createNewLike(userId: number, postId: number) {

@@ -7,11 +7,11 @@ import { CheckUserPostLikesBody } from '@/DTO/media/checkUserPostLikesBody';
 import { LikeBodySchema } from '@/Pipes/Jois/LikeBodySchema';
 import { GetPostCommentsBody } from '@/DTO/media/getPostComments';
 import { CreateCommentBody } from '@/DTO/media/createComment';
-import { DeleteCommentBody, } from "@/DTO/media/deleteComment";
+import { DeleteCommentBody } from '@/DTO/media/deleteComment';
 import { GetCommentsSchema } from '@/Pipes/Jois/GetCommentsSchema';
 import { CreateCommentSchema } from '@/Pipes/Jois/CreateCommentSchema';
 import { DeleteCommentSchema } from '@/Pipes/Jois/DeleteCommentSchema';
-import { LikePatchBody } from "@/DTO/media/patchLikeDto";
+import { LikePatchBody } from '@/DTO/media/patchLikeDto';
 
 @Controller()
 export class AppController {

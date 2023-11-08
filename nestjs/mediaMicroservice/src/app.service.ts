@@ -16,7 +16,7 @@ import {
   DeleteCommentBody,
   DeleteCommentOutput,
 } from '@/DTO/media/deleteComment';
-import { LikePatchBody, LikePatchOutput } from "@/DTO/media/patchLikeDto";
+import { LikePatchBody, LikePatchOutput } from '@/DTO/media/patchLikeDto';
 
 @Injectable()
 export class AppService {

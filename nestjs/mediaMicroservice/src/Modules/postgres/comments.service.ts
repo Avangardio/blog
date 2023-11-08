@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import PostRepo from '@/Modules/postgres/repositories/postRepo';
 import UserRepo from '@/Modules/postgres/repositories/userRepo';
-import LikeRepo from '@/Modules/postgres/repositories/likeRepo';
 import CommentRepo from '@/Modules/postgres/repositories/commentRepo';
 import { NoPostError } from '@/Errors/postgresErrors/postgresErrors';
 import { DeleteResult } from 'typeorm';
@@ -12,7 +11,6 @@ export default class CommentsService {
   constructor(
     private readonly postRepo: PostRepo,
     private readonly userRepo: UserRepo,
-    private readonly likeRepo: LikeRepo,
     private readonly commentRepo: CommentRepo,
   ) {}
 
@@ -51,7 +49,6 @@ export default class CommentsService {
   async getPostComments(postId: number) {
     //Получаем айди пользователя по предоставленному, чтоб проверить. Если нет - ошибка.
     //Получаем айди поста. Нет - ошибка.
-    console.time();
     const post = await this.postRepo.findPostByPostId(postId, ['postId']);
     //Проверяем, чтоб все данные были
     if (!post) throw new NoPostError('NO_POST');

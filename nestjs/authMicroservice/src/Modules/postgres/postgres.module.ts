@@ -2,9 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import PostgresService from '@/Modules/postgres/postgres.service';
-import { View } from '@/Modules/postgres/Entities/view.entity';
 import { User } from '@/Modules/postgres/Entities/user.entity';
-import { Post } from '@/Modules/postgres/Entities/post.entity';
 import UserRepo from '@/Modules/postgres/repositories/userRepo';
 import UserService from '@/Modules/postgres/user.service';
 
@@ -21,7 +19,7 @@ import UserService from '@/Modules/postgres/user.service';
           username: postgresConfig.username,
           password: postgresConfig.password,
           database: postgresConfig.database,
-          entities: [User, Post, View],
+          entities: [User],
           synchronize: false,
           cache: {
             type: 'ioredis',

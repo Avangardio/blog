@@ -173,7 +173,7 @@ describe('[Entrance] Auth - (e2e)', () => {
       .post('/auth/login')
       .send(loginPayloadNewPass)
       .expect(200);
-      cookies = loginNewResponse.headers['set-cookie'];
+    cookies = loginNewResponse.headers['set-cookie'];
   });
   it('[NEST] - Аутентификация', async () => {
     const authenticateResponse = await request(app.getHttpServer())

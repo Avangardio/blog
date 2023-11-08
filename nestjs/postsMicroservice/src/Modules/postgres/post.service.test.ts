@@ -16,7 +16,8 @@ describe('PostService', () => {
     findExactPost: jest.fn().mockResolvedValue(new Post()),
     increasePostViews: jest.fn().mockResolvedValue(1),
     deletePost: jest.fn().mockResolvedValue(new Post()),
-    findPopularPosts: jest.fn().mockResolvedValue(new Post()),
+    findPopularPosts: jest.fn().mockResolvedValue([new Post()]),
+    getPosts: jest.fn().mockResolvedValue([new Post(), new Post()]),
   };
   const userRepoMock = {
     findUserByUserId: jest.fn().mockResolvedValue({ userId: 1 }),
@@ -57,12 +58,39 @@ describe('PostService', () => {
     });
     expect(typeof result).toBe('number');
   });
-  it('GetExactPost - с постом', async () => {
+  it('getExactPost - с постом', async () => {
     const result = await postService.getExactPost(1);
     expect(result).toBeInstanceOf(Post);
   });
-  it('GetExactPost - без поста', async () => {
+  it('getExactPost - без поста', async () => {
     postRepoMock.findExactPost = jest.fn().mockResolvedValue(null);
-    await expect(postService.getExactPost(4242)).rejects.toThrowError();
+    await expect(postService.getExactPost(4242)).rejects.toThrow('NO_POST');
+  });
+  it('findPosts - с постом', async () => {
+    const result = await postService.findPosts(1, {});
+    expect(typeof result.hasMore).toBe('boolean');
+    expect(result.posts.length).toBe(2);
+  });
+  it('findPosts - без постов', async () => {
+    postRepoMock.getPosts = jest
+      .fn()
+      .mockResolvedValue({ posts: [], hasMore: false });
+    await expect(postService.getExactPost(4242)).rejects.toThrow('NO_POST');
+  });
+  it('deletePost - с юзером', async () => {
+    const result = await postService.deletePost(1, 1);
+    expect(result);
+  });
+  it('deletePost - без юзера', async () => {
+    userRepoMock.findUserByUserId = jest.fn().mockResolvedValue(undefined);
+    await expect(postService.deletePost(1, 1)).rejects.toThrow('NO_USER');
+  });
+  it('findPopularPosts - с постами', async () => {
+    const result = await postService.findPopularPosts();
+    expect(result.length);
+  });
+  it('findPopularPosts - нет постов', async () => {
+    postRepoMock.findPopularPosts = jest.fn().mockResolvedValue([]);
+    await expect(postService.findPopularPosts()).rejects.toThrow('NO_POSTS');
   });
 });
