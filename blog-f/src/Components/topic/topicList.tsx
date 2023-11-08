@@ -1,6 +1,7 @@
 'use client'
 import {useMemo} from "react";
 import TopicEntity from "@/Components/topic/topicEntity";
+import {useStore} from "@/MobX/RootStore";
 
 interface TopicListProps {
     posts: PostData[]
@@ -20,5 +21,4 @@ export default function TopicList({posts, page, pageSize = 5}: TopicListProps) {
     return (
         <div className={'w-full max-w-[700px]'}>{pageTopics}</div>
     )
-
 }

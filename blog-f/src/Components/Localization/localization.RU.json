@@ -20,6 +20,13 @@
     "authorHelp": "Выберите посты",
     "backToMain": "На главную"
   },
+  "new/create": {
+    "Header": "Создание статьи",
+    "titlePL": "Заголовок статьи от 10 символов",
+    "descPL": "Описание статьи от 10 символов",
+    "contentPL": "Тело статьи",
+    "tags": "Введите тэги"
+  },
   "auth/redirects": {
     "restorationRedirect": "Restore password",
     "loginRedirect": "Already have an account? Log in",

@@ -1,29 +1,21 @@
 'use client'
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import 'prismjs/themes/prism.css'; // Стили для Prism.js
-import Prism from 'prismjs';
+import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
 import CreateTitle from "@/Components/article/createArticle/CreateTitle";
 import CreateDescription from "@/Components/article/createArticle/createDescription";
-import dynamic from "next/dynamic";
+import TextareaAutosize from "react-textarea-autosize";
+import {useStore} from "@/MobX/RootStore";
+import useLocalization from "@/Components/Localization/Localization";
 
-const QuillNoSSRWrapper = dynamic(
-    async () => {
-        const {default: RQ} = await import('react-quill');
-        return ({...props}) => <RQ {...props} />;
-    },
-    {
-        ssr: false,
-    }
-);
 const CreateArticleMain = () => {
+    const {Header, contentPL} = useLocalization('new/create');
+
+
     const [article, updateArticle] = useState({
         content: '',
         title: '',
         picture: '',
         description: '',
-        tags: []
+        tags: [],
     });
 
     // Функция для обработки изменения контента
@@ -36,36 +28,20 @@ const CreateArticleMain = () => {
             [event.target.name]: event.target.value,
         })
     }
-
-    useEffect(() => {
-        // Вызываем Prism.highlightAll() после обновления контента
-        Prism.highlightAll();
-    }, [article]);
-
-    const modules = {
-        toolbar: [
-            [{'header': '1'}],
-            [{'list': 'ordered'}, {'list': 'bullet'}],
-            ['bold', 'italic', 'underline'],
-            [{'align': []}],
-            ['link'],
-            ['code-block'],
-            ['clean'],
-        ],
-    };
-
-    if (typeof document === 'undefined' && typeof window === "undefined") return null;
     return (
-        <div>
+        <div className={'flex flex-col max-w-[700px]'}>
+            <p className={'text-center my-2 text-2xl'}>{Header}</p>
             <CreateTitle title={article.title} changeAction={handleChangeElements}/>
             <CreateDescription description={article.description} changeAction={handleChangeElements}/>
-            <ReactQuill
+            <TextareaAutosize
+                minRows={3}
+                maxRows={30}
+                className={'w-full p-2 focus:outline-cyan-600'}
                 value={article.content}
-                onChange={handleContentChange}
-                modules={modules}
+                placeholder={contentPL}
+                onChange={(event) => handleContentChange(event.target.value)}
             />
         </div>
     );
 };
-
 export default CreateArticleMain;

@@ -3,14 +3,10 @@ import {action, makeObservable, observable} from 'mobx';
 
 export class UIStore {
     @observable
-    selectedAuthorId: number | undefined;
+    showPopUp: boolean = false;
     @action
-    setSelectedAuthor = (authorId: number) => {
-        this.selectedAuthorId = authorId;
-    }
-    @action
-    unsetSelectedAuthor = () => {
-        this.selectedAuthorId = undefined;
+    setPopUp = (show: boolean) => {
+        this.showPopUp = show;
     }
 
     public constructor() {

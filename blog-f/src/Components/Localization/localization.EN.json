@@ -16,6 +16,13 @@
     "Comment": "Leave comment",
     "Placeholder": "Your commentary"
   },
+  "new/create": {
+    "Header": "Post creation",
+    "titlePL": "Post title",
+    "descPL": "Post description",
+    "contentPL": "Post text",
+    "tags": "Insert tags"
+  },
   "auth": {
     "login": "Login",
     "password": "Password"

@@ -32,7 +32,12 @@ export default async function Home({params, searchParams}: HomePageProps) {
             getPopularPosts()
         ]);
     if (!getPostsReply) {
-        return (<div>404 lmao</div>)
+        return (
+            <div>
+                <CreatePost/>
+                404 lmao
+            </div>
+        )
     }
     return (
         <div className="flex justify-center align-middle items-center w-full relative mt-4 md:px-4">
