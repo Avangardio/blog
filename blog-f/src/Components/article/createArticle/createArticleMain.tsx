@@ -5,6 +5,8 @@ import CreateDescription from "@/Components/article/createArticle/createDescript
 import TextareaAutosize from "react-textarea-autosize";
 import {useStore} from "@/MobX/RootStore";
 import useLocalization from "@/Components/Localization/Localization";
+import CreateImage from "@/Components/article/createArticle/createImage";
+import CreateTags from "@/Components/article/createArticle/createTags";
 
 const CreateArticleMain = () => {
     const {Header, contentPL} = useLocalization('new/create');
@@ -28,9 +30,16 @@ const CreateArticleMain = () => {
             [event.target.name]: event.target.value,
         })
     }
+    const handlePictureUpload = (newPicture: string) => {
+        updateArticle({
+            ...article,
+            picture: newPicture,
+        })
+    }
     return (
-        <div className={'flex flex-col max-w-[700px]'}>
+        <div className={'flex flex-col'}>
             <p className={'text-center my-2 text-2xl'}>{Header}</p>
+            <CreateImage changeAction={handlePictureUpload} />
             <CreateTitle title={article.title} changeAction={handleChangeElements}/>
             <CreateDescription description={article.description} changeAction={handleChangeElements}/>
             <TextareaAutosize
@@ -41,6 +50,7 @@ const CreateArticleMain = () => {
                 placeholder={contentPL}
                 onChange={(event) => handleContentChange(event.target.value)}
             />
+            <CreateTags />
         </div>
     );
 };

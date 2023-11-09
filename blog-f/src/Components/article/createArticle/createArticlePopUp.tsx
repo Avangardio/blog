@@ -23,7 +23,7 @@ function CreateArticlePopUp() {
 
     if (!showPopUp) return null;
     return (
-        <div className={'z-50 absolute p-4 bg-white shadow-2xl md:min-w-[400px] top-[100px]'} ref={elementRef}>
+        <div className={'z-50 absolute p-4 bg-white shadow-2xl md:w-full top-[100px] max-w-[700px]'} ref={elementRef}>
             <CreateArticleMain />
         </div>
     )
