@@ -1,18 +1,24 @@
 import { useState} from "react";
-
-export default function CreateTags() {
+import useLocalization from "@/Components/Localization/Localization";
+interface ICreateTags {
+    changeAction: (event: string[]) => void;
+}
+export default function CreateTags({changeAction}: ICreateTags) {
+    const {addTag, deleteTag} = useLocalization('new/create')
     const [inputs, setInputs] = useState(['']); // Инициализируем массив с одним пустым инпутом
 
-    const handleAddInput = () => {
-        if (inputs.length < 3) {
+    const handleAddInput = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation()
+        if (inputs.length <= 3) {
             setInputs([...inputs, '']); // Добавляем новый пустой инпут
         }
     };
 
     const handleInputChange = (index: number, value: string) => {
         const newInputs = [...inputs];
-        newInputs[index] = value;
+        newInputs[index] = value.trim();
         setInputs(newInputs);
+        changeAction(newInputs);
     };
 
     const handleRemoveInput = (index: number, e: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,21 +29,29 @@ export default function CreateTags() {
     };
 
     return (
-        <div onClick={event => event.stopPropagation()}>
-            {inputs.length < 3 && (
-                <button onClick={handleAddInput}>Добавить</button>
-            )}
+        <div>
+            {
+                inputs.length <= 3
+                    ? <button className={'mt-2 transition-transform transform hover:scale-95 bg-cyan-600 rounded text-white p-2'} onClick={handleAddInput}>{addTag}</button>
+                    : false
+            }
             {
                 inputs.map((input, index) => (
                         <div key={index}>
                             <input className={'p-1 my-2 w-[6em] focus:outline-cyan-600'}
                                 type="text"
+                                maxLength={7}
                                 value={input}
                                 onChange={(e) => handleInputChange(index, e.target.value)}
-                                placeholder={String(index)}
+                                placeholder={String(index + 1)}
                             />
                             {inputs.length > 1 && (
-                                <button onClick={(event ) => handleRemoveInput(index, event)}>Удалить</button>
+                                <button
+                                    className={'ml-2 transition-transform transform hover:scale-95 bg-cyan-600 rounded text-white p-2'}
+                                    onClick={(event ) => handleRemoveInput(index, event)}
+                                >
+                                    {deleteTag}
+                                </button>
                             )}
                         </div>
                     )

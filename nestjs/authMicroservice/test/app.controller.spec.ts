@@ -31,7 +31,7 @@ describe('AppController', () => {
       password: env.POSTGRES_PASSWORD,
     });
     //удаляем данные тестовые
-    await redis.del('test@test.com');
+    await redis.del('test1@test.com');
     //Создаем клиента
     const client = await pool.connect();
     //Удаляем пользователя

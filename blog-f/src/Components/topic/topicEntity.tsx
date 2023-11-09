@@ -28,7 +28,7 @@ export default function TopicEntity({topicProp, page}: TopicEntityProps) {
         >
             <Image src={picture}
                  alt={'/defaultTopic.png'}
-                 className={'justify-center !relative max-h-[400px]'}
+                 className={'justify-center object-scale-down !relative max-h-[400px] w-full'}
                    fill={true}
             />
 

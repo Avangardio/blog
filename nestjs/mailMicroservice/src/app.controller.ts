@@ -10,7 +10,6 @@ export class AppController {
 
   @MessagePattern('sendConfirmationEmail')
   sendConfirmationEmail(@Payload() payload: ConfirmationBodyDto) {
-      console.log(1)
     return this.appService.auth_mail.sendConfirmation(payload);
   }
 

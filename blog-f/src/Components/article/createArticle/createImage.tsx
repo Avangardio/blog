@@ -47,7 +47,7 @@ export default function ImageUploader({changeAction}: ICreatePicture) {
     return (
         <div>
             <input
-                className={'mb-2.5 file:bg-cyan-600 file:border-cyan-600'}
+                className={'mb-2.5 file:bg-cyan-600 file:border-cyan-600 transition-transform transform file:text-white file:hover:scale-95'}
                 type="file"
                 accept="image/*"
                 onChange={handleImageUpload}
@@ -57,6 +57,7 @@ export default function ImageUploader({changeAction}: ICreatePicture) {
                 <img
                     src={uploadedImage}
                     alt="Uploaded"
+                    className={'object-scale-down max-h-[400px] md:min-w-full'}
                     style={{ maxWidth: '100%' }}
                 />
             )}

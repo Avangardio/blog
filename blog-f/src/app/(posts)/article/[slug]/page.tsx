@@ -6,6 +6,12 @@ export const revalidate = 3600;
 interface ArticlePageProps {
     params: { slug: string | undefined }
 }
+export async function generateMetadata({ params }: { params: { slug: string | undefined } }) {
+    const response = await getArticle(params.slug || 'page1');
+    return {
+        title: response?.data?.payload?.title || 'BBlog',
+    }
+}
 export default async function ArticlePage({params}:ArticlePageProps) {
     const {slug} = params;
     if(!slug || isNaN(parseInt(slug))) redirect('/');

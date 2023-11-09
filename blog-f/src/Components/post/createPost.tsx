@@ -2,11 +2,13 @@
 import useLocalization from "@/Components/Localization/Localization";
 import {useStore} from "@/MobX/RootStore";
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 export default function CreatePost() {
     const {createButtonGuest, createButtonLogged} = useLocalization('topics/interface');
     const {userName} = useStore('UserStore');
     const {setPopUp} = useStore('UIStore');
+    const router = useRouter();
 
     return (
         <a href={'#'}
@@ -17,7 +19,8 @@ export default function CreatePost() {
            `}
            onClick={(event) => {
                event.preventDefault()
-               setPopUp(true)
+               if(userName) return setPopUp(true);
+               return router.push('/login')
            }}
         >
             <Image src={'plus.svg'} alt={'plus.svg'} width={20} height={20}/>

@@ -9,6 +9,7 @@
     "authorHelp": "Chose posts",
     "backToMain": "To main page"
   },
+
   "commentaries": {
     "Header": "Commentaries",
     "TimeIn": "at",
@@ -21,7 +22,11 @@
     "titlePL": "Post title",
     "descPL": "Post description",
     "contentPL": "Post text",
-    "tags": "Insert tags"
+    "tags": "Insert tags",
+    "addTag": "Add tag",
+    "deleteTag": "Delete",
+    "createButton": "Create",
+    "error": "Creation error"
   },
   "auth": {
     "login": "Login",

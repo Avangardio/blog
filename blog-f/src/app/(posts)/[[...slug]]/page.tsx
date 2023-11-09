@@ -35,13 +35,12 @@ export default async function Home({params, searchParams}: HomePageProps) {
         return (
             <div>
                 <CreatePost/>
-                404 lmao
             </div>
         )
     }
     return (
-        <div className="flex justify-center align-middle items-center w-full relative mt-4 md:px-4">
-            <main className={'relative'}>
+        <div className="flex md:min-w-[700px] justify-center align-middle items-center w-full relative mt-4 md:px-4">
+            <main className={'relative  md:min-w-[700px] '}>
                 <CreatePost/>
                 <TagsManager currentTags={searchParams?.tags} />
                 <TopicList posts={getPostsReply.payload.posts} page={currentPage}/>

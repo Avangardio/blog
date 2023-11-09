@@ -25,7 +25,7 @@ export default function ArticleHeader(articleHeader: ArticleHeaderProps) {
 
     return (
         <div className={'w-full mb-5 bg-white transition-shadow box-border p-4 hover:outline hover:outline-1 hover:outline-cyan-600 max-w-[700px] relative'}>
-            <Image src={picture} alt={picture} fill={true} className={'justify-center !relative max-h-[400px]'}/>
+            <Image src={picture} alt={picture} fill={true} className={'justify-center object-scale-down md:min-w-[700px] !relative max-h-[400px]'}/>
             <h1 className={'text-2xl font-bold'}>{shrinkText(title)}</h1>
             <div>{shrinkText(description)}</div>
             <div className={'flex flex-row border-b-cyan-500 border-b-2 mb-2 justify-between'}>

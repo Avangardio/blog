@@ -25,7 +25,11 @@
     "titlePL": "Заголовок статьи от 10 символов",
     "descPL": "Описание статьи от 10 символов",
     "contentPL": "Тело статьи",
-    "tags": "Введите тэги"
+    "tags": "Введите тэги",
+    "addTag": "Добавить тэг",
+    "deleteTag": "Убрать",
+    "createButton": "Создать",
+    "error": "Ошибка создания"
   },
   "auth/redirects": {
     "restorationRedirect": "Restore password",

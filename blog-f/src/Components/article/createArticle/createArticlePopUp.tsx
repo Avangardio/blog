@@ -7,24 +7,20 @@ import {useEffect, useRef} from "react";
 function CreateArticlePopUp() {
     const {showPopUp, setPopUp} = useStore('UIStore');
     const elementRef = useRef<HTMLDivElement | null>(null);
-    console.log(showPopUp)
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (elementRef.current && !elementRef.current.contains(e.target as Node)) {
-                (setPopUp(false));
+
+        const handleClickOutside = (e: React.MouseEvent<HTMLDivElement>) => {
+            if (showPopUp && elementRef.current && elementRef.current.contains(e.target as Node)) {
+                setPopUp(false)
             }
         };
-        if(showPopUp) document.addEventListener("click", handleClickOutside);
-
-        return () => {
-            if(showPopUp)  document.removeEventListener("click", handleClickOutside);
-        };
-    }, [showPopUp]);
-
     if (!showPopUp) return null;
     return (
-        <div className={'z-50 absolute p-4 bg-white shadow-2xl md:w-full top-[100px] max-w-[700px]'} ref={elementRef}>
-            <CreateArticleMain />
+        <div onClick={handleClickOutside}
+            className={'z-30 absolute p-4 bg-white shadow-2xl md:w-full top-[100px] max-w-[700px]'} ref={elementRef}>
+            <div className={'z-30 right-0 left-0 top-0 bottom-0 fixed w-screen h-screen bg-white opacity-50'}/>
+            <div onClick={event => event.stopPropagation()}>
+                <CreateArticleMain />
+            </div>
         </div>
     )
 }
