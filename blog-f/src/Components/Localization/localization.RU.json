@@ -14,7 +14,7 @@
     "authorTag": "Автор",
     "popularHeader": "Популярные статьи",
     "addNewPost": "Напишите статью",
-    "createButtonLogged": "Write your own post!",
+    "createButtonLogged": "Напишите свою статью",
     "createButtonGuest": "Войдите, чтобы написать статью!",
     "authorFrom": "На портале с: ",
     "authorHelp": "Выберите посты",
@@ -32,15 +32,15 @@
     "error": "Ошибка создания"
   },
   "auth/redirects": {
-    "restorationRedirect": "Restore password",
-    "loginRedirect": "Already have an account? Log in",
-    "confirmationRedirect": "TBC",
-    "registrationRedirect": "Create account"
+    "restorationRedirect": "Восстановить пароль",
+    "loginRedirect": "Уже есть аккаунт? Войти",
+    "confirmationRedirect": "Уточняется",
+    "registrationRedirect": "Создать аккаунт"
   },
   "auth/inputs": {
     "serverErrors": {
-      "BAD_INPUT": "Incorrect data proven!",
-      "USER_EXIST": "User is already exists!"
+      "BAD_INPUT": "Проверьте ввод!",
+      "USER_EXIST": "Пользователь существует!"
     },
     "headers": {
       "registration": "Регистрация",
@@ -58,11 +58,11 @@
       "nameHeader": "Имя пользователя",
       "emailHeader": "Эл. почта",
       "passwordHeader": "Пароль",
-      "codeHeader": "Code"
+      "codeHeader": "Код"
     },
     "termsOfUse": {
-      "terms1": "By clicking the button, you accept the",
-      "terms2": "Terms of Use"
+      "terms1": "Отправляя форму, вы подтверждаете",
+      "terms2": "Условия использования"
     },
     "inputError": {
       "required": "Поле обязательно!",
@@ -70,20 +70,20 @@
       "long": "Поле слишком длинное!",
       "emailIncorrect": "Неверный формат электронной почты!",
       "passwordIncorrect": "Пароль должен содержать минимум 8 символов, одну букву и цифру!",
-      "codeIncorrect": "Code is invalid!"
+      "codeIncorrect": "Неверный код!"
     },
     "inputHelper": {
       "nameHelper": "Имя должно содержать минимум 2 символа",
       "emailHelper": "Адрес эл. почты должен быть корректным",
-      "passwordHelper": "Уточняется"
+      "passwordHelper": "От 10 символов, одна буква и цифра минимум"
     }
   },
   "forms": {
     "formsHelper": {
-      "nameHelper": "Name must contain at least 2 any symbols",
-      "emailHelper": "Email must be correct",
-      "passwordHelper": "TBC",
-      "codeHelper": "Must be 6 digits"
+      "nameHelper": "От двух символов",
+      "emailHelper": "Почта должна быть корректной",
+      "passwordHelper": "От 10 символов, одна буква и цифра минимум",
+      "codeHelper": "Код должен содержать 6 цифр"
     }
   },
   "auth/errors": {

@@ -1,8 +1,8 @@
 {
   "topics/interface": {
     "authorTag": "Author",
-    "addNewPost": "Напишите статью",
-    "popularHeader": "Популярные статьи",
+    "addNewPost": "Write a post",
+    "popularHeader": "Popular posts",
     "createButtonLogged": "Write your own post!",
     "createButtonGuest": "Login in to create posts!",
     "authorFrom": "On portal from: ",

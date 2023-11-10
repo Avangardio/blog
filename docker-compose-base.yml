@@ -137,6 +137,8 @@ services:
       - ./pginit/init.sql:/docker-entrypoint-initdb.d/01_init.sql
       - ./pginit/tables/users.sql:/docker-entrypoint-initdb.d/02_users.sql
       - ./pginit/tables/posts.sql:/docker-entrypoint-initdb.d/03_posts.sql
+      - ./pginit/tables/post_likes.sql:/docker-entrypoint-initdb.d/04_post_likes.sql
+      - ./pginit/tables/post_comments.sql:/docker-entrypoint-initdb.d/05_post_comments.sql
 
 
   redis:

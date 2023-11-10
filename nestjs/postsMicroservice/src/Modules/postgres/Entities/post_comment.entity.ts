@@ -2,7 +2,7 @@ import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn,} from 'ty
 import {Post} from '@/Modules/postgres/Entities/post.entity';
 import {User} from '@/Modules/postgres/Entities/user.entity';
 
-@Entity('post_comments')
+@Entity('post_comments.sql')
 export class Post_comment {
     @PrimaryGeneratedColumn({name: 'commentid'})
     commentId: number;
