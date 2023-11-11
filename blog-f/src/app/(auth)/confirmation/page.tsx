@@ -24,6 +24,7 @@ interface ConfirmationPageProps {
 
 export default function MyForm({searchParams}: ConfirmationPageProps) {
     const localization = useLocalization('auth/inputs')
+    const {headers} = useLocalization('auth/inputs')
     const {push} = useRouter();
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -119,7 +120,7 @@ export default function MyForm({searchParams}: ConfirmationPageProps) {
 
 
                     <button className={"bg-cyan-600 self-center rounded h-12 w-32 drop-shadow-lg transition-transform transform hover:scale-95"}
-                            type="submit">Kod
+                            type="submit">{headers.confirmation}
                     </button>
                 </Form>
             )}

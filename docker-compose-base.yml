@@ -2,7 +2,6 @@ version: '3.5'
 
 services:
   api:
-    #  env_file: ${ENV_FILE:-.env.example}
     build:
       context: ./nestjs/entrance
       dockerfile: Dockerfile
@@ -24,6 +23,22 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_DB: dbname
       RMQ_HOST: rabbitmq
+
+  frontend:
+    build:
+      context: ./blog-f
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    #depends_on:
+    #  - api
+    networks:
+      - app-network
+    environment:
+      PORT: 3000
+      NEXT_PUBLIC_AUTH_URL: http://api:3000/auth/
+      NEXT_PUBLIC_POST_URL: http://api:3000/posts/
+      NEXT_PUBLIC_MEDIA_URL: http://api:3000/media/
 
   auth_microservice:
     #  env_file: ${ENV_FILE:-.env.example}
@@ -137,8 +152,9 @@ services:
       - ./pginit/init.sql:/docker-entrypoint-initdb.d/01_init.sql
       - ./pginit/tables/users.sql:/docker-entrypoint-initdb.d/02_users.sql
       - ./pginit/tables/posts.sql:/docker-entrypoint-initdb.d/03_posts.sql
-      - ./pginit/tables/post_likes.sql:/docker-entrypoint-initdb.d/04_post_likes.sql
-      - ./pginit/tables/post_comments.sql:/docker-entrypoint-initdb.d/05_post_comments.sql
+      - ./pginit/tables/post_comments_1.sql:/docker-entrypoint-initdb.d/04_post_comments.sql
+      - ./pginit/tables/post_likes.sql:/docker-entrypoint-initdb.d/05_post_likes.sql
+
 
 
   redis:

@@ -1,1 +1,1 @@
-export const authURL = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:4000/auth'
+export const authURL = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:4000/auth/'

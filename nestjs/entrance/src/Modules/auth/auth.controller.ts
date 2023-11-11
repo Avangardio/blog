@@ -133,6 +133,7 @@ export class AuthController {
         httpOnly: true,
         path: '/',
         maxAge: 2.592e6,
+        domain: process.env.HOST,
       });
       response.status(result.code);
       //возвращаем часть ответа
@@ -223,6 +224,7 @@ export class AuthController {
       httpOnly: true,
       path: '/',
       maxAge: 2.592e6,
+      domain: process.env.HOST,
     });
     response.status(302).redirect('/' + swaggerURL);
   }

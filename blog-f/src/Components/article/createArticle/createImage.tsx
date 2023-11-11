@@ -47,7 +47,7 @@ export default function ImageUploader({changeAction}: ICreatePicture) {
     return (
         <div>
             <input
-                className={'mb-2.5 file:bg-cyan-600 file:border-cyan-600 transition-transform transform file:text-white file:hover:scale-95'}
+                className={`${!isReady ? '!file:bg-gray-500' : ''} mb-2.5 file:bg-cyan-600 file:border-cyan-600 transition-transform transform file:text-white file:hover:scale-95`}
                 type="file"
                 accept="image/*"
                 onChange={handleImageUpload}

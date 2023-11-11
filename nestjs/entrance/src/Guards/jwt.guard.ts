@@ -35,6 +35,7 @@ export class JwtGuard implements CanActivate {
       httpOnly: true,
       path: '/',
       //1 Месяц
+      domain: process.env.HOST,
       maxAge: 2.592e6,
     });
     //добавляем в тело запроса пользователя

@@ -1,3 +1,9 @@
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+    title: 'Auth',
+    description: 'Blog techno demo by Avangardio',
+}
 export default function AuthLayout({children}: { children: React.ReactNode }) {
 
     return (

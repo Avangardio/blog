@@ -65,9 +65,7 @@ export class PostsController {
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
     //удаляем с тела запроса юзернейм из жвт гварда
-    const createResponse = await this.postsService.createPost(
-      body,
-    );
+    const createResponse = await this.postsService.createPost(body);
     response.status(createResponse.code);
     return createResponse;
   }
@@ -89,8 +87,7 @@ export class PostsController {
 
   @Get('findPopularPosts')
   async findPopularPosts(@Res({ passthrough: true }) response: FastifyReply) {
-    const popularPostsResponse =
-      await this.postsService.findPopularPosts();
+    const popularPostsResponse = await this.postsService.findPopularPosts();
     response.status(popularPostsResponse.code);
     return popularPostsResponse;
   }
@@ -103,9 +100,7 @@ export class PostsController {
     @Req() request: FastifyRequest,
     @Res({ passthrough: true }) response: FastifyReply,
   ) {
-    const deleteResponse = await this.postsService.deletePost(
-      body,
-    );
+    const deleteResponse = await this.postsService.deletePost(body);
     response.status(deleteResponse.code);
     return deleteResponse;
   }

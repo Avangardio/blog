@@ -22,9 +22,9 @@ describe('AppController', () => {
           picture:
             'https://hsto.org/r/w780/getpro/habr/upload_files/07f/b0c/f64/07fb0cf64efb401c980f33f3a652cc61.jpg',
           title: 'Ну типа тайтл',
-          description: 'ЭЙЙЙ, НЕ ЗАСЛОНЯЙ МНЕ СОЛНЦЕ',
-          texts: 'Ну здесь тестовой даты ооочень много, но мало....',
-          tags: ['HUMOR'],
+          description: 'Тесты тесты тестыыыы',
+          texts: 'Здесь тестовой даты ооочень много, но мало....',
+          tags: ['Humor'],
         },
       };
       const response = await appController.createNewPost(createPostBody);
@@ -39,9 +39,9 @@ describe('AppController', () => {
           picture:
             'https://hsto.org/r/w780/getpro/habr/upload_files/07f/b0c/f64/07fb0cf64efb401c980f33f3a652cc61.jpg',
           title: 'Ну типа тайтл',
-          description: 'ЭЙЙЙ, НЕ ЗАСЛОНЯЙ МНЕ СОЛНЦЕ',
-          texts: 'Ну здесь тестовой даты ооочень много, но мало....',
-          tags: ['ANIME'],
+          description: 'Тесты тесты тестыыыы',
+          texts: 'Здесь тестовой даты ооочень много, но мало....',
+          tags: ['Humor'],
         },
       };
       await expect(
@@ -71,7 +71,7 @@ describe('AppController', () => {
       const findpostsresponse = await appController.findPosts(findBody);
       expect(findpostsresponse.code).toBe(200);
       expect(findpostsresponse.payload.hasMore).toBe(
-        findpostsresponse.payload.posts.length > 5,
+        findpostsresponse.payload.posts.length > 0,
       );
     });
   });

@@ -31,6 +31,7 @@ export default class CommentRepo {
         },
       })
       .catch((error) => {
+        console.log(error)
         throw new DatabasePGError('COMMENTS_ERROR', error.message);
       });
   }

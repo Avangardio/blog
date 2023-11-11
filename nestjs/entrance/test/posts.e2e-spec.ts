@@ -32,7 +32,7 @@ describe('[Entrance] Posts - (e2e)', () => {
       password: env.POSTGRES_PASSWORD,
     });
     //удаляем данные тестовые
-    await redis.del('test@test.com');
+    await redis.del('admin@test.com');
     //Создаем клиента
     const client = await pool.connect();
     //Инициаилизируем нестжс
@@ -63,7 +63,7 @@ describe('[Entrance] Posts - (e2e)', () => {
 
   it('[NEST] - Логин тестового пользователя', async () => {
     const loginPayload = {
-      email: '12lol34lol56lol@gmail.com',
+      email: 'admin@test.com',
       password: 'MyNewPass42',
     };
     const loginNewResponse = await request(app.getHttpServer())
@@ -79,9 +79,9 @@ describe('[Entrance] Posts - (e2e)', () => {
         picture:
           'https://hsto.org/r/w780/getpro/habr/upload_files/07f/b0c/f64/07fb0cf64efb401c980f33f3a652cc61.jpg',
         title: 'Ну типа тайтл',
-        description: 'ЭЙЙЙ, НЕ ЗАСЛОНЯЙ МНЕ СОЛНЦЕ',
-        texts: 'Ну здесь тестовой даты ооочень много, но мало....',
-        tags: ['HUMOR'],
+        description: 'Тесты тесты тестыыыы',
+        texts: 'Здесь тестовой даты ооочень много, но мало....',
+        tags: ['Humor'],
       },
     };
     const createPostResponse = await request(app.getHttpServer())

@@ -37,7 +37,7 @@ describe('[Entrance] Media - (e2e)', () => {
 
   it('[NEST] - Логин тестового пользователя', async () => {
     const loginPayload = {
-      email: '12lol34lol56lol@gmail.com',
+      email: 'admin@test.com',
       password: 'MyNewPass42',
     };
     const loginNewResponse = await request(app.getHttpServer())

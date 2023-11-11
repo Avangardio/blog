@@ -13,9 +13,11 @@ export default async function RootLayout({children}: { children: React.ReactNode
         timeout: 1000,
         headers: {
             'Cookie': 'userdata=' + userdata,
+            'Content-type': 'application/json'
         },
-
-    }).catch(() => undefined);
+    }).catch((error) => {
+        return undefined
+    });
     const payload = authUser?.status === 200 ? authUser.data : undefined
     return (
         <html lang="en">

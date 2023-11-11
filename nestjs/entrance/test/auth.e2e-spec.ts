@@ -34,12 +34,12 @@ describe('[Entrance] Auth - (e2e)', () => {
       password: env.POSTGRES_PASSWORD,
     });
     //удаляем данные тестовые
-    await redis.del('test@test.com');
+    await redis.del('admin@test.com');
     //Создаем клиента
     const client = await pool.connect();
     //Удаляем пользователя
     await client.query('DELETE FROM users WHERE users.email = $1::text', [
-      'test@test.com',
+      'test1@test.com',
     ]);
     //Инициаилизируем нестжс
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -78,7 +78,7 @@ describe('[Entrance] Auth - (e2e)', () => {
   it('[NEST] - Регистрация пользователя', async () => {
     //Этап 1: Начальная регистрация
     const registrationPayload = {
-      email: 'test@test.com',
+      email: 'test1@test.com',
       password: 'TestPassword1',
       name: 'Test User',
       language: 'RU',
@@ -107,7 +107,7 @@ describe('[Entrance] Auth - (e2e)', () => {
     //Получаем пользователя
     const user = await client.query(
       'SELECT * FROM users WHERE users.email = $1::text',
-      ['test@test.com'],
+      ['test1@test.com'],
     );
     //пользователь должен сущестовать
     expect(user.rows[0].email === 'test@test.com');
@@ -115,11 +115,11 @@ describe('[Entrance] Auth - (e2e)', () => {
   });
   it('[NEST] - Логин пользователя', async () => {
     const loginPayloadCorrect = {
-      email: 'test@test.com',
+      email: 'test1@test.com',
       password: 'TestPassword1',
     };
     const loginPayloadWrong = {
-      email: 'test@test.com',
+      email: 'test1@test.com',
       password: 'TestPassword2',
     };
     //Кейс 1: данные пользователя некорректные
@@ -141,7 +141,7 @@ describe('[Entrance] Auth - (e2e)', () => {
   });
   it('[NEST] - Восстановление пароля', async () => {
     const restorationPayload = {
-      email: 'test@test.com',
+      email: 'test1@test.com',
     };
     //отправляем запрос на получение кода
     const restorationResponse = await request(app.getHttpServer())
@@ -166,7 +166,7 @@ describe('[Entrance] Auth - (e2e)', () => {
   });
   it('[NEST] - Логин с новым паролем', async () => {
     const loginPayloadNewPass = {
-      email: 'test@test.com',
+      email: 'test1@test.com',
       password: 'MyNewPass42',
     };
     const loginNewResponse = await request(app.getHttpServer())

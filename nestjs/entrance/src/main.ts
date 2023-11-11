@@ -23,10 +23,13 @@ async function bootstrap() {
   await app.register(fastifyCookie, {
     secret: secret, // for cookies signature
   });
+
+  const { port, host } = configService.get('server');
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  app.register(fastifyCors, {
-    origin: 'http://localhost:3000',
+  await app.register(fastifyCors, {
+    origin: ['http://localhost:3000', 'localhost', host, '127.0.0.1'],
     credentials: true,
     allowedHeaders: [
       'Access-Control-Allow-Credentials',
@@ -39,7 +42,6 @@ async function bootstrap() {
     methods: ['GET', 'PUT', 'OPTIONS', 'POST', 'DELETE', 'PATCH'],
   });
 
-  const { port, host } = configService.get('server');
   const swagger_url = configService.get('swaggerURL');
 
   const config = new DocumentBuilder()
