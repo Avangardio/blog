@@ -1,4 +1,4 @@
-# BBlog фронтэнд
+# BBlog Главная
 
 ## Навигация по проекту
 • [Главная](https://github.com/Avangardio/blog/tree/master) - [Вы здесь]
